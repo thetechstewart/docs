@@ -1,3 +1,20 @@
+---
+author:
+    name: Linode Community
+    email: docs@linode.com
+description: 'Run a Just Cause 2 Multiplayer Server on your Linode'
+keywords: 'steam,justcause,just,cause,multiplayer'
+license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
+published: 'Wednesday, September 2nd, 2015'
+modified: Wednesday, September 2nd, 2015
+modified_by:
+    name: James Stewart
+title: 'Just Cause 2 Multiplayer Server'
+contributor:
+    name: Andrew Gottschling
+    link: https://github.com/agottschling
+---
+
 Just Cause 2 is a single player game published by Square Enix. As it has no multiplayer mode, the modding community has created a multiplayer mod for the game and is quite popular. This guide will explain how to prepare your VPS, install SteamCMD, and install, then configure, Just Cause 2's Multiplayer Mod.
 
 ## Prerequisites
@@ -37,7 +54,7 @@ Because current generation Linodes run a 64-bit operating system, we need to dow
 
 If you have a firewall running on your Linode, add exceptions for SteamCMD:
 
-    sudo iptables -A INPUT -p udp- m udp --sport 4380 --dport 1025:65355 -j ACCEPT
+    sudo iptables -A INPUT -p udp -m udp --sport 4380 --dport 1025:65355 -j ACCEPT
     sudo iptables -A INPUT -p udp -m udp --sport 10999 --dport 1025:65355 -j ACCEPT
     sudo iptables -A INPUT -p udp -m udp --sport 7777 --dport 1025:65355 -j ACCEPT
 
@@ -115,11 +132,9 @@ If you have a firewall running on your Linode, add exceptions for SteamCMD:
         cd ~/jc2mp-server
         cp default_config.lua config.lua
 
-2.  Open the configuration file with `nano` to edit the configuration. Every possible server option is explained in the configuration file. Simply follow the instructions.:
+2.  Open the configuration file with your preferred text editor to modify the configuration. Each server option is explained in the configuration file.
 
-        nano config.lua
-
-3.  When you are finished, exit `nano` and save your changes.
+3.  When you are finished, save and exit your text editor.
 
 ##Using the Server
 
@@ -133,7 +148,7 @@ If you have a firewall running on your Linode, add exceptions for SteamCMD:
         
 3.  To detach from the screen session running the server console, press these two key combinations in succession:
 
-    **CONTROL + A**<br>
+    **CONTROL + A**
     **CONTROL + D**
 
 4.  To bring the console back, type the following command:
