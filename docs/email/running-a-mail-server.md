@@ -1,7 +1,7 @@
 ---
 author:
   name: Linode
-  email: scampbell@linode.com
+  email: docs@linode.com
 description: 'Our guide to running a mail server on your Linode.'
 keywords: 'mail server,linode guide,running a mail server,linode quickstart guide'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -15,8 +15,7 @@ title: Running a Mail Server
 
 If you've followed along with the quick start guides up to this point, you've managed to [install Linux](/docs/getting-started), [secure your Linode](/docs/securing-your-server), and [start hosting a website](/docs/hosting-website). Now it's time to set up email. This guide explains how to install a mail server on your Linode and create mail accounts for your own domains. First, we'll help you decide whether to run your own mail server or let a third-party mail service handle it for you. Then we'll show you how a mail server works, present common mail server configurations, and provide basic instructions for getting a mail server up and running.
 
-Should You Run a Mail Server?
------------------------------
+## Should You Run a Mail Server?
 
 First, you'll need to decide whether or not you want to run your own mail server. If you do, you'll have control over your domain's email, but you'll also have to deal with the hassles associated with setting up and running some pretty complex software. Using a third-party mail service is easier, but you'll sacrifice control and flexibility. In this section, we'll be discussing the benefits and drawbacks to running your own mail server, as well as how to choose an external mail service, if you decide to go that route.
 
@@ -51,12 +50,11 @@ If the prospect of managing your own mail server is too daunting, you should con
 
 -   [Fastmail](https://www.fastmail.fm) has good uptime and fast IMAP. It's paid and has capped storage.
 -   [Google Apps](http://www.google.com/intl/en/enterprise/apps/business/) uses the top-notch Gmail interface and has great uptime. It's paid and the IMAP implementation is unusual. We have a [guide](/docs/email/google-mail) on how to use Google Apps with your Linode.
--   [Outlook.com](http://www.microsoft.com/en-us/outlook-com/) is probably the best free mail host. The interface is nice and easy to use. Also, Outlook has been updated to use the IMAP protocol. Here's a [review](http://lifehacker.com/5928102/outlook-is-a-completely-new-feature+filled-webmail-service-from-microsoft).
+-   [Office 365](https://login.microsoftonline.com/) is the successor to Outlook.com and can support custom domains for email, amongst other services.
 
-If you decide to use an outside mail service, you will still need to set up [DNS](adding-dns-records) for your mail, using the settings provided by the third-party mail service.
+If you decide to use an outside mail service, you will still need to set up [DNS](/docs/networking/dns/dns-manager#adding-1) for your mail, using the settings provided by the third-party mail service.
 
-How Mail Servers Work
----------------------
+## How Mail Servers Work
 
 Every mail server that lets you send and receive email with a local mail client has three separate software components - a Mail Transfer Agent (MTA), a Mail Delivery Agent (MDA), and an IMAP/POP3 server. The MTA relays mail between your Linode and the wider Internet, whether it's delivering an outside email to one of your users, or sending an email from one of your users. Accepted incoming mail gets added to the MTA's queue on the server. The MDA takes mail from the MTA's queue and saves it to individual mailboxes on your Linode. The IMAP/POP3 server manages users and their mailboxes as they check their email over IMAP/POP3 connections.
 
@@ -66,8 +64,7 @@ How does it work? First, an incoming message is directed to your Linode via DNS.
 
 There are also add-on components that you may want to install for webmail, spam filtering, virus scanning, and mailing list organizers. To receive mail, users can install local mail clients like Apple Mail, Outlook, and Thunderbird on their personal computers. You'll learn more about each of these components in the following sections.
 
-Choosing Mail Server Components
--------------------------------
+## Choosing Mail Server Components
 
 The next step is choosing the components for your mail server. There are several software packages that can be used as MTAs, MDAs, and IMAP/POP3 servers, and we'll be presenting some of the most popular options in this section. While all of the components presented in this guide are solid choices, we recommend that you use Postfix as your MTA and Dovecot as your MDA and IMAP/POP3 server. These are the packages we'll be using in later examples.
 
@@ -79,7 +76,7 @@ Here are the most popular MTA services available:
 
 -   [Courier Mail Server](http://www.courier-mta.org) comes with Courier-IMAP, which is the popular part of the Courier mail server suite, but Courier-MTA also includes mail relaying features. It's a simpler MTA but somewhat limited.
 -   [Exim](http://www.exim.org) is modern and oriented towards flexibility. It's secure, but not quite as security-oriented as Postfix. It's very customizable, but is one of the most complex MTAs to configure. We have guides for [Exim on Ubuntu 12.04](/docs/email/exim/send-only-mta-ubuntu-12.04-precise-pangolin) and [Exim on Debian 6](/docs/email/exim/send-only-mta-debian-6-squeeze).
--   [Postfix](http://www.postfix.org) is part of our [recommended mail server build](/docs/email/postfix/postfix2.9.6-dovecot2.0.19-mysql). It's modern, security-oriented, and very flexible, although not quite as flexible as Exim. It is slightly simpler to set up than Exim.
+-   [Postfix](http://www.postfix.org) is part of our [recommended mail server build](/docs/email/postfix/email-with-postfix-dovecot-and-mysql). It's modern, security-oriented, and very flexible, although not quite as flexible as Exim. It is slightly simpler to set up than Exim.
 -   [Qmail](http://www.qmail.org/top.html) is one of the older modern MTAs and supports Maildir-style directories. It's still very popular, but is no longer supported.
 -   [Sendmail](http://www.sendmail.com/sm/open_source/) is a legacy MTA that still has a large following and good support. Don't expect the most modern options and security, though.
 -   [Zimbra](http://www.zimbra.com) is an all-in-one mail service that's much simpler to install than other options, but less customizable. We have guides for [Zimbra on Ubuntu 10.04](/docs/email/zimbra/install-zimbra-ubuntu-10.04-lucid), [Zimbra on Debian 6](/docs/email/zimbra/install-zimbra-debian-6-squeeze), and [Zimbra on CentOS 5](/docs/email/zimbra/install-zimbra-centos-5).
@@ -110,12 +107,11 @@ Here are the most popular IMAP and POP3 servers available:
 -   [Courier](http://www.courier-mta.org) has a very popular IMAP server called [Courier IMAP](http://www.courier-mta.org/imap/). It's an all-in-one mail server software suite, but Courier IMAP can be installed by itself if that's the only part you need.
 -   [Cyrus](http://www.cyrusimap.org/index.php) is a modern, security-oriented IMAP/POP3 server designed to work on sealed servers where users do not log in directly.
 -   [DBMail](http://www.dbmail.org) is an open source project that stores mail in databases instead of flat files.
--   [Dovecot](http://www.dovecot.org) is a lightweight, modern, and configurable mail server, and is part of our [recommended mail server build](/docs/email/postfix/postfix2.9.6-dovecot2.0.19-mysql).
+-   [Dovecot](http://www.dovecot.org) is a lightweight, modern, and configurable mail server, and is part of our [recommended mail server build](/docs/email/postfix/email-with-postfix-dovecot-and-mysql).
 -   [Xmail](http://www.xmailserver.org) is a full-featured POP3 server, but does not support IMAP.
 -   [Zimbra](http://www.zimbra.com) is an all-in-one mail service that's much simpler to install than other options, but less customizable. We have guides for [Zimbra on Ubuntu 10.04](/docs/email/zimbra/install-zimbra-ubuntu-10.04-lucid), [Zimbra on Debian 6](/docs/email/zimbra/install-zimbra-debian-6-squeeze), and [Zimbra CentOS 5](/docs/email/zimbra/install-zimbra-centos-5).
 
-Building Your Mail Server
--------------------------
+## Building Your Mail Server
 
 Now that you understand how a mail server works and you've chosen the primary components, it's time to build your mail server. If you can't decide which software is best for you, you can always use our recommended build with Postfix as your MTA and Dovecot as your MDA and IMAP/POP3 server. It's what we'll use in the examples below. Let's get building!
 
@@ -123,11 +119,11 @@ Now that you understand how a mail server works and you've chosen the primary co
 
 The first step is to obtain and install an SSL certificate. An SSL certificate encrypts connections to your mail server, protecting passwords and email from harmful surveillance. It's possible to run a mail server without this protection, but we don't recommend it. If you follow our recommended build, you will absolutely need an SSL certificate.
 
-Any type of SSL certificate will work, but some certificates have different degrees of trustworthiness for your users. If you want the highest level of trustworthiness, you should [purchase a signed SSL certificate](/docs/security/ssl-certificates/commercial) from a reputable company. You can also use a free self-signed certificate if you are comfortable with the warnings it generates. You can [make your own](/docs/security/ssl-certificates/self-signed), or, if you're following our recommended build, you can use the one that comes with Dovecot by default. Decide what type of SSL certificate you need and acquire and install it now.
+Any type of SSL certificate will work, but some certificates have different degrees of trustworthiness for your users. If you want the highest level of trustworthiness, you should [purchase a signed SSL certificate](/docs/security/ssl/obtaining-a-commercial-ssl-certificate) from a reputable company. You can also use a free self-signed certificate if you are comfortable with the warnings it generates. You can [make your own](/docs/security/ssl/how-to-make-a-selfsigned-ssl-certificate), or, if you're following our recommended build, you can use the one that comes with Dovecot by default. Decide what type of SSL certificate you need and acquire and install it now.
 
 ### Software Installation
 
-The second step is installing and configuring the MTA, MDA, and IMAP/POP3 server. You'll also probably want to install a database server like MySQL or PostgreSQL to help you manage your domains, email addresses, user credentials, aliases, etc. Providing step-by-step instructions for every possible mail server build is beyond the scope of this article. For detailed instructions, see our [Postfix, Dovecot, and MySQL](/docs/email/postfix/postfix2.9.6-dovecot2.0.19-mysql) guide. Go ahead and install and configure the software you've chosen for your mail server build now.
+The second step is installing and configuring the MTA, MDA, and IMAP/POP3 server. You'll also probably want to install a database server like MySQL or PostgreSQL to help you manage your domains, email addresses, user credentials, aliases, etc. Providing step-by-step instructions for every possible mail server build is beyond the scope of this article. For detailed instructions, see our [Postfix, Dovecot, and MySQL](/docs/email/postfix/email-with-postfix-dovecot-and-mysql) guide. Go ahead and install and configure the software you've chosen for your mail server build now.
 
 {: .note }
 >
@@ -173,8 +169,7 @@ If your Linode is the only mail server you use, you should be able to use the ex
 
 If you haven't yet [set reverse DNS](/docs/hosting-website#sph_setting-reverse-dns) for your mail server's domain or subdomain, do so now for the sake of your mail server. The reverse DNS for your mail server *must* match the hostname of your Linode. If your Linode's reverse DNS and hostname do not match, email from your server may get rejected with the warning "Reverse DNS does not match SMTP Banner." If you need to check or set the hostname, see our [Getting Started](/docs/getting-started#sph_setting-the-hostname) article.
 
-Next Steps
-----------
+## Next Steps
 
 At this point, you should have a basic mail server up and running. There's a bit more to do, however, if you want to provide your users with the best possible mail experience. This includes adding spam and virus filtering to protect your users, setting up mail clients, providing a webmail solution, and adding any extras you want, such as mailing lists.
 
@@ -222,11 +217,10 @@ Here are some of the typical mail ports:
 
 ### Webmail
 
-Webmail is a type of mail client that can be installed on your server and accessed from a web browser. It allows your users to access their email from your website (example: <http://example.com/mail>) anywhere they have access to the Internet. Running a web server is a prerequisite for running a webmail client, so you should follow the [Hosting a Website](/docs/hosting-website) guide if you want to run webmail on your Linode, in addition to installing a mail server.
+Webmail is a type of mail client that can be installed on your server and accessed from a web browser. It allows your users to access their email from your website (example: `http://example.com/mail` anywhere they have access to the Internet. Running a web server is a prerequisite for running a webmail client, so you should follow the [Hosting a Website](/docs/hosting-website) guide if you want to run webmail on your Linode, in addition to installing a mail server.
 
 Here are some of the most popular webmail clients:
 
--   [AtmailOpen](http://atmail.org) (the free version of Atmail) is an older but still very popular webmail client.
 -   [Citadel](http://www.citadel.org) is an all-in-one mail service that includes mail, calendars, instant messaging, mailing lists, and other collaboration tools. It's open source and geared towards small and medium-sized organizations. We have guides for [Citadel on Ubuntu 12.04](/docs/email/citadel/ubuntu-12.04-precise-pangolin) and [Citadel on Debian 6](/docs/email/citadel/debian-6-squeeze).
 -   [Horde Webmail](http://www.horde.org/apps/webmail) is an open-source IMAP client paired with some additional functions like account management and calendars.
 -   [RoundCube](http://roundcube.net) is an IMAP client with modern functionality and a clean layout.
@@ -236,6 +230,3 @@ Here are some of the most popular webmail clients:
 ### Extras
 
 There are many other add-ons that can round out the functionality of your mail server. For example, you may want to incorporate mailing list software, user administration so users can change their own passwords, or calendar coordination, just to name a few.
-
-
-

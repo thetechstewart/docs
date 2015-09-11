@@ -1,4 +1,5 @@
 ---
+deprecated: true
 author:
   name: Linode
   email: docs@linode.com
@@ -19,7 +20,7 @@ It is assumed that you've followed the steps outlined in our [getting started gu
 
 **Please note:** Depending on the amount of memory your Linode has, Oracle may require up to a 1,024 MB swap partition. While we normally do not advise using a swap partition larger than 256 MB, in this case it's a good idea to resize your existing swap to 1,025 MB before proceeding with Oracle installation (the extra MB avoids differences in how megabytes are calculated).
 
-To do this, log into the Linode Manager and shut down your Linode. Once your Linode is completely shut down, click the swap disk image under the "Disk Images" heading in the Dashboard. Then change the size to 1,025 MB. If you're already using all of your allocated disk space, you may need to shrink your main disk image first to accommodate the larger swap image.
+To do this, log into the Linode Manager and shut down your Linode. Once your Linode is completely shut down, click the swap disk under the "Disks" heading in the Dashboard. Then change the size to 1,025 MB. If you're already using all of your allocated disk space, you may need to shrink your main disk first to accommodate the larger swap image.
 
 Configure Networking and Set the Hostname
 -----------------------------------------
@@ -116,7 +117,7 @@ Connect to the Oracle XE Home Page
 
 Oracle is managed via a web interface, which is installed with the oracle-xe package. By default, it listens on the local address `127.0.0.1` at port 8080. Since you most likely do not have a window manager or web browser installed on your Linode, you must connect to your Oracle home page remotely.
 
-You can do this by using our [Oracle SSH tunnel script](/docs/databases/oracle/ssh-tunnel). After your tunnel is started, you can connect to the admin page at the URL "<http://127.0.0.1:8080/apex>". Log in with the username "SYSTEM" and the password you specified during Oracle configuration. You'll be presented with a page similar to this one:
+You can do this by using our [Oracle SSH tunnel script](/docs/databases/oracle/ssh-tunnel). After your tunnel is started, you can connect to the admin page at the URL `http://127.0.0.1:8080/apex`. Log in with the username "SYSTEM" and the password you specified during Oracle configuration. You'll be presented with a page similar to this one:
 
 [![The Oracle XE administration home page.](/docs/assets/379-oracle-xe-admin-page.png)](/docs/assets/379-oracle-xe-admin-page.png)
 
@@ -180,8 +181,8 @@ More Information
 
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
-- [Oracle XE Home Page](http://www.oracle.com/technology/xe/index.html)
-- [Oracle XE 10g Documentation](http://www.oracle.com/technology/documentation/database10gR2.html)
+- [Oracle XE Home Page](http://www.oracle.com/technetwork/database/database-technologies/express-edition/overview/index.html)
+- [Oracle XE 10g Documentation](http://www.oracle.com/pls/db102/homepage)
 - [Oracle XE Getting Started Guide](http://download.oracle.com/docs/cd/B25329_01/doc/admin.102/b25610/toc.htm)
 
 

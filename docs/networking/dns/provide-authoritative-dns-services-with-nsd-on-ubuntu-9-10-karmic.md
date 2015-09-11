@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Brett Kaplan
-  email: bkaplan@linode.com
+  email: docs@linode.com
 description: 'Install and configure NSD to handle DNS queries.'
 keywords: 'NSD,DNS,resolving,Ubuntu 9.10,networking'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -128,7 +128,7 @@ Rebuild the NSD database and restart the daemon with following command sequence:
 
 Rebuild the database and restart NSD each time you edit an existing zone or create a new one.
 
-Test the configuration and functionality of the DNS serve using `dig`, which provides a [command line DNS client](/docs/linux-tools/common-commands/dig). If `dig` is not installed, install the utility by issuing the following command:
+Test the configuration and functionality of the DNS serve using `dig`, which provides a [command line DNS client](docs/networking/dns/use-dig-to-perform-manual-dns-queries). If `dig` is not installed, install the utility by issuing the following command:
 
     apt-get install dnsutils
 

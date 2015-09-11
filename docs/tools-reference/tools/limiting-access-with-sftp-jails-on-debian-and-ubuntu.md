@@ -6,11 +6,14 @@ description: 'Restricting remote users to their home directories, only allowing 
 keywords: 'sftp,sftp jail,openssh,ssh jail'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['security/sftp-jails/']
-modified: Thursday, April 4th, 2013
+modified: Tuesday, April 16th, 2014
 modified_by:
   name: Linode
 published: 'Wednesday, January 6th, 2010'
 title: Limiting Access with SFTP Jails on Debian and Ubuntu
+external_resources:
+- '[OpenSSH Documentation](http://www.openssh.org/manual.html)'
+- '[An Introduction to Users and Groups](/docs/tools-reference/linux-users-and-groups)'
 ---
 
 As the system administrator for your Linode, you may want to give your users the ability to securely upload files to your server. The most common way to do this is to allow file transfers via SFTP, which uses SSH to provide encryption. This means you need to give your users SSH logins. But, by default, SSH users are able to view your Linode's entire filesystem, which may not be desirable.
@@ -19,8 +22,7 @@ This guide will help you configure OpenSSH to restrict users to their home direc
 
 These instructions will work for Ubuntu 9.04, Debian 5, and later. Unfortunately, the version of SSH packaged with Ubuntu 8.04 is too old to support this configuration.
 
-Configure OpenSSH
------------------
+## Configure OpenSSH
 
 First, you need to configure OpenSSH.
 
@@ -37,28 +39,31 @@ First, you need to configure OpenSSH.
 
 3.  Add this block of settings to the end of the file:
 
-    {: .file-excerpt }
-/etc/ssh/sshd\_config
+       {: .file-excerpt }
+       /etc/ssh/sshd\_config
+       :    ~~~
+            Match group filetransfer
+                ChrootDirectory %h
+                X11Forwarding no
+                AllowTcpForwarding no
+                ForceCommand internal-sftp
+            ~~~
 
-    > Match group filetransfer
-    > :   ChrootDirectory %h X11Forwarding no AllowTcpForwarding no ForceCommand internal-sftp
-    >
-    Save the changes to your file.
+   Save the changes to your file.
 
 4.  Restart OpenSSH:
 
-        /etc/init.d/ssh restart
+        service ssh restart
 
 OpenSSH has been successfully modified.
 
-Modify User Accounts
---------------------
+## Modify User Accounts
 
 In this section, we'll set up the correct new groups, ownership, and permissions for your user accounts.
 
-1.  Create a group for users whom you want to restrict to SFTP access:
+1.  Create a system group for users whom you want to restrict to SFTP access:
 
-        addgroup filetransfer
+        addgroup --system filetransfer
 
 2.  Modify the user accounts that you wish to restrict to SFTP. Issue the following commands for each account, substituting the appropriate username. Please keep in mind that this will prevent these users from being able to log into a remote shell session.
 
@@ -75,14 +80,3 @@ In this section, we'll set up the correct new groups, ownership, and permissions
         chown username:filetransfer *
 
 Your users should now be able to log into their accounts via SFTP and transfer files to and from their assigned subdirectories, but they shouldn't be able to see the rest of your Linode's filesystem.
-
-More Information
-----------------
-
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
-
-- [OpenSSH Documentation](http://www.openssh.org/manual.html)
-- [An Introduction to Users and Groups](/docs/using-linux/users-and-groups)
-
-
-

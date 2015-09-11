@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Deploy applications that depend on the high performance key-value store Redis.'
 keywords: 'redis fedora 14,redis,nosql,database,key-value store'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -44,7 +44,7 @@ Begin the installation process by issuing the following sequence of commands to 
     cd /opt/redis-2.2.2/
     make
 
-This will download and compile the 2.2.2 version of Redis. Check the [Redis upstream project source](http://code.google.com/p/redis/) to ensure that you are downloading the most up to date version of Redis. It is important to use the most up to date version of the software to avoid security flaws and bugs as well as to take advantage of the latest features. When you compile software manually, you are responsible for ensuring your system is running the most current version without the assistance of your system's package management tools.
+This will download and compile the 2.2.2 version of Redis. Check the [Redis upstream project source](http://redis.io/) to ensure that you are downloading the most up to date version of Redis. It is important to use the most up to date version of the software to avoid security flaws and bugs as well as to take advantage of the latest features. When you compile software manually, you are responsible for ensuring your system is running the most current version without the assistance of your system's package management tools.
 
 Move all of the redis executable files to the `/opt` directory by issuing the following sequence of commands:
 
@@ -114,7 +114,7 @@ In the default configuration, Redis runs in an interactive mode after being invo
 
     /opt/redis/redis-server /opt/redis/redis.conf.default
 
-You may now interact with Redis using any of the language specific bindings or use the built-in command line interface to interact with the Redis instance. Simply prefix any [Redis command](http://code.google.com/p/redis/wiki/CommandReference/) with the following string:
+You may now interact with Redis using any of the language specific bindings or use the built-in command line interface to interact with the Redis instance. Simply prefix any [Redis command](http://redis.io/commands/) with the following string:
 
     /opt/redis/redis-cli
 
@@ -190,10 +190,10 @@ More Information
 
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
-- [Redis Project Home Page](http://code.google.com/p/redis/)
-- [Redis Configuration](http://github.com/antirez/redis/blob/master/redis.conf)
-- [Redis Data Durability](http://code.google.com/p/redis/wiki/AppendOnlyFileHowto)
-- [Redis Command Reference](http://code.google.com/p/redis/wiki/CommandReference)
+- [Redis Project Home Page](http://redis.io/)
+- [Redis Configuration](http://redis.io/topics/config)
+- [Redis Data Durability](https://redis-docs.readthedocs.org/en/latest/AppendOnlyFileHowto.html)
+- [Redis Command Reference](http://redis.io/commands)
 
 
 

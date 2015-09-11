@@ -1,300 +1,245 @@
 ---
-deprecated: true
 author:
-  name: Alex Fornuto
-  email: afornuto@linode.com
+    name: Alex Fornuto
+    email: afornuto@linode.com
 description: 'Creating a LAMP (Linux, Apache, MySQL, PHP) stack on an Arch Linux-powered Linode.'
-keywords: 'arch lamp,arch linux lamp,lamp linux,arch linode,archlinux lamp,archlinux'
+keywords: 'arch lamp,arch linux lamp,lamp linux,arch linode,archlinux lamp,archlinux,arch,lamp,lamp stack,apache,mysql,php'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['lamp-guides/arch-linux/','lamp-guides/arch-linux-10-2013/']
-modified: Thursday, February 6th, 2014
+modified: Monday, June 29th, 2015
 modified_by:
-  name: Alex Fornuto
+    name: Elle Krout
 published: 'Monday, October 7th, 2013'
 title: LAMP Server on Arch Linux
+external_resources:
+ - '[Arch Linux Wiki](http://wiki.ArchLinux.org/)'
+ - '[Apache HTTP Server Documentation](http://httpd.apache.org/docs/2.4/)'
+ - '[MySQL Documentation](http://dev.mysql.com/doc/)'
+ - '[Oracle MySQL and MariaDB Comparison](https://mariadb.com/kb/en/mariadb-vs-mysql-compatibility/)'
+ - '[PHP Documentation](http://www.php.net/docs.php)'
 ---
 
-Arch Linux is a contemporary minimalist Linux distribution. It was started in 2002 in an effort to provide a clean, lightweight distribution of the Linux operating system. Arch uses a rolling release system, which means that Arch eschews specific distribution versions in favor of the ability to bring any system up to date with a simple `pacman -Syu` command.
+A LAMP (Linux, Apache, MySQL, PHP) Stack is a basic web stack you can use to prepare your servers for hosting websites. This guide contains step-by-step instructions for installing a full-featured LAMP stack on an Arch Linux system.
 
-As a result, Arch Linux is a great distribution for users who want or need to run the most up-to-date versions of their software packages and libraries. Arch's [package management tool](/docs/using-linux/package-management), [pacman](https://wiki.Arch%20Linux.org/index.php/Pacman), is clean and coherent.
+Since Arch does not come in specific versions, this guide is up-to-date as of the June 2015 Arch update.
 
-Because of its minimalist underpinnings and focus on simplicity, many users find it easy to gain a deep understanding of how Arch systems work. It's great for people who want to learn more about the inner workings of a Linux system, or even go on to develop environments and applications on top of Arch Linux.
-
-This guide contains step-by-step instructions for installing a full-featured LAMP stack on an Arch Linux system, which includes Apache, MySQL, and PHP. This stack sets you up with a solid web server. If you feel that you don't need MySQL or PHP, please don't feel obligated to install them.
-
-Arch Linux doesn't come in specific versions. This guide is current as of 2013-10-04.
-
- {: .note }
+{: .note }
 >
-> Throughout this guide we will offer several suggested values for specific configuration settings. Some of these values will be set by default. These settings are shown in the guide as a reference, in the event that you change these settings to suit your needs and then need to change them back.
+>This guide is written for a non-root user. Commands that require elevated privileges are prefixed with `sudo`. If you're not familiar with the `sudo` command, you can check our [Users and Groups](/docs/tools-reference/linux-users-and-groups) guide.
 
-Set the Hostname
-----------------
+## Before You Begin
 
-Before you begin installing and configuring the components described in this guide, please make sure you've followed our instructions for [setting your hostname](/docs/getting-started#sph_setting-the-hostname). Issue the following commands to make sure it is set properly:
+1.  Ensure that you have followed the [Getting Started](/docs/getting-started) and [Securing Your Server](/docs/security/securing-your-server) guides, and the Linode's [hostname is set](/docs/getting-started#setting-the-hostname).
 
-    hostname
-    hostname -f
+    To check your hostname, run:
 
-The first command should show your short hostname, and the second should show your fully qualified domain name (FQDN).
+        hostname
+        hostname -f
 
-Install and Configure the Apache Web Server
--------------------------------------------
+    The first command should show your short hostname, and the second should show your fully qualified domain name (FQDN).
 
-The Apache Web Server is a very popular choice for serving web pages. While many alternatives have appeared in the last few years, Apache remains a powerful option that we recommend for most uses.
+2.  Update your system:
 
-If this is a brand new deployment of Arch Linux, before you can use the package manager you need to run the following commands:
+        sudo pacman -Syu
 
-    pacman-key --init
-    pacman-key --populate archlinux
+## Install and Configure Apache
 
-Make sure your system is up to date by issuing the following command:
+1.  Install Apache 2.4:
 
-    pacman -Syyu
+        sudo pacman -Syu apache
 
-To install the current version of the Apache web server (2.2 as of the writing of this article) use the following command:
+2.  Edit the `httpd-mpm.conf` Apache configuration file in `/etc/httpd/conf/extras/` to adjust the resource use settings. The settings shown below are a good starting point for a **Linode 1GB**:
 
-    pacman -Sy apache
+    {: .note}
+    >
+    >Before changing any configuration files, it is advised that you make a backup of the file. To make a backup:
+    >
+    >     cp /etc/httpd/conf/extras/httpd-mpm.conf ~/httpd-mpm.conf.backup
 
-Configurations directives for Apache are contained in the `httpd.conf` file, which is located at `/etc/httpd/conf/httpd.conf`. We advise you to make a backup of this file into your home directory, like so:
+    {: .file-excerpt }
+    /etc/httpd/conf/extra/httpd-mpm.conf
+    :   ~~~ conf
+        <IfModule mpm_prefork_module>
+        StartServers        2
+        MinSpareServers     6
+        MaxSpareServers     12
+        MaxRequestWorkers   30
+        MaxRequestsPerChild 3000
+        </IfModule>
+        ~~~
 
-    cp /etc/httpd/conf/httpd.conf ~/httpd.conf.backup
+3. Edit the `httpd-default.conf` file to turn KeepAlive off.
 
-There are additional Apache configuration files, which are included near the end of the `httpd.conf` file, and referenced in the `/etc/httpd/conf/extra/` directory. You may also choose to include additional files in your Apache configuration using a similar syntax. Regardless of how you choose to organize your configuration files, making regular backups of known working states is highly recommended.
+    {: .file-excerpt }
+    /etc/httpd/conf/extra/httpd-default.conf
+    :   ~~~ conf
+        KeepAlive Off
+        ~~~
 
-Edit the httpd-mpm.conf Apache configuration file in /etc/httpd/conf/extras/ to adjust the resource use settings. The settings shown below are a good starting point for a **Linode 1GB**.
+4.  Set Apache to start at boot:
 
-{: .file }
-/etc/httpd/conf/extra/httpd-mpm.conf
-:   ~~~ apache
-    <IfModule mpm_prefork_module>
-    StartServers 2
-    MinSpareServers 6
-    MaxSpareServers 12
-    MaxClients 80
-    MaxRequestsPerChild 3000
-    </IfModule>
-    ~~~
+        sudo systemctl enable httpd.service
 
-Also edit the httpd-default.conf file to turn KeepAlives off.
+### Add Name-Based Virtual Hosts
 
-{: .file }
-/etc/httpd/conf/extra/httpd-default.conf
-:   ~~~ apache
-    KeepAlive Off
-    ~~~
+Virtual hosting can be configured so that multiple domains (or subdomains) can be hosted on the server. These websites can be controlled by different users, or by a single user, as you prefer. There are different ways to set up virtual hosts; however, we recommend the method below.
 
-### Enable Starting Apache at Boot
+1. Open `httpd.conf` and edit the line `DocumentRoot /srv/http` to define the default document root:
 
-Unless configured to do so, Arch will not instruct Apache to start when the system boots or reboots. To ensure that this happens, we'll need to add `httpd` to the list of daemons started by systemd at boot:
+    {: .file-excerpt }
+    /etc/httpd/conf/httpd.conf
+    :   ~~~
+        DocumentRoot "/srv/http/default"
+        ~~~
 
-    systemctl enable httpd.service
+2. Uncomment the line that reads `Include  conf/extra/httpd-vhosts.conf` near the end of the `/etc/httpd/conf/httpd.conf` file:
 
-### Prepare Apache for Virtual Hosting
+    {: .file-excerpt }
+    /etc/httpd/conf/httpd.conf
+    :   ~~~ apache
+        Include conf/extra/httpd-vhosts.conf
+        ~~~
 
-Now we'll configure virtual hosting so that we can host multiple domains (or subdomains) with the server. These websites can be controlled by different users, or by a single user, as you prefer.
+2. Open `httpd-vhosts.conf`, under the `extra` folder. Edit the example virtual hosts block to resemble the ones below, replacing `example.com` with your domain.
 
-Begin by defining the default site. Edit the line that reads `DocumentRoot /srv/http` so that it reads:
+    {: .file-excerpt }
+    /etc/httpd/conf/extra/httpd-vhosts.conf
+    :   ~~~ conf
+        <VirtualHost *:80> 
+             ServerAdmin webmaster@example.com
+             ServerName example.com
+             ServerAlias www.example.com
+             DocumentRoot /srv/http/example.com/public_html/
+             ErrorLog /srv/http/example.com/logs/error.log 
+             CustomLog /srv/http/example.com/logs/access.log combined
+                    <Directory />
+                       Order deny,allow
+                       Allow from all
+                    </Directory>
+        </VirtualHost>
+        ~~~
 
-{: .file-excerpt }
-/etc/httpd/conf/httpd.conf
+    Remove the second example in the file, or use it configure a second website.
 
-> DocumentRoot "/srv/http/default"
+    {: .note}
+    >
+    >`ErrorLog` and `CustomLog` entries are suggested for more fine-grained logging, but are not required. If they are defined (as shown above), the `logs` directories must be created before you restart Apache.
 
-Edit the line that reads `<Directory "/srv/httpd">` so that it reads:
+4.  Create the directories referenced in the configuration above:
 
-{: .file-excerpt }
-/etc/httpd/conf/httpd.conf
-:   ~~~ apache
-    <Directory "/srv/httpd/default">
-    ~~~
+        sudo mkdir -p /srv/http/default
+        sudo mkdir -p /srv/http/example.com/public_html
+        sudo mkdir -p /srv/http/example.com/logs
 
-Now, uncomment (remove the leading `#` character) line that reads `Include  conf/extra/httpd-vhosts.conf` near the end of the `/etc/httpd/conf/httpd.conf` file, like so:
+5.  After you've set up your virtual hosts, issue the following command to run Apache for the first time:
 
-{: .file-excerpt }
-/etc/httpd/conf/httpd.conf
-:   ~~~ apache
-    Include conf/extra/httpd-vhosts.conf
-    ~~~
+        sudo systemctl start httpd.service
 
-All of the configuration for the specific virtual hosting setups will be combined in a single file called `httpd-vhosts`, located in the `/etc/httpd/conf/extra/` directory. Open this file in your favorite text editor, and we'll begin by setting up virtual hosts.
+    You should now be able to access your website. If no files are uploaded you will see an *Index of /* page.
 
-### Configure Name-based Virtual Hosts
+    {: .note}
+    >
+    >Should any additional changes be made to a configuration file restart Apache:
+    >
+    >     sudo systemctl restart httpd.service
 
-There are different ways to set up Virtual Hosts, however we recommend the method below. By default, Apache listens on all IP addresses available to it.
 
-Now we will create virtual host entries for each site that we need to host with this server; we'll want to replace the existing `VirtualHost` blocks with ones that resemble the following. We'll use "example.com" and "example.org" as example sites.
+## Install and Configure MySQL
 
-{: .file-excerpt }
-/etc/httpd/conf/extra/httpd-vhosts.conf
-:   ~~~ apache
-    <VirtualHost *:80> 
-         ServerAdmin webmaster@example.com
-         ServerName example.com
-         ServerAlias www.example.com
-         DocumentRoot /srv/http/example.com/public_html/
-         ErrorLog /srv/http/example.com/logs/error.log 
-         CustomLog /srv/http/example.com/logs/access.log combined
-                <Directory />
-                   Order deny,allow
-                   Allow from all
-                </Directory>
-    </VirtualHost>
+By default, Arch Linux provides MariaDB as a relational database solution. MariaDB is an open source drop-in replacement for MySQL, and all system commands that reference `mysql` are compatible with it.
 
-    <VirtualHost *:80> 
-         ServerAdmin webmaster@example.org     
-         ServerName example.org
-         ServerAlias www.example.org
-         DocumentRoot /srv/http/example.org/public_html/
-         ErrorLog /srv/http/example.org/logs/error.log 
-         CustomLog /srv/http/example.org/logs/access.log combined
-                <Directory />
-                   Order deny,allow
-                   Allow from all
-                </Directory>
-    </VirtualHost>
-    ~~~
+1.  Install the `mariadb`, `mariadb-clients` and `libmariadbclient` packages:
 
-Notes regarding this example configuration:
+        sudo pacman -Syu mariadb mariadb-clients libmariadbclient
 
--   All of the files for the sites that you host will be located in directories that exist underneath `/srv/http`. You can symbolically link these directories into other locations if you need them to exist in other places.
--   `ErrorLog` and `CustomLog` entries are suggested for more fine-grained logging, but are not required. If they are defined (as shown above), the `logs` directories must be created before you restart Apache.
+2.  Install the MariaDB data directory:
 
-Before you can use the above configuration, you'll need to create the specified directories. You can do this with the following commands:
+        sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
-    mkdir /srv/http/default        
+3.  Start MySQL and set it to run at boot:
+    
+        sudo systemctl start mysqld.service
+        sudo systemctl enable mysqld.service
+    
+4.  Run `mysql_secure_installation`, a program that helps secure MySQL. `mysql_secure_installation` gives you the option to set your root password, disable root logins from outside localhost, remove anonymous user accounts, remove the test database and then reload the privilege tables:
 
-    mkdir -p /srv/http/example.com/public_html
-    mkdir -p /srv/http/example.com/logs
+        mysql_secure_installation
 
-    mkdir -p /srv/http/example.org/public_html
-    mkdir -p /srv/http/example.org/logs
+### Create a Database
 
-After you've set up your virtual hosts, issue the following command to run Apache for the first time:
+1.  Log into MySQL:
 
-    systemctl start httpd.service
+        mysql -u root -p
 
-Assuming that you have configured DNS for your domain to point to your Linode's IP address, Virtual hosting for your domain should now work. Remember that you can create as many virtual hosts with Apache as you need.
+    `-u <user>` specifies the user, and `-p` will prompt you for the password.
 
-Anytime you change an option in your `httpd-vhosts.conf` file, or any other Apache configuration directive, remember to reload the configuration with the following command:
+2.  You will see the MariaDB prompt. Create a database and create and grant a user permissions on the database:
 
-    systemctl reload httpd.service
+        CREATE DATABASE webdata;
+        GRANT ALL ON webdata.* TO 'webuser' IDENTIFIED BY 'password';
 
-Install and Configure MySQL Database Server
--------------------------------------------
+    In this example `webdata` is the name of the database, `webuser` is the username, and `password` is the user's password. Note that database usernames and passwords do not correlate to system user accounts.
 
-MySQL is a relational database management system (RDBMS), and is a popular component in contemporary web development tool chains. Many popular applications, including WordPress and Drupal, use MySQL as their primary database. Arch Linux has chosen MariaDB as the default MySQL implementation, pushing Oracle MySQL to the [AUR](https://aur.Arch%20Linux.org/packages/mysql/). For the purposes of this guide, we will be using MariaDB.
+3.  Quit MariaDB:
 
-### Install MariaDB
-
-The first step is to install the `mariadb`, `mariadb-clients` and `libmariadbclient` packages, which is accomplished by the following command:
-
-    pacman -Sy mariadb mariadb-clients libmariadbclient
-
-### Enable Starting MySQL at Boot
-
-Issue the following command to start mysql at boot:
-
-    systemctl enable mysqld.service
-
-### Configure MySQL and Set Up MySQL databases
-
-We need to edit the MySQL configuration file located at `/etc/mysql/my.cnf` so that MySQL only listens to connections on the loopback interface (localhost). Add the line `bind-address=127.0.0.1` to the `[mysqld]` block.
-
-{: .file-excerpt }
-/etc/mysql/my.cnf
-
-> bind-address=127.0.0.1
-
-Remove or comment out the line that reads `skip-networking` so that MySQL can listen for connections over TCP **only** on the local interface.
-
-After installing MySQL, run `mysql_secure_installation`, a program that helps secure MySQL. `mysql_secure_installation` gives you the option to set your root password, disable root logins from outside localhost, remove anonymous user accounts, remove the test database and then reload the privilege tables. You will need to start MySQL before running the program:
-
-    systemctl start mysqld.service
-
-Run the following command to execute the program:
-
-    mysql_secure_installation
-
-Next, we'll create a database and grant your users permission to use it. First, log in to MySQL:
-
-    mysql -u root -p
-
-`-u <user>` specifies the user, and `-p` will prompt you for the password. Enter MySQL's root password, and you'll be presented with a prompt where you can issue SQL statements to interact with the database.
-
-To create a database and grant your users permissions on it, issue the following command. Note that the semi-colons (`;`) at the end of the lines are crucial for ending the commands. Your command should look like this:
-
-    CREATE DATABASE lollipop;
-    GRANT ALL ON lollipop.* TO 'foreman' IDENTIFIED BY '5t1ck';
-
-In this example `lollipop` is the name of the database, `foreman` is the username, and `5t1ck` is the user's password. Note that database usernames and passwords do not correlate to system user accounts.
-
-With that completed, you've successfully configured MySQL and you may now pass these database credentials on to your users. To exit the MySQL database administration utility, issue the following command:
-
-    QUIT
+        quit
 
 With Apache and MySQL installed, you are now ready to move on to installing PHP to provide scripting support for your web application.
 
-Installing and Configuring PHP
-------------------------------
+## Install and Configuring PHP
 
-PHP makes it possible to produce dynamic and interactive pages using your own scripts and popular web development frameworks. Furthermore, many popular web applications like WordPress are written in PHP. If you want to be able to develop your websites using PHP, you must first install it.
+PHP makes it possible to produce dynamic and interactive pages using your own scripts and popular web development frameworks. Many popular web applications like WordPress are written in PHP. If you want to develop your websites using PHP, you must first install it.
 
-Install PHP using pacman:
+1.  Install PHP:
 
-    pacman -Sy php php-apache
+        sudo pacman -Syu php php-apache
 
-Once PHP is installed we'll need to tune the configuration file located in `/etc/php/php.ini` for better error messages and logs, and better performance. These modifications provide a good starting point if you're unfamiliar with PHP configuration.
+2.  Edit `/etc/php/php.ini` for better error messages and logs, and upgraded performance. These modifications provide a good starting point for a **Linode 1GB**:
 
-Make sure that the following values are set and relevant lines are uncommented (comments are lines beginning with a semi-colon (`;`)):
+    {: .file-excerpt }
+    /etc/php/php.ini
+    :   ~~~ ini
+        error_reporting = E_COMPILE_ERROR|E_RECOVERABLE_ERROR|E_ERROR|E_CORE_ERROR
+        log_errors = On 
+        error_log = /var/log/php/error.log
+        max_input_time = 30
+        extension=mysql.so
+        ~~~
 
-{: .file-excerpt }
-/etc/php/php.ini
-:   ~~~ ini
-    error_reporting = E_COMPILE_ERROR|E_RECOVERABLE_ERROR|E_ERROR|E_CORE_ERROR
-    display_errors = Off 
-    log_errors = On 
-    error_log = /var/log/php/error.log
-    max_execution_time = 30 
-    memory_limit = 128M
-    register_globals = Off
-    extension=mysql.so
-    max_input_time = 30
-    ~~~
+    {: .note}
+    >
+    >Ensure that all lines noted above are uncommented. A commented line begins with a semicolon (**;**).
 
-You will need to create the log directory for PHP and give the Apache user ownership:
+3.  Create the log directory for PHP and give the Apache user ownership:
 
-    mkdir /var/log/php
-    chown http /var/log/php
+        sudo mkdir /var/log/php
+        sudo chown http /var/log/php
 
-We'll need to enable the PHP module in the `/etc/httpd/conf/httpd.conf` file by adding the following lines in the appropriate sections:
+4.  Enable the PHP module in the `/etc/httpd/conf/httpd.conf` file by adding the following lines in the appropriate sections:
 
-{: .file-excerpt }
-/etc/httpd/conf/httpd.conf
-:   ~~~ apache
-    LoadModule php5_module modules/libphp5.so
-    Include conf/extra/php5_module.conf
+    {: .file-excerpt }
+    /etc/httpd/conf/httpd.conf
+    :   ~~~ conf
+        # Dynamic Shared Object (DSO) Support
+        LoadModule php5_module modules/libphp5.so
+        
+        # Supplemental configuration
+        # PHP 5
+        Include conf/extra/php5_module.conf
 
-    AddType application/x-httpd-php .php
-    AddType application/x-httpd-php-source .phps
-    ~~~
+        # Located in the <IfModule mime_module>
+        AddType application/x-httpd-php .php
+        AddType application/x-httpd-php-source .phps
+        ~~~
+5.  In the same file, comment out the line `LoadModule mpm_event_module modules/mod_mpm_event.so` by adding a `#` in front, and add the line `LoadModule mpm_prefork_module modules/mod_mpm_prefork.so`:
 
-With this completed, restart the httpd service:
+    {: .file-excerpt }
+    /etc/httpd/conf/httpd.conf
+    :   ~~~ apache
+        #LoadModule mpm_event_module modules/mod_mpm_event.so
+        LoadModule mpm_prefork_module modules/mod_mpm_prefork.so
+        ~~~
 
-    systemctl restart httpd.service
+6.  Restart the Apache:
 
-At this point, PHP should be fully functional.
-
-More Information
-----------------
-
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
-
-- [Arch Linux Wiki](http://wiki.Arch%20Linux.org/)
-- [Apache HTTP Server Documentation](http://httpd.apache.org/docs/2.2/)
-- [MySQL Documentation](http://dev.mysql.com/doc/)
-- [Oracle MySQL and MariaDB Comparison](https://mariadb.com/kb/en/mariadb-vs-mysql-compatibility/)
-- [PHP Documentation](http://www.php.net/docs.php)
-
-
-
+        sudo systemctl restart httpd.service

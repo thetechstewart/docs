@@ -23,18 +23,18 @@ It is assumed that you've already followed the steps outlined in our [getting st
 Basic System Configuration
 --------------------------
 
-Issue the following commands to set your system hostname, substituting a unique value for "plato." :
+Issue the following commands to set your system hostname, substituting a unique value for "hostname." :
 
-    echo "plato" > /etc/hostname
+    echo "hostname" > /etc/hostname
     hostname -F /etc/hostname
 
-Edit your `/etc/hosts` file to resemble the following, substituting your Linode's public IP address for 12.34.56.78, your hostname for "plato," and your primary domain name for "example.com." :
+Edit your `/etc/hosts` file to resemble the following, substituting your Linode's public IP address for 12.34.56.78, your hostname for "hostname," and your primary domain name for "example.com." :
 
 {: .file }
 /etc/hosts
 :   ~~~
     127.0.0.1 localhost.localdomain localhost 
-    12.34.56.78 plato.example.com plato
+    12.34.56.78 hostname.example.com hostname
     ~~~
 
 Install Required Packages
@@ -112,7 +112,7 @@ Issue the following commands to enable the site:
     ln -s /etc/nginx/sites-available/www.example.com
     /etc/init.d/nginx restart
 
-You may wish to create a test HTML page under `/srv/www/www.example.com/public_html/` and view it in your browser to verify that nginx is properly serving your site (Perl will not work yet). Please note that this will require an [entry in DNS](/docs/dns-guides/configuring-dns-with-the-linode-manager) pointing your domain name to your Linode's IP address (found on the "Remote Access" tab in the [Linode Manager](/docs/linode-platform/manager/)).
+You may wish to create a test HTML page under `/srv/www/www.example.com/public_html/` and view it in your browser to verify that nginx is properly serving your site (Perl will not work yet). Please note that this will require an [entry in DNS](/docs/dns-guides/configuring-dns-with-the-linode-manager) pointing your domain name to your Linode's IP address (found on the "Remote Access" tab in the [Linode Manager](http://manager.linode.com//)).
 
 Configure spawn-fcgi
 --------------------
@@ -177,7 +177,7 @@ You may wish to consult the following resources for additional information on th
 - [FastCGI Project Homepage](http://www.fastcgi.com/)
 - [Perl Documentation](http://perldoc.perl.org/)
 - [Installing Nginx on Ubuntu 9.10 (Karmic)](/docs/web-servers/nginx/installation/ubuntu-9.10-karmic)
-- [Basic Ngnix Configuration](/docs/websites/nginx/basic-nginx-configuration/basic)
+- [Basic Ngnix Configuration](/docs/websites/nginx/basic-nginx-configuration)
 
 
 

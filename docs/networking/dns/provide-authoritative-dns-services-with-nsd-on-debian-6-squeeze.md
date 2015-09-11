@@ -1,14 +1,15 @@
 ---
+deprecated: true
 author:
   name: Brett Kaplan
-  email: bkaplan@linode.com
+  email: docs@linode.com
 description: 'Install and configure NSD to handle DNS queries.'
 keywords: 'NSD,DNS,resolving,Debian,networking'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['dns-guides/nsd-authoritative-dns-debian-6-squeeze/']
 modified: Wednesday, June 8th, 2011
 modified_by:
-  name: Peter Sandin
+  name: Linode
 published: 'Wednesday, June 8th, 2011'
 title: 'Provide Authoritative DNS Services with NSD on Debian 6 (Squeeze)'
 ---
@@ -140,7 +141,7 @@ Rebuild the NSD database and restart the daemon with following command sequence:
 
 Rebuild the database and restart NSD each time you edit an existing zone or create a new one.
 
-Test the configuration and functionality of the DNS serve using `dig`, which provides a [command line DNS client](/docs/linux-tools/common-commands/dig). If `dig` is not installed, install the utility by issuing the following command:
+Test the configuration and functionality of the DNS serve using `dig`, which provides a [command line DNS client](/docs/networking/dns/use-dig-to-perform-manual-dns-queries). If `dig` is not installed, install the utility by issuing the following command:
 
     apt-get install dnsutils
 

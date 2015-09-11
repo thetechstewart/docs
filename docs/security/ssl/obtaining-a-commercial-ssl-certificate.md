@@ -6,17 +6,18 @@ description: 'How to prepare and submit a request for a commercially-signed SSL 
 keywords: 'openssl,commercial ssl cert,apache ssl,ssl linux'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['security/ssl-certificates/commercial/']
-modified: Monday, August 22nd, 2011
+modified: Tuesday, November 18th, 2014
 modified_by:
-  name: Amanda Folson
+  name: James Stewart
 published: 'Monday, November 16th, 2009'
 title: Obtaining a Commercial SSL Certificate
+external_resources:
+ - '[OpenSSL Documentation](http://www.openssl.org/docs/)'
 ---
 
-Follow these instructions to get a commercial SSL certificate installed on your server. Please note that commercial SSL certificates require a unique IP address for each certificate. As SSL certificates may be used by many kinds of software, these instructions are generic in nature. If you're intending to use your SSL certificate on a website powered by Apache, you should follow our [Apache SSL guides](/docs/web-servers/apache/ssl-guides/) instead.
+Follow these instructions to get a commercial SSL certificate installed on your server. Please note that commercial SSL certificates require a unique IP address for each certificate. As SSL certificates may be used by many kinds of software, these instructions are generic in nature. If you're intending to use your SSL certificate on a website powered by Apache, you should follow our Apache SSL guides for [Debian & Ubuntu](/docs/security/ssl/ssl-apache2-debian-ubuntu) or [CentOS](/docs/security/ssl/ssl-apache2-centos) instead.
 
-Install OpenSSL
----------------
+## Install OpenSSL
 
 Issue the following command to install required packages for OpenSSL, the open source SSL toolkit.
 
@@ -32,21 +33,16 @@ CentOS/Fedora users:
     yum install openssl
     mkdir /etc/ssl/localcerts
 
-Create a Certificate Signing Request
-------------------------------------
+## Create a Certificate Signing Request
 
 Issue these commands to create a certificate signing request (CSR) for the site which you'd like to use with SSL. Be sure to change "www.mydomain.com" to reflect the fully qualified domain name (subdomain.domainname.com) of the site you'll be using SSL with. Leave the challenge password blank. We entered 365 for the days parameter to the command, as we would be paying for one year of SSL certificate verification from a commercial CA (certificate authority).
 
     cd /etc/ssl/localcerts
-    openssl req -new -nodes -days 365 -keyout www.mydomain.com.key -out www.mydomain.com.csr
-
-If your SSL provider requires 2048-bit keys, please add the following option to the command shown above:
-
-    -newkey rsa:2048
+    openssl req -new -newkey rsa:2048 -nodes -sha256 -days 365 -keyout www.mydomain.com.key -out www.mydomain.com.csr
 
 Here are the values we entered for our example certificate. Note that you can ignore the extra attributes.
 
-    Generating a 1024 bit RSA private key
+    Generating a 2048 bit RSA private key
     ......................................................++++++
     ....++++++
     writing new private key to 'www.mydomain.com.key'
@@ -81,24 +77,21 @@ Execute the following command to protect the signed certificate:
 
     chmod 400 /etc/ssl/localcerts/www.mydomain.com.crt
 
-Get the CA Root Certificate
----------------------------
+## Get the CA Root Certificate
 
 Now you'll need to get the root certificate for the CA that you paid to sign your certificate. You may obtain the root certs for various providers from these sites:
 
 -   [Verisign](https://knowledge.verisign.com/support/ssl-certificates-support/index.html)
 -   [Thawte](http://www.thawte.com/roots/index.html)
--   [Globalsign](http://secure.globalsign.net/cacert/)
+-   [Globalsign](http://www.globalsign.com/en//)
 -   [Comodo](https://support.comodo.com/index.php?_m=downloads&_a=view&parentcategoryid=1&pcid=0&nav=0)
 
 For example, if we downloaded a root cert for Verisign, we would save it to `/etc/ssl/localcerts/verisign.cer`. Note that many Linux distributions offer a package that contains updated root certificates for major certificate authorities; check your distribution's repositories for a package named "ca-certificates". If you have this package installed, the root CA certs will be installed under `/etc/ssl/certs`.
 
-More Information
-----------------
+## Next Steps
 
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
+Once your certificate has been generated, you will need to configure your web server to utilize the new certificate.  Instructions for doing so with several popular platforms can be found at the links below.
 
-- [OpenSSL Documentation](http://www.openssl.org/docs/)
-
-
-
+- [SSL Certificates with Apache on Debian and Ubuntu](/docs/security/ssl/ssl-apache2-debian-ubuntu)
+- [SSL Certificates with Apache on CentOS 7](/docs/security/ssl/ssl-apache2-centos)
+- [SSL Certificates with Nginx](/docs/security/ssl/ssl-certificates-with-nginx)

@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Mike Rosabal
-  email: mrosabal@linode.com
+  email: docs@linode.com
 description: 'Use phpMyAdmin to manage MySQL databases and users though a web interface.'
 keywords: 'mysql,phpmyadmin,sql,centos'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -76,7 +76,7 @@ This will create a symbolic link named `phpmyadmin` in your document root.
 
 ### Force SSL
 
-Since you are required to enter your MySQL credentials when using phpMyAdmin, we recommend that you use SSL to secure HTTP traffic to your phpMyAdmin installation. For more information on using SSL with your websites, please consult the guides that address [SSL certificates](/docs/security/ssl-certificates/).
+Since you are required to enter your MySQL credentials when using phpMyAdmin, we recommend that you use SSL to secure HTTP traffic to your phpMyAdmin installation. For more information on using SSL with your websites, please consult the guides that address [SSL certificates](/docs/security/ssl//).
 
 You can force phpMyAdmin to use SSL in the phpMyAdmin configuration file `/etc/phpmyadmin/config.inc.php` by adding the following lines under the `Server(s) configuration` section:
 

@@ -2,14 +2,14 @@
 deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Instructions for installing the Apache Tomcat Java servlet engine on Ubuntu 9.10 (Karmic).'
 keywords: 'apache tomcat ubuntu 9.10,java,java ubuntu 9.10,java servlets ubuntu karmic,java ubuntu'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['frameworks/apache-tomcat/ubuntu-9-10-karmic/']
 modified: Friday, April 29th, 2011
 modified_by:
-  name: System
+  name: Linode
 published: 'Friday, July 23rd, 2010'
 title: 'Apache Tomcat on Ubuntu 9.10 (Karmic)'
 ---

@@ -1,7 +1,8 @@
 ---
+deprecated: true
 author:
   name: Stan Schwertly
-  email: sschwertly@linode.com
+  email: docs@linode.com
 description: 'Installing Magento on an Ubuntu 9.10 LAMP stack.'
 keywords: 'magento,ecommerce,store,cart,shop,shopping'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -15,7 +16,7 @@ title: 'Magento on Ubuntu 9.10 (Karmic)'
 
 Magento is a self hosted e-commerce solution used by many people to sell products online. It runs on a [LAMP stack](/docs/lamp-guides/ubuntu-9.10-karmic/) and offers the user a wide variety of options.
 
-Before installing Magento, we assume that you have followed our [getting started guide](/docs/getting-started/) as well as our [LAMP guide](/docs/lamp-guides/ubuntu-9.10-karmic/). If you're new to Linux server administration, you may be interested in our [using Linux](/docs/using-linux/) document series, including the [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
+Before installing Magento, we assume that you have followed our [getting started guide](/docs/getting-started/) as well as our [LAMP guide](/docs/lamp-guides/ubuntu-9.10-karmic/). If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 Installing Prerequisites
 ------------------------
@@ -76,9 +77,9 @@ At this point your server has the prerequisites to install Magento.
 Installing Magento
 ------------------
 
-Magento requires you to have a cookie on your system in order to download their packages. Alternatively, you can find the latest version of Magento on [this wiki page for installing Magento via ssh](http://www.magentocommerce.com/wiki/groups/227/installing_magento_via_shell_ssh). First we'll switch to the directory in which you'd like to install Magento. For this example we'll be installing Magento to our document root directory. After changing to the proper directory, we'll download the latest version of Magento, unpack it, grant the proper permissions and run `pear`. Run the following commands to install Magento:
+Magento requires you to have a cookie on your system in order to download their packages. Alternatively, you can find the latest version of Magento on [this wiki page for installing Magento via ssh](http://www.magentocommerce.com/wiki/1_-_installation_and_configuration/installing_magento_via_shell_ssh). First we'll switch to the directory in which you'd like to install Magento. For this example we'll be installing Magento to our document root directory. After changing to the proper directory, we'll download the latest version of Magento, unpack it, grant the proper permissions and run `pear`. Run the following commands to install Magento:
 
-    cd /srv/www/bucknell.net/public_html/
+    cd /srv/www/example.com/public_html/
     wget http://www.magentocommerce.com/downloads/docs/assets/1.4.0.1/magento-1.4.0.1.tar.gz
     tar -zxvf magento-1.4.0.1.tar.gz
     mv magento/* magento/.htaccess .
@@ -97,7 +98,7 @@ From here you can point your browser to the URL you installed Magento to. All of
 
 ### SSL Certificates
 
-You may want to install a commercial SSL certificate on your Magento website in order to encrypt the data passed between your customer's computer and your server. After following our [obtaining a commercial SSL certificate](/docs/security/ssl-certificates/commercial) document, you can set up your SSL certificate in the Administrative Area. After logging in to Magento, scroll over the "System" tab and select "Configuration". Click the "Web" tab on the left-hand side and drop down the "Secure" listing. From here you can alter your Base URL to include the `https` protocol.
+You may want to install a commercial SSL certificate on your Magento website in order to encrypt the data passed between your customer's computer and your server. After following our [obtaining a commercial SSL certificate](/docs/security/ssl/obtaining-a-commercial-ssl-certificate) document, you can set up your SSL certificate in the Administrative Area. After logging in to Magento, scroll over the "System" tab and select "Configuration". Click the "Web" tab on the left-hand side and drop down the "Secure" listing. From here you can alter your Base URL to include the `https` protocol.
 
 More Information
 ----------------

@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Installing and configuring the Django web application development framework for Apache on Ubuntu 9.10 Karmic.'
 keywords: 'django,python,apache,mod\_wsgi'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -23,7 +23,7 @@ This guide provides an introduction to getting started with the Django framework
 Install Dependencies
 --------------------
 
-Before we can procede with the installation and deployment of Django, we mus enable the `universe` repositories for Ubuntu 9.10 Karmic. To enable `universe`, first modify your `/etc/apt/sources.list` file to mirror the example file below. You'll need to uncomment the universe lines:
+Before we can proceed with the installation and deployment of Django, we mus enable the `universe` repositories for Ubuntu 9.10 Karmic. To enable `universe`, first modify your `/etc/apt/sources.list` file to mirror the example file below. You'll need to uncomment the universe lines:
 
 {: .file }
 /etc/apt/sources.list
@@ -148,7 +148,7 @@ You may wish to consult the following resources for additional information on th
 - [The Django Project Introductory Tutorial](http://docs.djangoproject.com/en/dev/intro/tutorial01/#intro-tutorial01)
 - [The Django Book](http://www.djangobook.com/)
 - [Deploying Django Applications](http://www.djangobook.com/en/2.0/chapter12/)
-- [A Basic "Hello World" Django Application](http://appgallery.appspot.com/about_app?app_id=agphcHBnYWxsZXJ5chMLEgxBcHBsaWNhdGlvbnMYvw8M)
+- [A Basic "Hello World" Django Application](http://runnable.com/UWRVp6lLuONCAABD/hello-world-in-django-for-python)
 - [Integrating Django and mod\_wsgi](http://code.google.com/p/modwsgi/wiki/IntegrationWithDjango)
 
 

@@ -1,7 +1,8 @@
 ---
+deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Using lighttpd to host multiple websites from your Linode VPS.'
 keywords: 'lighttpd server,lighttpd vps,web server,vps web server,vps hosting'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -138,7 +139,7 @@ To accomplish the same directory structure with evhost as with the simple-vhost,
 
     evhost.path-pattern = "/var/www/%0/pages/"
 
-You have maximum flexibility to create virtual hosts in this manner. The naming convention for these virtual hosts is derived from the domains names, given the following (ficticious) web address: `http://abraham-brown.dances.brackley.com/`
+You have maximum flexibility to create virtual hosts in this manner. The naming convention for these virtual hosts is derived from the domains names, given the following (fictitious) web address: `http://abraham-brown.dances.brackley.com/`
 
 We read domain names backwards, so `com` is the tld or "top level domain, `brackley` is the domain, `dances` is the subdomain 1 name, and `abraham-brown` is the subdomain 2 name. These can be combined using the above syntax to create a virtual hosting scheme that makes sense for your use case.
 
@@ -223,13 +224,6 @@ Additional Debian Configuration
 -------------------------------
 
 The default configuration for Debian (in addition to `/etc/lighttpd/lighttpd.conf`) automatically includes all of the files in the `/etc/lighttpd/conf-enabled/` directory with the `.conf` extension. Typically, these files are symbolically linked from the `/etc/lighttpd/conf-available/` directory by the `lighttpd-enable-mod`. You can add specific configuration directives for required modules in these files, or in the master `lighttpd.conf` file, depending on your needs and personal preference.
-
-Example Configuration
----------------------
-
-Lighttpd is often deployed in specialized high performance environments, with configurations for specific use cases. This makes it difficult to recommend a prototypical configuration for lighttpd. Nevertheless, we offer this well-commented example as a guide to developing your own lighttpd configuration.
-
-[Example lighttpd Configuration with Comments](/docs/assets/598-example-lighttpd.conf)
 
 More Information
 ----------------

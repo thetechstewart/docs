@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Chris Ciufo
-  email: cciufo@linode.com
+  email: docs@linode.com
 description: Zabbix
 keywords: 'zabbix, server monitoring, monitoring, server monitor'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -116,7 +116,7 @@ Zabbix requires Apache and PHP to be installed. Here's how to install them:
 
         sudo apt-get install libmysqlclient-dev libcurl3-gnutls libcurl3-gnutls-dev
 
-4.  Verify that you have configured a name-based virtual host for Apache. This is required for the Zabbix web interface. For instructions, see [Configuring Name-based Virtual Hosts](https://library.linode.com/admin/hosting-website#sph_configuring-name-based-virtual-hosts).
+4.  Verify that you have configured a name-based virtual host for Apache. This is required for the Zabbix web interface. For instructions, see [Configuring Name-based Virtual Hosts](/docs/websites/hosting-a-website#configuring-name-based-virtual-hosts).
 
 The required applications, modules, and libraries have been installed on your Linode.
 
@@ -168,7 +168,7 @@ You have installed the C compiler and `make` on your Linode.
 Zabbix Server
 -------------
 
-Now that all of the Zabbix prerequesites are ready, we can start installing.
+Now that all of the Zabbix prerequisites are ready, we can start installing.
 
 ### Downloading and Unpacking
 
@@ -411,7 +411,7 @@ You'll need to complete the installation of the Zabbix web interface with your w
 
 [![Zabbix installer.](/docs/assets/1086-new_zabbix_1.png)](/docs/assets/1086-new_zabbix_1.png)
 
-3.  Correct any prerequesite errors, as shown below. Click **Next** to continue.
+3.  Correct any prerequisite errors, as shown below. Click **Next** to continue.
 
 [![Zabbix installer.](/docs/assets/1087-new_zabbix_2.png)](/docs/assets/1087-new_zabbix_2.png)
 

@@ -1,7 +1,7 @@
 ---
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Use the Web.py Python framework to develop powerful and innovative web applications on Debian 5 (Lenny).'
 keywords: 'web.py,web applications,python,web frameworks'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -16,7 +16,7 @@ deprecated: true
 
 Web.py is a web application framework that stresses minimalism, flexibility, rapid application development, and straight forward deployment. Originally developed to power the popular news and link aggregation site "Reddit," web.py is a powerful option for developing systems for the web.
 
-This guide assumes that have you followed the [getting started guide](/docs/getting-started/) prior to beginning. If you are new to Linux systems administration, you might like to consider the guides in the [using Linux](/docs/using-linux/) section, particularly the [administration basics guide](/docs/using-linux/administration-basics). Furthermore a background in Python programing will be useful as you begin to develop applications with Web.py
+This guide assumes that have you followed the [getting started guide](/docs/getting-started/) prior to beginning. If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics). Furthermore a background in Python programing will be useful as you begin to develop applications with Web.py
 
 Set the Hostname
 ----------------
@@ -102,7 +102,7 @@ code.py
         app.run()
     ~~~
 
-Save this file at `/srv/www/ducklington.org/application/code.py` or the equivalent path depending on your virtual hosting deployment, and proceed with the deployment of the application.
+Save this file at `/srv/www/example.com/application/code.py` or the equivalent path depending on your virtual hosting deployment, and proceed with the deployment of the application.
 
 Deploy Web.py Applications
 --------------------------
@@ -131,18 +131,18 @@ Consider the following Apache VirtualHost configuration for a `mod_wsgi` powered
 {: .file-excerpt }
 Apache VirtualHost Configuration
 :   ~~~ apache
-    <VirtualHost ducklington.org:80> 
-        ServerAdmin squire@ducklington.org     
-        ServerName ducklington.org
-           ServerAlias www.ducklington.org
-           DocumentRoot /srv/www/ducklington.org/public_html/
-           ErrorLog /srv/www/ducklington.org/logs/error.log 
-           CustomLog /srv/www/ducklington.org/logs/access.log combined
+    <VirtualHost example.com:80> 
+        ServerAdmin squire@example.com     
+        ServerName example.com
+           ServerAlias www.example.com
+           DocumentRoot /srv/www/example.com/public_html/
+           ErrorLog /srv/www/example.com/logs/error.log 
+           CustomLog /srv/www/example.com/logs/access.log combined
 
-        WSGIScriptAlias / /srv/www/ducklington.org/application
-        Alias /static /srv/www/ducklington.org/public_html
+        WSGIScriptAlias / /srv/www/example.com/application
+        Alias /static /srv/www/example.com/public_html
 
-        <Directory /srv/www/ducklington.org/application>
+        <Directory /srv/www/example.com/application>
           SetHandler wsgi-script
           Options ExecCGI
         </Directory>
@@ -163,7 +163,7 @@ Ensure that this virtual host has been enabled, and issue the following command 
 
     /etc/init.d/apache2 restart 
 
-In the above example, requests for the `ducklington.org` domain will be handled by WSGI, with the application files located in `/srv/www/ducklington.org/application`. All static files can be stored in `/srv/www/ducklington.org/public_html` and served directly by Apache. Furthermore, the rewrite rules convert requests so that paths beneath `ducklington.org` are handled by the Web.py application without including `code.py` in the URL. For example, the request for `http://ducklington.org/about` would be processed as `http://ducklington.org/code.py/about` but requests for `http://ducklington.org/static` would not be rewritten and content would be served from `/srv/www/ducklington.org/public_html`.
+In the above example, requests for the `example.com` domain will be handled by WSGI, with the application files located in `/srv/www/example.com/application`. All static files can be stored in `/srv/www/example.com/public_html` and served directly by Apache. Furthermore, the rewrite rules convert requests so that paths beneath `example.com` are handled by the Web.py application without including `code.py` in the URL. For example, the request for `http://example.com/about` would be processed as `http://example.com/code.py/about` but requests for `http://example.com/static` would not be rewritten and content would be served from `/srv/www/example.com/public_html`.
 
 Build a Database Driven Application with Web.py
 -----------------------------------------------
@@ -223,7 +223,7 @@ More Information
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
 - [The Web.py Project Home Page](http://webpy.org/)
-- [Offical Web.py Documentation](http://webpy.org/docs/0.3)
+- [Official Web.py Documentation](http://webpy.org/docs/0.3)
 - [Rewrite URLs in Apache with Mod\_Rewrite](/docs/web-servers/apache/configuration/rewriting-urls)
 - [WSGI Configuration Options](http://code.google.com/p/modwsgi/wiki/ConfigurationDirectives)
 

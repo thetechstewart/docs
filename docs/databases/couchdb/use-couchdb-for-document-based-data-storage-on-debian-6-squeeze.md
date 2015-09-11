@@ -1,14 +1,15 @@
 ---
+deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'An introduction and getting started guide for CouchDB on Debian 6 (Squeeze) systems.'
 keywords: 'couchdb,nosql,json,debian'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['databases/couchdb/debian-6-squeeze/']
 modified: Friday, April 29th, 2011
 modified_by:
-  name: System
+  name: Linode
 published: 'Wednesday, February 23rd, 2011'
 title: 'Use CouchDB for Document Based Data Storage on Debian 6 (Squeeze)'
 ---

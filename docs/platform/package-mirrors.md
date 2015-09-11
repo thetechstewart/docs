@@ -1,29 +1,30 @@
 ---
 author:
   name: Linode
-  email: bolow@linode.com
-description: Setting Linode Package Mirrors
+  email: docs@linode.com
+description: Setting Linode Package Mirrors.
 keywords: 'package,mirrors,linode,repository,Debian,Ubuntu,CentOS,yum,apt-get'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['package-mirrors/']
-modified: Monday, April 21st, 2014
+modified: Wednesday, September 24, 2014
 modified_by:
-  name: Alex Fornuto
+  name: Kenyon Ralph
 published: 'Tuesday, February 11th, 2014'
 title: Package Mirrors
 ---
 
-Linode offers public package mirrors for Ubuntu, Debian, and CentOS. When you install updates and new packages, you must download them from package mirrors. The primary advantage of using the Linode package mirrors versus other public package mirrors is speed. Linode package mirrors are available in all six of our datacenters. The mirrors can be found at:
+Linode offers public package mirrors for Ubuntu, Debian, and CentOS. When you install updates and new packages, you must download them from package mirrors. The primary advantage of using the Linode package mirrors versus other public package mirrors is speed. Linode package mirrors are available in all of our datacenters. The mirrors can be found at:
 
-- <http://tokyo.mirrors.linode.com/>
-- <http://london.mirrors.linode.com/>
-- <http://newark.mirrors.linode.com/>
 - <http://atlanta.mirrors.linode.com/>
 - <http://dallas.mirrors.linode.com/>
+- <http://frankfurt.mirrors.linode.com/>
 - <http://fremont.mirrors.linode.com/>
+- <http://london.mirrors.linode.com/>
+- <http://newark.mirrors.linode.com/>
+- <http://singapore.mirrors.linode.com/>
+- <http://tokyo.mirrors.linode.com/>
 
-Package Mirror Settings
------------------------
+## Package Mirror Settings
 
 For best performance, you will want to use the mirror in the same datacenter as your Linode. When using the Linode DNS resolvers, **mirrors.linode.com** will resolve to the mirror within the same datacenter. For public queries, mirrors.linode.com will return a round robin of the US locations.
 
@@ -41,9 +42,7 @@ For a Ubuntu system follow the instructions below:
 
     <http://mirrors.linode.com/ubuntu/>
 
-3.  Edit all lines containing the address <http://security.ubuntu.com/ubuntu/> to reflect the new address location:
-
-    <http://mirrors.linode.com/ubuntu/>
+3.  Do not modify lines containing the address <http://security.ubuntu.com/ubuntu/>.
 
 4.  Save and exit the `sources.list` file.
 
@@ -59,9 +58,7 @@ For a Debian system follow the instructions below:
 
     <http://mirrors.linode.com/debian/>
 
-3.  Edit all lines containing the address <http://security.debian.org/> to reflect the new address location:
-
-    <http://mirrors.linode.com/debian-security/>
+3.  Do not modify lines containing the address <http://security.debian.org/>.
 
 4.  Save and exit the `sources.list` file.
 
@@ -87,11 +84,8 @@ For a CentOS system follow the instructions below:
 
 5.  Comment each `mirrorlist` line by adding the **\#** sign before each line.
 6.  Uncomment each `baseurl` line by removing the **\#** sign before each line.
-7.  Edit all `baseurl` lines containing the address <http://mirror.centos.org/centos/$releasever/os/$basearch/> to reflect the new address location:
+7.  Edit all `baseurl` lines containing the address http://mirror.centos.org/centos/$releasever/os/$basearch/ to reflect the new address location:
 
-    <http://mirrors.linode.com/centos/$releasever/os/$basearch/>
+        http://mirrors.linode.com/centos/$releasever/os/$basearch/
 
 8.  Save and exit the `CentOS-Base.repo` file.
-
-
-

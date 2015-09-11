@@ -2,7 +2,7 @@
 author:
   name: Linode
   email: docs@linode.com
-description: Our guide to installing and using Linode Longview
+description: Our guide to installing and using Linode Longview.
 keywords: 'system monitoring,longview,troubleshooting'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['longview/']
@@ -26,8 +26,7 @@ To access Longview, log in to the [Linode Manager](https://manager.linode.com) a
 
 [![Linode Longview.](/docs/assets/1371-lv_overview_network_sm.png)](/docs/assets/1372-lv_overview_network.png)
 
-Adding Systems
---------------
+## Adding Systems
 
 To add a Longview system, first add a system to the Longview interface in the Linode Manager. Then install the Longview client application on your system. At that point, the Longview client application will start transferring your system statistics to Linode's servers.
 
@@ -60,7 +59,7 @@ To start monitoring a system with Longview, you'll need to add the system to the
     [![Adding a system to Linode Longview.](/docs/assets/1383-lv_install.png)](/docs/assets/1383-lv_install.png)
 
 4.  Copy the Longview installation command to your clipboard.
-5.  Open a terminal window and [log in to your Linode via SSH](getting-started#sph_logging-in-for-the-first-time).
+5.  Open a terminal window and [log in to your Linode via SSH](/docs/getting-started#logging-in-for-the-first-time).
 6.  Paste the Longview installation command into the terminal window, and then press Return. The Longview client will be installed on your system.
 
 You have successfully installed the Longview client on your system. Longview will start collecting system-level data immediately. Repeat this process to add additional systems to Longview.
@@ -73,7 +72,7 @@ If the installation process described above doesn't work, you'll need to manuall
 
 If you're running a Debian or Ubuntu distribution, follow these steps to manually install the Longview client on your system:
 
-1.  Open a terminal window and [log in to your Linode via SSH](getting-started#sph_logging-in-for-the-first-time).
+1.  Open a terminal window and [log in to your Linode via SSH](/docs/getting-started#logging-in-for-the-first-time).
 2.  Find the name of your distribution by entering the following command. For example, if you're running Ubuntu 12.04, the output will be `precise`. Remember this name - you'll need it later.
 
         lsb_release -sc
@@ -131,7 +130,7 @@ Congratulations! The Longview client is now installed on your Ubuntu or Debian s
 
 If you're running a Fedora or CentOS distribution, follow these steps to manually install the Longview client on your system:
 
-1.  Open a terminal window and [log in to your Linode via SSH](getting-started#sph_logging-in-for-the-first-time).
+1.  Open a terminal window and [log in to your Linode via SSH](/docs/getting-started#logging-in-for-the-first-time).
 2.  Create a file to hold the repository by entering the following command:
 
         sudo nano /etc/yum.repos.d/longview.repo
@@ -202,7 +201,7 @@ Follow these commands to install Longview on your Linode manually:
     [![Adding a system to Linode Longview.](/docs/assets/1383-lv_install.png)](/docs/assets/1383-lv_install.png)
 
 4.  Copy the Longview installation command to your clipboard.
-5.  Open a terminal window and [log in to your Linode via SSH](getting-started#sph_logging-in-for-the-first-time).
+5.  Open a terminal window and [log in to your Linode via SSH](/docs/getting-started#logging-in-for-the-first-time).
 6.  Paste the Longview installation command into the terminal window, and then press Return. The Longview client will be installed on your system.
 7.  View the output as Longview's core dependencies are installed. If you're missing any core dependencies, you'll need to look up the corresponding error and install or reconfigure the appropriate item. On a successful installation, you should see output like the following:
 
@@ -225,6 +224,20 @@ Follow these commands to install Longview on your Linode manually:
 
 Congratulations! The Longview client is now installed.
 
+### Firewall Rules
+
+If your Linode has a firewall, it will need to allow communication with Longview's aggregation host. To do so, you will need to allow traffic destined for 'longview.linode.com' to be routed through your firewall. The following rules should allow your Linode to provide its metrics to the Longview application:
+
+1. You will want to edit your INPUT chain so that traffic is routed to your Linode.
+
+        iptables -I INPUT -s longview.linode.com -j ACCEPT
+
+2. In order for your Linode to provide its metrics to Longview you will want to allow the same address through the OUTPUT chain of your Firewall.
+
+        iptables -I OUTPUT -d longview.linode.com -j ACCEPT 
+
+If you followed the instructions for setting up a firewall in our [Securing Your Server](/docs/security/securing-your-server) guide, go back to [this section](/docs/security/securing-your-server#step_6) to find additional rules for Longview.
+
 ### Labeling Systems
 
 If you plan on monitoring multiple systems with Longview, you should create *labels* for the systems to differentiate them. This will make them easier to find in the Linode Manager. Here's how to label the systems monitored by Longview:
@@ -242,8 +255,7 @@ If you plan on monitoring multiple systems with Longview, you should create *lab
 
 You have successfully changed the system's Longview label. Repeat this process to change the labels for the other systems you're monitoring with Longview.
 
-Viewing Statistics
-------------------
+## Viewing Statistics
 
 Now that the Longview client is installed on your system, you can use Longview to monitor your system's performance. If you've just installed the client application, please note that the graphs can take a couple of minutes to appear while the Longview systems start collecting data from your system.
 
@@ -311,8 +323,7 @@ See who's connected to your system by selecting the **active connections** link,
 
 If there are updates available for your system's distribution, you can see them by selecting the **available package updates** link, as shown above. The available updates are listed by name, current version number, and new version number. To install the updates, you'll need to log in to your system and [update the installed packages](/docs/monitoring-and-maintaining#sph_updating-installed-packages).
 
-Using the Interface
--------------------
+## Using the Interface
 
 To take full advantage of Longview's features, you'll need to learn how to view more data in the graphs and narrow their focus to a specific period in time. By changing the viewing history, you'll be able to see statistics for a longer period of time. And by zooming in on a graph, you'll narrow the graph's display to a specific point in time.
 
@@ -332,7 +343,7 @@ All of the graphs will be updated to display data for the time interval you sele
 
 Longview allows you to *zoom* in on graphs to take a close look at a specific time interval. For example, if you saw a major spike in CPU usage that lasted 19 minutes, you could zoom in on that 19 minute interval to see the graphs in more detail. To zoom in, click and drag the pointer to select a specific portion of the graph, as shown below.
 
-[![Zooming in Linode Longview.](/docs/assets/1397-lv_zoom_crop_sm.png)](/docs/assets/1398-lv_zoom_crop.png)
+![Zooming in Linode Longview.](/docs/assets/1397-lv_zoom_crop_sm.png)
 
 All of the graphs will be updated to display data for the time interval you selected. The graphs will stay set to the time interval you selected until you *reset the zoom*.
 
@@ -340,8 +351,7 @@ All of the graphs will be updated to display data for the time interval you sele
 
 When you're ready to reset the zoom and restore all of the graphics to the default 30 minute time interval, select the **Reset Zoom** link in the top-right corner, as shown above.
 
-Upgrading to Longview Pro
--------------------------
+## Upgrading to Longview Pro
 
 The free version of Longview updates every 5 minutes and provides only twelve hours of performance history. Upgrade to Longview Pro to get 60-second data resolution and start saving your entire system history.
 
@@ -367,8 +377,7 @@ Longview Pro is available at a tiered pricing plan. The default level for a new 
 
 Longview will start collecting more than twelve hours of performance data after you upgrade.
 
-Troubleshooting
----------------
+## Troubleshooting
 
 If you're experiencing problems with the Longview client application, please perform the following steps:
 
@@ -402,8 +411,7 @@ If you're experiencing problems with the Longview client application, please per
 
 If you still need assistance after performing these steps, please open a [support ticket](/docs/support#sph_contacting-linode-support).
 
-Updating Longview
------------------
+## Updating Longview
 
 Periodically, you will receive notices that a Longview update is available. To update the client, run the following command on your Linode via SSH:
 
@@ -431,8 +439,7 @@ On Debian and Ubuntu systems, you may receive a request to update your `init.d` 
 
 Your Longview client will now be up to date.
 
-Disabling Longview
-------------------
+## Disabling Longview
 
 To disable Longview on a system, you'll need to remove it from the Longview interface in the Linode Manager and then uninstall the Longview client application from the system.
 
@@ -453,7 +460,7 @@ The system has been removed from the Longview interface in the Linode Manager. R
 
 Next, you should remove the Longview client application from the system you want to stop monitoring. Here's how:
 
-1.  Open a terminal window and [log in to your Linode via SSH](getting-started#sph_logging-in-for-the-first-time).
+1.  Open a terminal window and [log in to your Linode via SSH](/docs/getting-started#logging-in-for-the-first-time).
 2.  If you are using Debian or Ubuntu, enter the following command into the terminal window:
 
         sudo apt-get remove linode-longview
@@ -468,8 +475,7 @@ Next, you should remove the Longview client application from the system you want
 
 The Longview client application will be removed from your system. This completes the Longview removal process.
 
-Longview Apps
--------------
+## Longview Apps
 
 The Longview Apps extend Longview's statistics reporting to specific services running on your Linode.
 

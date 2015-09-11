@@ -1,7 +1,7 @@
 ---
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Use the Girocco engine from repo.or.cz to provide easy access to Git repositories.'
 keywords: 'git,girocco,gitweb,project hosting,social coding'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -16,7 +16,7 @@ deprecated: true
 
 Girocco is the underlying engine created to power one of the first public git hosting services at [repo.or.cz](http://repo.or.cz/), and it allows users an easy to use web-based interface to create and view git repositories. Perhaps most excitingly, Girocco provides the ability to seamlessly "fork" an existing repository on the site and publish those changes without needing "push" access to the original repository, thus enabling a wide rage of distributed workflows and collaborative experiences.
 
-Before beginning this guide, we assume that you've completed the [getting started guide](/docs/getting-started/). If you're new to using git, you may also find our [introduction to git](/docs/linux-tools/version-control/git) a helpful prerequisite. If you're new Linux system administration, consider the guides in our [using Linux](/docs/using-linux/) series, particularly the [administration basics](/docs/using-linux/administration-basics) and [user accounts and permissions](/docs/using-linux/users-and-groups) guides.
+Before beginning this guide, we assume that you've completed the [getting started guide](/docs/getting-started/). If you're new to using git, you may also find our [introduction to git](/docs/linux-tools/version-control/git) a helpful prerequisite. If you're new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 Install Prerequisites
 ---------------------
@@ -212,9 +212,9 @@ Then insert the following line:
 
 {: .file-excerpt }
 root crontab
-
-> */5* \* \* \* /usr/bin/nice -n 18 /root/repo/fixupcheck.sh
-
+:   ~~~
+    */5 * * * * /usr/bin/nice -n 18 /root/repo/fixupcheck.sh
+    ~~~
 This configures the script to run once every 5 minutes. Monitor the length of time it takes to run the script, and the frequency of pushes, and adjust the frequency based on this data.
 
 Additionally issue the following command to create a `repo` user cronjob:
@@ -225,9 +225,9 @@ Then insert the following line:
 
 {: .file-excerpt }
 repo crontab
-
-> */5* \* \* \* /usr/bin/nice -n 18 /srv/repo/bin/jobd/jobd.sh -q --all-once
-
+:   ~~~
+    */5 * * * * /usr/bin/nice -n 18 /srv/repo/bin/jobd/jobd.sh -q --all-once
+    ~~~
 This configures the script to run once every 5 minutes. Monitor the length of time it takes to run the script, note any error messages this produces, and modify the frequency in response to this. You may also run the command `/srv/repo/bin/jobd/jobd.sh` in an interactive terminal as needed. Some tasks related to mirroring will not appear to succeed unless jobd is running constantly or runs at the appropriate time. You may want to run jobd in a GNU Screen session, by issuing the following command as the *repo* user:
 
     while ( true ); do /srv/repo/bin/jobd/jobd.sh; sleep 5; done
@@ -236,8 +236,9 @@ Additionally, add the following two lines as instructed by the installation scri
 
 {: .file-excerpt }
 /etc/rc.local
-
-> mount --bind /srv/repo/git /srv/repo/data/srv/git mount --bind /proc /srv/repo/data/proc
+:   ~~~
+    mount --bind /srv/repo/git /srv/repo/data/srv/git mount --bind /proc /srv/repo/data/proc
+    ~~~
 
 Configure Web Server
 --------------------
@@ -284,7 +285,7 @@ You may wish to consult the following resources for additional information on th
 - [Girocco](http://repo.or.cz/w/girocco.git)
 - [Repo.or.cz](http://repo.or.cz/)
 - [Using Cron to Schedule Tasks](/docs/linux-tools/utilities/cron)
-- [Managing Permissions with Unix Users and Groups](/docs/using-linux/users-and-groups)
+- [Managing Permissions with Unix Users and Groups](/docs/tools-reference/linux-users-and-groups)
 - [Using GNU Screen](/docs/linux-tools/utilities/screen)
 
 

@@ -11,24 +11,28 @@ modified_by:
   name: Alex Fornuto
 published: 'Thursday, August 22nd, 2013'
 title: 'Secure Communications with OpenVPN on Ubuntu 12.04 (Precise) and Debian 7'
+external_resources:
+ - '[Official OpenVPN Documentation](http://openvpn.net/index.php/open-source/documentation/howto.html)'
+ - '[Tunnelblick OS X OpenVPN Client](http://code.google.com/p/tunnelblick/)'
+ - '[OpenVPN GUI for Windows](http://openvpn.se/)'
+ - '[Network Manager GNOME Configuration Management Tool](http://projects.gnome.org/NetworkManager/)'
 ---
 
 OpenVPN, or Open Virtual Private Network, is a tool for creating networking tunnels between and among groups of computers that are not on the same local network. This is useful if you want to remotely access services on a local network without making them publicly accessible. By integrating with OpenSSL, OpenVPN can encrypt all VPN traffic to provide a secure connection between machines.
 
-Before installing OpenVPN, we assume that you have followed our [Getting Started Guide](/docs/getting-started/). If you're new to Linux server administration you may be interested in our [Using Linux](/docs/using-linux/) document series, including the [Beginner's Guide](/docs/beginners-guide/) and [Administration Basics Guide](/docs/using-linux/administration-basics). If you're concerned about securing on your Linode, you might be interested in our [Security Basics](/docs/security/basics) article as well.
+Before installing OpenVPN, we assume that you have followed our [Getting Started Guide](/docs/getting-started/). If you're new to Linux server administration you may be interested in our [Introduction to Linux Concepts Guide](/docs/tools-reference/introduction-to-linux-concepts), [Beginner's Guide](/docs/beginners-guide/) and [Administration Basics Guide](/docs/using-linux/administration-basics). If you're concerned about securing on your Linode, you might be interested in our [Security Basics](/docs/security/basics) article as well.
 
  {: .note }
 >
-> For many private networking tasks, we suggest that you consider the functions of the OpenSSH package which can provide easier VPN and VPN-like services. OpenSSH is also installed and configured by default on all Linodes. For example, see [Using SSHFS on Linux and MacOS X](/docs/networking/ssh-filesystems) or our guide on [Setting up an SSH Tunnel](https://library.linode.com/networking/socks-proxy) for more information. Nevertheless, if your deployment requires a more traditional VPN solution like OpenVPN, this document covers the installation and configuration of the OpenVPN software.
+> For many private networking tasks, we suggest that you consider the functions of the OpenSSH package which can provide easier VPN and VPN-like services. OpenSSH is also installed and configured by default on all Linodes. For example, see [Using SSHFS on Linux and MacOS X](/docs/networking/ssh-filesystems) or our guide on [Setting up an SSH Tunnel](/docs/networking/ssh/setting-up-an-ssh-tunnel-with-your-linode-for-safe-browsing) for more information. Nevertheless, if your deployment requires a more traditional VPN solution like OpenVPN, this document covers the installation and configuration of the OpenVPN software.
 
-How OpenVPN Works
------------------
+## How OpenVPN Works
 
 Once configured, the OpenVPN server encrypts traffic between your local computer and your Linode's local network. While all other traffic is handled in the conventional manner, the VPN allows traffic on non-public interfaces to be securely passed through your Linode. This means you can connect to the local area network in your Linode's data center. Using OpenVPN in this manner is supported by the default configuration
 
 [![Splash screen for TunnelBlick.](/docs/assets/1359-BasicVPNTraffic.jpg)](/docs/assets/1359-BasicVPNTraffic.jpg)
 
-With the additional configuration we will set up at the end of this guide, all traffic coming from your local computer can be tunneled through the VPN server. This can be used to curcumvent local traffic restrictions, or to mask the traffic coming from your computer.
+With the additional configuration we will set up at the end of this guide, all traffic coming from your local computer can be tunneled through the VPN server. This can be used to circumvent local traffic restrictions, or to mask the traffic coming from your computer.
 
 [![Splash screen for TunnelBlick.](/docs/assets/1360-FullTunneling.jpg)](/docs/assets/1360-FullTunneling.jpg)
 
@@ -36,8 +40,7 @@ With the additional configuration we will set up at the end of this guide, all t
 >
 > Please note that only one public IP address is required to use OpenVPN
 
-Installing OpenVPN
-------------------
+## Installing OpenVPN
 
 Follow these instructions to install OpenVPN:
 
@@ -220,8 +223,7 @@ In this section, you'll create two important configuration files. One is for the
 
 This will scan the `/etc/openvpn` directory on the server for files with a `.conf` extension. For every file that it finds, it will create and run a VPN daemon (server).
 
-Installing Client-Side Software
--------------------------------
+## Installing Client-Side Software
 
 The process for connecting to the VPN varies depending on the specific operating system and distribution running on the *client* machine. You will need to install the right OpenVPN package for your client operating system.
 
@@ -231,7 +233,7 @@ If you use OS X on a Mac, we have found that the [Tunnelblick](http://code.googl
 
 Here we will go through installing Tunneblick on OSX:
 
-1.  To download the latest version of Tunnelblick, [click here](https://code.google.com/p/tunnelblick/wiki/DownloadsEntry#Tunnelblick_Stable_Release). After opening the dmg file you can drag it into applications or open it immediately and it will copy itself.
+1.  To download the latest version of Tunnelblick, [click here](https://tunnelblick.net/downloads.html#Tunnelblick_Stable_Release). After opening the dmg file you can drag it into applications or open it immediately and it will copy itself.
 2.  After starting, you will see this splash screen:
 
     [![Splash screen for TunnelBlick.](/docs/assets/1346-tunnelblick2)](/docs/assets/1346-tunnelblick2)
@@ -246,10 +248,7 @@ Here we will go through installing Tunneblick on OSX:
 
 4.  Tunnelblick will open a Finder window into which you can copy the client.conf and client1 ca, crt, and key files you created on the Linode and copied to this client machine. Follow the rest of the instructions shown in Tunnelblick to create and install your Tunnelblick configuration file.
 
-    [![Splash screen for TunnelBlick.](/docs/assets/1357-tunnelblick5.3.png)](/docs/assets/1357-tunnelblick5.3.png)
-
-Connecting to the VPN
----------------------
+## Connecting to the VPN
 
 If you are using Tunnelblick, click on the tray icon to initiate the connection:
 
@@ -334,7 +333,7 @@ By deploying the following configuration, you will be able to forward *all* traf
 
 	{: .note }
 	>
-	> If you are using Debian 7, replace this command with `apt-get install dnsmasq resolvconf` and skip steps 7 thorugh 9
+	> If you are using Debian 7, replace this command with `apt-get install dnsmasq resolvconf` and skip steps 7 through 9
 
 7.  You will be presented with a series of options in an ncurses menu. First, choose **yes** to prepare `/etc/resolv.conf` for dynamic updates.
 
@@ -409,17 +408,4 @@ By deploying the following configuration, you will be able to forward *all* traf
 
         reboot
 
-To test your connection, connect to the VPN connection from your local machine, then access one of the many [websites that will display your public IP address](http://www.whatismyip.com/). If the IP address displayed doesn't match the IP address of your Linode, your traffic is not being filtered through your Linode or encrypted by the VPN. If the IP matches, network traffic from your local machine is being filtered through your Linode and encrypted over the VPN, and you have succesfully completed your OpenVPN setup!
-
-More Information
-----------------
-
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
-
-- [Official OpenVPN Documentation](http://openvpn.net/index.php/open-source/documentation/howto.html)
-- [Tunnelblick OS X OpenVPN Client](http://code.google.com/p/tunnelblick/)
-- [OpenVPN GUI for Windows](http://openvpn.se/)
-- [Network Manager GNOME Configuration Management Tool](http://projects.gnome.org/NetworkManager/)
-
-
-
+To test your connection, connect to the VPN connection from your local machine, then access one of the many [websites that will display your public IP address](http://www.whatismyip.com/). If the IP address displayed doesn't match the IP address of your Linode, your traffic is not being filtered through your Linode or encrypted by the VPN. If the IP matches, network traffic from your local machine is being filtered through your Linode and encrypted over the VPN, and you have successfully completed your OpenVPN setup!

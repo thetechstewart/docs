@@ -1,7 +1,8 @@
 ---
+deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Build a groupware system with eGroupware on Ubuntu 9.10 (Karmic).'
 keywords: 'groupware,email,collaboration,ubuntu,karmic'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -15,7 +16,7 @@ title: 'Power Team Collaboration with eGroupware on Ubuntu 9.10 (Karmic)'
 
 The eGroupware suite provides a group of server-based applications that offer collaboration and enterprise-targeted tools to help enable communication and information sharing between teams and institutions. These tools are tightly coupled and allow users to take advantage of data from one system, like the address book, and make use of it in other systems, including the calendar, CRM, and email systems. eGroupware is designed to be flexible and adaptable, and is capable of scaling to meet the demands of a diverse class of enterprise needs and work groups, all without the need to rely on a third-party vendor. As eGroupware provides its applications entirely independent of any third party service, the suite is a good option for organizations who need web-based groupware solutions, but do not want to rely on a third party provider for these services.
 
-Before installing eGroupware, we assume that you have followed our [getting started guide](/docs/getting-started/). If you're new to Linux server administration, you may be interested in our [using Linux](/docs/using-linux/) document series including the [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics). Additionally, you will need install a [LAMP stack](/docs/lamp-guides/ubuntu-9.10-karmic/) as a prerequisite for installing eGroupware.
+Before installing eGroupware, we assume that you have followed our [getting started guide](/docs/getting-started/). If you're new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics). Additionally, you will need install a [LAMP stack](/docs/lamp-guides/ubuntu-9.10-karmic/) as a prerequisite for installing eGroupware.
 
 Install eGroupware
 ------------------
@@ -47,7 +48,7 @@ Finally, begin the installation by issuing the following command:
 
     apt-get install egroupware
 
-During the installation process, an interactive "package configuration" is provided by Ubuntu's `debconf` system. This provides a URL to access the setup utility after you've finished the installation process. Make note of the URL; the form is `http://ducklington/egroupware/setup/` where `ducklington` is the hostname of the system. Continue with the installation process.
+During the installation process, an interactive "package configuration" is provided by Ubuntu's `debconf` system. This provides a URL to access the setup utility after you've finished the installation process. Make note of the URL; the form is `http://example/egroupware/setup/` where `example` is the hostname of the system. Continue with the installation process.
 
 The `debconf` process creates an administrator account for the "header system", which it allows you to specify at this time. By default this eGroupware username is "admin". Change the username if you would like and create a password as instructed. When this process is complete, the installation process is finished. You will also want to issue the following commands to install additional dependencies and resolve several minor issues with the distribution package in order:
 
@@ -72,11 +73,11 @@ Congratulations, you've now installed eGroupware!
 Configure Access to eGroupware
 ------------------------------
 
-If you do not have any virtual hosts enabled and your domain is `ducklington.org`, you should be able to visit `http://ducklington.org/egroupware/setup` to access the remainder of the eGroupware setup provided that `ducklington.org` points to the IP of your Linode. However, if you have virtual hosting setup, you will need to issue the following command to create a symbolic link to eGroupware:
+If you do not have any virtual hosts enabled and your domain is `example.com`, you should be able to visit `http://example.com/egroupware/setup` to access the remainder of the eGroupware setup provided that `example.com` points to the IP of your Linode. However, if you have virtual hosting setup, you will need to issue the following command to create a symbolic link to eGroupware:
 
-    ln -s /usr/share/egroupware/ /srv/www/ducklington.org/public_html/egroupware
+    ln -s /usr/share/egroupware/ /srv/www/example.com/public_html/egroupware
 
-Replace `/srv/ducklington.org/public_html/` with the path to your virtual host's `DocumentRoot`, or other location within the `DocumentRoot` where you want eGroupware to be located. Then, visit `http://ducklington.org/egroupware/setup/` to complete the setup process. You will be prompted for a password then brought to a configuration interface. Review the settings and modify them to reflect the specifics of your deployment, and create an "eGW Database Instance" for your deployment. Do not forget to create an administrative user for the database instance you are creating. When you have completed the eGroupware configuration, select the "'Write' Configuration file" option. Continue to the "Login" page.
+Replace `/srv/example.com/public_html/` with the path to your virtual host's `DocumentRoot`, or other location within the `DocumentRoot` where you want eGroupware to be located. Then, visit `http://example.com/egroupware/setup/` to complete the setup process. You will be prompted for a password then brought to a configuration interface. Review the settings and modify them to reflect the specifics of your deployment, and create an "eGW Database Instance" for your deployment. Do not forget to create an administrative user for the database instance you are creating. When you have completed the eGroupware configuration, select the "'Write' Configuration file" option. Continue to the "Login" page.
 
 Configure eGroupware
 --------------------

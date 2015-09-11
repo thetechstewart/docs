@@ -6,14 +6,18 @@ description: 'Follow these instructions to launch a SOCKS server on your compute
 keywords: 'socks,proxy,socks proxy,tunnel,tunnelling'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['networking/socks-proxy/']
+contributor:
+    name: Arnaldo Ariel Arrieta
 modified: Monday, February 17th, 2014
 modified_by:
   name: Linode
 published: 'Monday, February 17th, 2014'
 title: Setting up an SSH Tunnel with Your Linode for Safe Browsing
+external_resources:
+ - '[Wikipedia](http://en.wikipedia.org/wiki/SOCKS)'
 ---
 
-This is a Linode Community guide by author **Arnaldo Ariel Arrieta**. [Write for us](/docs/contribute) and earn \$100 per published guide.
+*This is a Linode Community guide. [Write for us](/docs/contribute) and earn $250 per published guide.*
 
 Often you may need to browse the web from a public Wi-Fi access point, such as a coffee shop or library, where you do not know the security measures taken by the administrator. Your communications could be snooped on by a malicious user or even by the network owner.
 
@@ -21,8 +25,7 @@ This guide will show you how to establish a secure connection for browsing the w
 
 It works by launching a SOCKS proxy server on your computer using SSH. It will listen on a local port and your browser will connect to the web using that service.
 
-Prerequisites
--------------
+## Prerequisites
 
 -   A Linode running your favorite GNU/Linux flavor.
 -   The SSH service running in your Linode, with the forwarding option enabled (it is enabled by default).
@@ -34,8 +37,7 @@ Prerequisites
 -   The ability to remotely access your server using SSH (by its host name or IP address).
 -   SSH client software on the computer you will use for browsing: a favorite SSH client for Linux or Mac OS X, PuTTY for Windows.
 
-Launching the SOCKS Server
---------------------------
+## Launching the SOCKS Server
 
 The first step is to launch the SOCKS server and establish a connection to your Linode.
 
@@ -64,16 +66,15 @@ To establish a tunnel in Windows, you can use the free SSH client PuTTY. It can 
 
 2.  Under the **Connection** menu, under **SSH** select **Tunnels**. There you must enter the port you want (**12345**, for example) in **Source Port**, and check **Dynamic**.
 
-    [![PuTTY - Options controlling port forwarding.](/docs/assets/1564-02-putty_tunnels1.png)](02-putty_tunnels1.png)
+    ![PuTTY - Options controlling port forwarding.](/docs/assets/1564-02-putty_tunnels1.png)
 
 3.  Then press the **Add** button. In the **Forwarded ports** text area, you will now see **D12345**.
 
-    [![PuTTY - Options controlling port forwarding with forwarding configured.](/docs/assets/1565-03-putty_tunnels2.png)](02-putty_tunnels2.png)
+    ![PuTTY - Options controlling port forwarding with forwarding configured.](/docs/assets/1565-03-putty_tunnels2.png)]
 
 4.  Click the **Open** button. A new window asking for your password will appear. After you type your password you will be logged in to your Linode and the tunnel will be launched. Now you can minimize this window and go to the browser.
 
-Setting Up Your Browser
------------------------
+## Setting Up Your Browser
 
 The last step is to configure your preferred browser to use the SOCKS server you just created. Here the example is for Firefox, but it is similar for all the major browsers.
 
@@ -85,7 +86,7 @@ To set up the browser:
 2.  Go to **Advanced** and from there to the **Network** tab.
 3.  In the **Connection** area click on **Settings**.
 
-    [![Firefox preferences - Network Tab.](/docs/assets/1566-04-firefox1.png)](04-firefox1.png)
+    ![Firefox preferences - Network Tab.](/docs/assets/1566-04-firefox1.png)
 
 4.  The window **Connection Settings** will open. Check **Manual Proxy Configuration**, and in **SOCKS Host** write your local host address (127.0.0.1) and the port you choose when you created the tunnel (**12345**, in this example). Make sure **SOCKS v5** is selected (it will be by default).
 
@@ -97,8 +98,7 @@ Now you can check your IP again. If all is working correctly, you will see that 
 
 From this point you can browse the web using your tunnel. When you finish, turn off the tunnel by logging off from your remote server (the Linux or Mac OS X console or PuTTY session you opened before). Note that you will need to set Firefox back to the `No proxy` setting as well. There are several plugins that can perform this task quickly for you, including [this one](https://addons.mozilla.org/en-US/firefox/addon/quickproxy/).
 
-Some Considerations
--------------------
+## Some Considerations
 
 Keep these considerations in mind when you use SSH tunneling.
 
@@ -121,17 +121,7 @@ Keep these considerations in mind when you use SSH tunneling.
     6.  Leave the `about:config window` by typing any URL in the location bar or closing Firefox.
 
 -   If the access to SSH is blocked in the public network you are using, it will not be possible to establish the tunnel. A workaround for this is to run your SSH server on a different port, more likely to be open; for example port 80 (HTTP).
--   If you are already in a public network that blocks your access to SSH, to edit the server settings you can use the Linode Shell from the web (More info: <https://library.linode.com/using-lish-the-linode-shell#sph_using-a-web-browser>).
+-   If you are already in a public network that blocks your access to SSH, to edit the server settings you can use the Linode Shell from the web (More info: <https://www.linode.com/docs/networking/using-the-linode-shell-lish/#using-a-web-browser>).
 -   Sometimes, the traffic through the tunnel could be a bit slower than browsing the web without it; but remember, it's a small price to pay when your privacy is at risk.
 -   This is a simple and quick way to establish a secure connection for web browsing, a kind of “poor man's VPN” solution.
--   If you often access the web using untrusted public networks or if you need to secure other applications and not just the browser, then this method will fall short and you will need to set up a VPN on your server. Take a look at one of the Linode Library's [OpenVPN](https://library.linode.com/networking/openvpn/) guides for instructions about that topic.
-
-More Information
-----------------
-
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
-
-- [Wikipedia](http://en.wikipedia.org/wiki/SOCKS)
-
-
-
+-   If you often access the web using untrusted public networks or if you need to secure other applications and not just the browser, then this method will fall short and you will need to set up a VPN on your server. Take a look at one of the Linode Library's [OpenVPN](/docs/networking/vpn/) guides for instructions about that topic.

@@ -8,14 +8,14 @@ keywords: 'postgresql fedora 12,postgresql database,relational database'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 modified: Friday, April 29th, 2011
 modified_by:
-  name: System
+  name: Linode
 published: 'Sunday, September 13th, 2009'
 title: Use PostgreSQL Relational Databases on Fedora 12
 ---
 
 
 
-The [PostgreSQL](http://www.postgresql.org/) relational database system is a fast, scalable, and stadards-compliant open source database platform. This guide will help you install and configure PostgreSQL on Fedora 12. We assume you've followed the steps detailed in our [getting started guide](/docs/getting-started/), and that you're logged into your Linode VPS as root via SSH.
+The [PostgreSQL](http://www.postgresql.org/) relational database system is a fast, scalable, and standards-compliant open source database platform. This guide will help you install and configure PostgreSQL on Fedora 12. We assume you've followed the steps detailed in our [getting started guide](/docs/getting-started/), and that you're logged into your Linode VPS as root via SSH.
 
 Installing PostgreSQL
 ---------------------
@@ -39,7 +39,7 @@ Configuring PostgreSQL
 
 ### Setting the postgres Password
 
-Set a password for the "postgres" user by issuing the following commands (be sure to subtitute your postgres password for "CHANGME" below):
+Set a password for the "postgres" user by issuing the following commands (be sure to substitute your postgres password for "CHANGME" below):
 
     passwd postgres
     su - postgres

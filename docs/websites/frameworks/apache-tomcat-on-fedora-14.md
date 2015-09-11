@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Instructions for installing and using the Apache Tomcat Java Servlet engine on Fedora 14.'
 keywords: 'apache tomcat fedora 14,java,java fedora 14,java servlets fedora 14,java fedora'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -18,7 +18,7 @@ title: Apache Tomcat on Fedora 14
 
 Apache Tomcat is a free and open source software implementation for Java Servlets. It provides support for the Java Server Pages (JSP) that power many popular web-based applications.
 
-This guide assumes that you have a working installation of Fedora 14, and that you have followed our [getting started guide](/docs/getting-started/) to get your system working and up to date. If you are new to Linux system administration, you may be interested in our [Linux administration basics guide](/docs/using-linux/administration-basics) or other documents in our series on [using Linux](/docs/using-linux/).
+This guide assumes that you have a working installation of Fedora 14, and that you have followed our [getting started guide](/docs/getting-started/) to get your system working and up to date. If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 Set the Hostname
 ----------------
@@ -63,7 +63,7 @@ At this point, you may want to create a user to access the "Tomcat Manager" web 
 {: .file-excerpt }
 /etc/tomcat6/tomcat-users.xml
 :   ~~~ xml
-    <user name="squire" password="ducklingtonmorris" roles="manager" />
+    <user name="squire" password="examplemorris" roles="manager" />
     ~~~
 
 Once you have saved the `tomcat-users.xml` file, restart the tomcat6 service with the following command:

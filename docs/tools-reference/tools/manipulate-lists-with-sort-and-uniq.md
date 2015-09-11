@@ -1,22 +1,21 @@
 ---
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: Use the sort and uniq Linux utilities to manage and order
 keywords: 'linux,common commands,sort,uniq,shell,bash'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['linux-tools/common-commands/sort-uniq/']
 modified: Tuesday, April 19th, 2011
 modified_by:
-  name: System
+  name: Linode
 published: 'Monday, November 29th, 2010'
 title: Manipulate Lists with sort and uniq
 ---
 
 The Linux utilities `sort` and `uniq` are useful for ordering and manipulating data in text files and as part of shell scripting. The `sort` command takes a list of items and sorts them alphabetically and numerically. The `uniq` command takes a list of items and removes adjacent duplicate lines. Though narrow in their focus, both of these tools are useful in a number of different command line operations.
 
-Usage
------
+## Usage
 
 ### sort
 
@@ -28,7 +27,7 @@ The `sort` command accepts input from a text file or standard output and outputs
 
     grep -i "retired" ~/roster.txt | sort 
 
-This uses [grep](/docs/linux-tools/common-commands/grep) to filter the `~/roster.txt` file for the string `retired`, regardless of case. These results are sent to `sort`, which reorders this output alphabetically.
+This uses [grep](/docs/tools-reference/search-and-filter-text-with-grep) to filter the `~/roster.txt` file for the string `retired`, regardless of case. These results are sent to `sort`, which reorders this output alphabetically.
 
 In the default configuration, this `sort` prints the output on the terminal. To write this content to a file, redirect the output as in the following example:
 
@@ -40,8 +39,7 @@ Here, the sorted output is written to the `~/retired-roster.txt` file.
 
 The `uniq` command takes input and removes repeated lines in a file or input. Because `uniq` only removes identical adjacent lines, it is often used in conjunction with `sort` to remove non-adjacent duplicate lines.
 
-Examples
---------
+## Examples
 
 ### Reorder Lists with sort
 

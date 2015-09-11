@@ -1,7 +1,8 @@
 ---
+deprecated: true
 author:
   name: Brett Kaplan
-  email: bkaplan@linode.com
+  email: docs@linode.com
 description: 'Get detailed website statistics such as visitor counts, pageviews, user agents percentages, and much more using the open source Webalizer package on Debian 5 (Lenny).'
 keywords: 'webalizer,statistics,analytics,stats,server monitoring,debian'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -120,7 +121,7 @@ Congratulations, you have successfully installed Webalizer! You can leave future
 Other Considerations
 --------------------
 
-Even with a low traffic site, Apache logs can become large. If your logs are routinely large, processing those logs can be time-consuming. You should look into [log rotation](http://eregie.premier-ministre.gouv.fr/manual/logs.html#rotation) to prevent potential performance issues.
+Even with a low traffic site, Apache logs can become large. If your logs are routinely large, processing those logs can be time-consuming. You should look into [log rotation](http://www.webalizer.org/faq.html#rotation) to prevent potential performance issues.
 
 More Information
 ----------------

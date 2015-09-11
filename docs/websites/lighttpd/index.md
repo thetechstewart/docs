@@ -2,13 +2,12 @@
 author:
   name: Linode
   email: docs@linode.com
-description: 'High performance web server configuration with lighttpd on your Linode Linux VPS.'
 keywords: 'lighttpd web server,lighttpd Linux,lighttpd VPS HOWTO'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['web-servers/lighttpd/']
 modified: Tuesday, April 19th, 2011
 modified_by:
-  name: System
+  name: Linode
 published: 'Thursday, July 16th, 2009'
 title: Hosting Websites with Lighttpd
 ---

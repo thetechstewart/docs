@@ -1,4 +1,5 @@
 ---
+deprecated: true
 author:
   name: Amanda Folson
   email: docs@linode.com
@@ -8,14 +9,14 @@ license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['web-applications/control-panels/ispconfig/debian-6-squeeze/']
 modified: Friday, April 29th, 2011
 modified_by:
-  name: System
+  name: Linode
 published: 'Tuesday, April 5th, 2011'
 title: 'Manage a Debian 6 (Squeeze) VPS with ISPConfig'
 ---
 
 ISPConfig is an open-source control panel similar to proprietary software like CPanel or Plesk. It features a wide variety of options to help you control your server and allow other users to maintain their websites.
 
-Before beginning this guide we assume that you have completed the [getting started guide](/docs/getting-started/). If you are new to Linux systems administration you may wish to consider the guides in our [using Linux](/docs/using-linux/) series, particularly the [administration basics](/docs/using-linux/administration-basics) guide.
+Before beginning this guide we assume that you have completed the [getting started guide](/docs/getting-started/). If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 This guide assumes you are installing this on a clean system. If you feel that you will not need certain features that are mentioned in this document, please feel free to exclude them from your setup.
 
@@ -99,9 +100,8 @@ Monitor for Software Updates and Security Notices
 
 When running software compiled or installed directly from sources provided by upstream developers, you are responsible for monitoring updates, bug fixes, and security issues. After becoming aware of releases and potential issues, update your software to resolve flaws and prevent possible system compromise. Monitoring releases and maintaining up to date versions of all software is crucial for the security and integrity of a system.
 
-Please monitor the ISPConfig Newsletter and project forums to ensure that you are aware of all updates to the software and can upgrade appropriately or apply patches and recompile as needed:
+Please monitor the ISPConfig project forums to ensure that you are aware of all updates to the software and can upgrade appropriately or apply patches and recompile as needed:
 
--   [ISPConfig Newsletter](http://newsletter.howtoforge.com/ispconfig/user/login.php)
 -   [ISPConfig Project Forums](http://www.howtoforge.com/forums/forumdisplay.php?f=33)
 
 When upstream sources offer new releases, repeat the instructions for installing the ISPConfig software as needed. These practices are crucial for the ongoing security and functioning of your system.
@@ -112,8 +112,8 @@ More Information
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
 - [ISPConfig Home Page](http://www.ispconfig.org/)
-- [ISPConfig Support](http://www.ispconfig.org/support.htm)
-- [ISPConfig Community](http://www.ispconfig.org/community.htm)
+- [ISPConfig Support](http://www.ispconfig.org/page/en/support.html)
+- [ISPConfig Community](http://www.ispconfig.org/page/en/community.html)
 - [Limit User Access with SFTP Jails](/docs/security/sftp-jails)
 
 

@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Install web applications with "LEMP," a LAMP-like stack using nginx,MySQL, PHP.'
 keywords: 'nginx,lemp,lepp,perl,python,php,linux,web applications'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -18,7 +18,7 @@ title: 'LEMP Server on Debian 5 (Lenny)'
 
 This document describes a compatible alternative to the "LAMP" (Linux, Apache, MySQL, and PHP) stack, known as "LEMP." The LEMP stack replaces the Apache web server component with nginx (pronounced "engine x," providing the "E" in LEMP,) which can increase the ability of the server to scale in response to demand.
 
-Prior to beginning this guide, please complete the [getting started guide](/docs/getting-started/). If you are new to Linux systems administration, you may want to consider the guides in our [using Linux guide](/docs/using-linux/) series, particularly "[Linux Administration Basics](/docs/using-linux/administration-basics)."
+Prior to beginning this guide, please complete the [getting started guide](/docs/getting-started/). If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 Set the Hostname
 ----------------
@@ -196,7 +196,7 @@ Modify the include statement to point to the path of your `sites-enabled` direct
     }
     ~~~
 
-Then, depending on the size and nature of your deployment, place your virtual host configurations either directly in the `/opt/nginx-sites.conf` file or include statements for server-specific configuration files in the `nginx-sites.file`. For more information regarding nginx configuration options, consider our [overview of nginx configuration](/docs/websites/nginx/basic-nginx-configuration/basic).
+Then, depending on the size and nature of your deployment, place your virtual host configurations either directly in the `/opt/nginx-sites.conf` file or include statements for server-specific configuration files in the `nginx-sites.file`. For more information regarding nginx configuration options, consider our [overview of nginx configuration](/docs/websites/nginx/basic-nginx-configuration).
 
 Once you've configured and loaded the nginx configuration, restart the web server to implement the new configuration by issuing the following command:
 
@@ -314,14 +314,14 @@ Issue the following command to get a root prompt for the MySQL server:
 
     mysql -u root -p
 
-Enter the root password created above and then issue the following sequence of commands to create the `ducklington` and `squire` database users, grant the `squire` user access to the `ducklington` database, and exit from the database:
+Enter the root password created above and then issue the following sequence of commands to create the `example` and `squire` database users, grant the `squire` user access to the `example` database, and exit from the database:
 
-    CREATE DATABASE ducklington;
+    CREATE DATABASE example;
     CREATE USER 'squire' IDENTIFIED BY 's8723hk2';
-    GRANT ALL PRIVILEGES ON ducklington.* TO 'squire';
+    GRANT ALL PRIVILEGES ON example.* TO 'squire';
     exit
 
-You may now provide the credentials for the `ducklington` database and the `bagman` user to your application, which will now be able to use the database for its purposes. To ensure that PHP will be able to access the MySQL connector your just installed, restart the PHP service by issue the following command:
+You may now provide the credentials for the `example` database and the `bagman` user to your application, which will now be able to use the database for its purposes. To ensure that PHP will be able to access the MySQL connector your just installed, restart the PHP service by issue the following command:
 
     /etc/init.d/php-fastcgi restart
 
@@ -345,8 +345,8 @@ More Information
 
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
-- [Basic nginx Configuration](/docs/websites/nginx/basic-nginx-configuration/basic)
-- [Clustered Web Servers and Software Load Balancing with nginx](/docs/websites/nginx/basic-nginx-configuration/front-end-proxy-and-software-load-balancing)
+- [Basic nginx Configuration](/docs/websites/nginx/basic-nginx-configuration)
+- [Clustered Web Servers and Software Load Balancing with nginx](/docs/uptime/loadbalancing/how-to-use-nginx-as-a-front-end-proxy-server-and-software-load-balancer)
 - [Deploy CGI and Perl Scripts with Perl-FastCGI and nginx](/docs/web-servers/nginx/perl-fastcgi/debian-5-lenny)
 - [Use PostgeSQL as an Alternative to MySQL for data storage](/docs/databases/postgresql/debian-5-lenny)
 - [Deploy Python Applications with uWSGI and nginx](/docs/web-servers/nginx/python-uwsgi/debian-5-lenny)

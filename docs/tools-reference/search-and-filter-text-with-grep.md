@@ -1,24 +1,23 @@
 ---
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Practical examples for using grep to find strings in text files and streams.'
 keywords: 'grep,search,files,filtering,regular expressions'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['linux-tools/common-commands/grep/']
 modified: Wednesday, May 4th, 2011
 modified_by:
-  name: Amanda Folson
+  name: Linode
 published: 'Wednesday, June 30th, 2010'
 title: Search and Filter Text with grep
 ---
 
 The `grep` utility provides users of most Unix-like operating systems with a tool to search and filter text using a common regular expression syntax. Indeed, `grep` is so ubiquitous that the verb "to grep" has emerged as a synonym for "to search." `grep` is an ideal tool for finding all occurrences of a value in a selection of files, filtering a log file for certain entries, or as part of a script or chain of commands.
 
-This document provides an overview of `grep` usage, accompanied by a number of practical applications of `grep`. If you find this guide helpful, please consider our guide to [basic administration practices](/docs/using-linux/administration-basics) or the rest of the [using linux series](/docs/using-linux/).
+This document provides an overview of `grep` usage, accompanied by a number of practical applications of `grep`. If you find this guide helpful, please consider our guide to [basic administration practices](/docs/using-linux/administration-basics) or the rest of the [Tools & Reference section](/docs/tools-reference/).
 
-Using Grep
-----------
+## Using Grep
 
 This `grep` guide references recent versions of `GNU grep`, which are included by default in all images provided by Linode. It is also provided as part of the common "base" selection of packages provided in nearly all distributions of Linux-based operating systems.
 
@@ -45,7 +44,7 @@ Grep provides a number of very powerful options to control its output. The most 
 
 In addition to reading content from files, `grep` can read and filter a text feed on standard input. The output of any command or stream can be "piped" (e.g. with the `|` operator) to the `grep` command. Then, `grep` filters this output according to the match pattern specified and outputs only the matching lines. For instance, given the following command:
 
-> ls --help | grep "dired"
+    ls --help | grep "dired"
 
 This filters the output of the `ls` commands help text and looks for appearances of "dired", and outputs them to standard out (the current session). The output resembles:
 
@@ -69,8 +68,7 @@ While straight-forward pattern matching is powerful for some filtering tasks, th
 
 These operators provide only a very limited overview of the capabilities of `grep`'s regular expression syntax. Remember that `grep` operations are non-destructive, which makes it easy to experiment with matching patterns. Consider the examples that follow as a more practical introduction to this tool.
 
-Filtering Logs with Grep
-------------------------
+## Filtering Logs with Grep
 
 One popular use of `grep` is to extract useful information from system logs. Consider the following examples.
 
@@ -104,8 +102,7 @@ In this case, `tail` follows the `~/procmail/procmail.log` file where the `procm
 
 These examples outline several distinct ways that the `grep` tool is used to aid in the administration of Linux-based systems. Because grep operations are almost always non-destructive, it is easy to experiment with `grep` to generate the kind of information you require from text files.
 
-Filtering Commands with Grep
-----------------------------
+## Filtering Commands with Grep
 
 Beyond its uses in shell scripting and log filtering, `grep` has many alternate uses. In the following example, `grep` filters the lengthy `tar` help text to more efficiently find the options for dealing with `bzip` files:
 
@@ -117,21 +114,10 @@ Beyond its uses in shell scripting and log filtering, `grep` has many alternate 
 
 While there may be many files in the `/usr/lib` directory, the list of files with the string `xml` in their title may be more useful.
 
-Grep Compressed Files with zgrep
---------------------------------
+## Grep Compressed Files with zgrep
 
 The `zgrep` command functions identically to the grep command above; however, it adds the ability to run grep operations on files that have been compressed with gzip without requiring an extra compression and decompression step. Consider the following command, adapted from above to search an older compressed log:
 
     zgrep -Eo "Invalid user.*([0-9]{1,3}\.){3}[0-9]{1,3}" /var/log/auth.log.2.gz
 
 `zgrep` operations take longer than standard `grep` operations because of the additional overhead of reading the compressed files.
-
-More Information
-----------------
-
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
-
-- [Administration Basics](/docs/using-linux/administration-basics)
-
-
-

@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Stan Schwertly
-  email: sschwertly@linode.com
+  email: docs@linode.com
 description: 'Cacti is a powerful server monitoring solution that uses SNMP to track resource usage on Ubuntu 10.04 (Lucid).'
 keywords: 'Cacti,Ubuntu,Ubuntu Lucid,Lucid,SNMP'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -16,7 +16,7 @@ title: 'Monitoring Resource Utilization with Cacti on Ubuntu 10.04 (Lucid)'
 
 
 
-The Linode Manager provides some basic monitoring of system resource utilization, which includes information regarding Network, CPU, and Input/Output usage over the last 24 hours and 30 days. While this basic information is helpful for monitoring your system, there are cases where more fine-grained information is useful. The simple monitoring tool [Munin](/docs/server-monitoring/munin) is capable of monitoring needs of a small group of machines. In some cases, Munin may not be flexible enough for advanced monitoring needs.
+The Linode Manager provides some basic monitoring of system resource utilization, which includes information regarding Network, CPU, and Input/Output usage over the last 24 hours and 30 days. While this basic information is helpful for monitoring your system, there are cases where more fine-grained information is useful. The simple monitoring tool [Munin](/docs/uptime/monitoring/monitoring-servers-with-munin-on-ubuntu-12-04-precise-pangolin) is capable of monitoring needs of a small group of machines. In some cases, Munin may not be flexible enough for advanced monitoring needs.
 
 For these kinds of deployments we encourage you to consider a tool like Cacti, which is a flexible front end for the RRDtool application. Cacti simply provides a framework and a mechanism to poll a number of sources for data regarding your systems, which can then be graphed and presented in a clear web based interface. Whereas packages like Munin provide monitoring for a specific set of metrics on systems which support the Munin plug in, Cacti provides increased freedom to monitor larger systems and more complex deployment by way of its plug in framework and web-based interface.
 
@@ -83,12 +83,12 @@ SNMPD binds to `localhost` by default. If you only plan on using Cacti to monito
 
 At this point SNMPD is configured to listen on all interfaces. Now we'll open `/etc/snmp/snmpd.conf` to establish which host is trusted to receive data.
 
-We'll create an SNMP "community" to help identify our group of devices for Cacti. In this instance, our hostname is "bucknell.org", so we've named the community "Bucknell". The community name choice is up to the user. Locate the section of `snmpd.conf` that begins with `com2sec` and make sure the `readonly` line is the only uncommented line. This section of the file should now look like this:
+We'll create an SNMP "community" to help identify our group of devices for Cacti. In this instance, our hostname is "example.org", so we've named the community "example". The community name choice is up to the user. Locate the section of `snmpd.conf` that begins with `com2sec` and make sure the `readonly` line is the only uncommented line. This section of the file should now look like this:
 
 {: .file }
 /etc/snmp/snmpd.conf
 
-> \#com2sec paranoid default public com2sec readonly localhost Bucknell \#com2sec readwrite default private
+> \#com2sec paranoid default public com2sec readonly localhost example \#com2sec readwrite default private
 
 If you want a remote machine to connect to Cacti, replace "localhost" with the IP address of the remote machine.
 
@@ -112,9 +112,9 @@ At the login screen, enter `admin/admin` for the username/password combination. 
 Configuring Cacti
 -----------------
 
-At this point Cacti will contain an entry for `localhost`, which we'll need to modify. Click the "Console" tab in the top left corner, and select "Create Devices for network". Click the "Localhost" entry to begin making the needed changes. Select the Host Template drop down and pick the "ucd/net SNMP Host". Scroll down to SNMP Options and click the drop down box for SNMP Version, picking "Version 1". Enter "Bucknell" (or the community name you created above) in the box for the "SNMP Community" field. The "Associated Graph Templates" section allows you to add additional graphs. Hit "Save" to keep the changes.
+At this point Cacti will contain an entry for `localhost`, which we'll need to modify. Click the "Console" tab in the top left corner, and select "Create Devices for network". Click the "Localhost" entry to begin making the needed changes. Select the Host Template drop down and pick the "ucd/net SNMP Host". Scroll down to SNMP Options and click the drop down box for SNMP Version, picking "Version 1". Enter "example" (or the community name you created above) in the box for the "SNMP Community" field. The "Associated Graph Templates" section allows you to add additional graphs. Hit "Save" to keep the changes.
 
-Click "Settings" under "Configuration" and set your "SNMP Version" to "Version 1" in the drop down box. Type the name of your community for the "SNMP Community" (in this example, "Bucknell") and save.
+Click "Settings" under "Configuration" and set your "SNMP Version" to "Version 1" in the drop down box. Type the name of your community for the "SNMP Community" (in this example, "example") and save.
 
 Configuring Client Machines
 ---------------------------
@@ -156,7 +156,7 @@ More Information
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
 - [Cacti Website](http://www.cacti.net/index.php)
-- [Cacti Users Plugin Communty](http://cactiusers.org/index.php)
+- [Cacti Users Plugin Community](http://cactiusers.org/index.php)
 - [Linux Security Basics](/docs/security/basics)
 
 

@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Keep track of vital system statistics and troubleshoot performance problems with Munin on Ubuntu 11.04 (Natty'
 keywords: 'munin,monitoring,ubuntu, ubuntu 11.04,natty, ubuntu natty'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -20,7 +20,7 @@ The Linode Manager provides some basic monitoring of system resource utilization
 
 Munin is a system and network monitoring tool that uses RRDTool to generate useful visualizations of resource usage. The primary goal of the Munin project is to provide an easy to use tool that is simple to install and configure and provides information in an accessible web based interface. Munin also makes it possible to monitor multiple "nodes" with a single installation.
 
-Before installing Munin, we assume that you have followed our [getting started guide](/docs/getting-started/). If you're new to Linux server administration you may be interested in our [using Linux](/docs/using-linux/) document series, including the [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics). Additionally, you'll need to install a web server such as [Apache](/docs/web-servers/apache/installation/ubuntu-11.04-natty) in order to use the web interface.
+Before installing Munin, we assume that you have followed our [getting started guide](/docs/getting-started/). If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics). Additionally, you'll need to install a web server such as [Apache](/docs/web-servers/apache/installation/ubuntu-11.04-natty) in order to use the web interface.
 
 Installing Munin
 ----------------
@@ -38,7 +38,7 @@ On all of the additional machines you administer that you would like to monitor 
 
     apt-get install munin-node
 
-The machines that you wish to monitor with Munin do not need to run Ubuntu. The Munin project supports monitoring for a large number of operating systems. Consult the Munin project's [installation guide](http://munin.projects.linpro.no/wiki/Documentation) for more information installing nodes on additional operating systems.
+The machines that you wish to monitor with Munin do not need to run Ubuntu. The Munin project supports monitoring for a large number of operating systems. Consult the Munin project's [installation guide](http://munin-monitoring.org/wiki/MuninInstallationLinux) for more information installing nodes on additional operating systems.
 
 Configuring Munin
 -----------------
@@ -54,7 +54,9 @@ The first section of the file contains the paths to the directories used by Muni
 
 > \# dbdir /var/lib/munin \# htmldir /var/cache/munin/www \# logdir /var/log/munin \# rundir /var/run/munin
 
-There are additional directives after the directory location block such as `tmpldir`, which shows Munin where to look for HTML templates, and others that allow you to configure mail to be sent when something on the server changes. These additional directives are explained more in depth on the [munin.conf page of the Munin website](http://munin.projects.linpro.no/wiki/munin.conf). You can also find quick explanations inside the file itself via hash (`#`) comments. Take note that these global directives must be defined prior to defining hosts monitored by Munin. Do not place global directives at the bottom of the `munin.conf` file.
+There are additional directives after the directory location block such as `tmpldir`, which shows Munin where to look for HTML templates, and others that allow you to configure mail to be sent when something on the server changes. These additional directives are explained more in depth on the [munin.conf page of the Munin website](`
+`
+http://munin-monitoring.org/wiki/munin.conf). You can also find quick explanations inside the file itself via hash (`#`) comments. Take note that these global directives must be defined prior to defining hosts monitored by Munin. Do not place global directives at the bottom of the `munin.conf` file.
 
 The last section of the `munin.conf` file defines the hosts Munin retrieves information from. For a default configuration, adding a host can be done in the form shown below:
 
@@ -69,7 +71,7 @@ For more complex configurations, including grouping domains, see the comment sec
 {: .file }
 /etc/munin/munin.conf
 
-> \# A more complex example of a host tree \# \#\# First our "normal" host. \# [fii.foo.com] \# address foo \# \#\# Then our other host... \# [fay.foo.com] \# address fay \# \#\# Then we want totals... \# [foo.com;Totals] \#Force it into the "foo.com"-domain... \# update no \# Turn off data-fetching for this "host". \# \# \# The graph "load1". We want to see the loads of both machines... \# \# "fii=fii.foo.com:load.load" means "label=machine:graph.field" \# load1.graph\_title Loads side by side \# load1.graph\_order fii=fii.foo.com:load.load fay=fay.foo.com:load.load \# \# \# The graph "load2". Now we want them stacked on top of each other. \# load2.graph\_title Loads on top of each other \# load2.dummy\_field.stack fii=fii.foo.com:load.load fay=fay.foo.com:load.l\$ \# load2.dummy\_field.draw AREA \# We want area instead the default LINE2. \# load2.dummy\_field.label dummy \# This is needed. Silly, really. \# \# \# The graph "load3". Now we want them summarised into one field \# load3.graph\_title Loads summarised \# load3.combined\_loads.sum fii.foo.com:load.load fay.foo.com:load.load \# load3.combined\_loads.label Combined loads \# Must be set, as this is \# \# not a dummy field! \# \#\# ...and on a side note, I want them listen in another order (default is \#\# alphabetically) \# \# \# Since [foo.com] would be interpreted as a host in the domain "com", we \# \# specify that this is a domain by adding a semicolon. \# [foo.com;] \# node\_order Totals fii.foo.com fay.foo.com \#
+> \# A more complex example of a host tree \# \#\# First our "normal" host. \# [fii.foo.com] \# address foo \# \#\# Then our other host... \# [fay.foo.com] \# address fay \# \#\# Then we want totals... \# [foo.com;Totals] \#Force it into the "foo.com"-domain... \# update no \# Turn off data-fetching for this "host". \# \# \# The graph "load1". We want to see the loads of both machines... \# \# "fii=fii.foo.com:load.load" means "label=machine:graph.field" \# load1.graph\_title Loads side by side \# load1.graph\_order fii=fii.foo.com:load.load fay=fay.foo.com:load.load \# \# \# The graph "load2". Now we want them stacked on top of each other. \# load2.graph\_title Loads on top of each other \# load2.dummy\_field.stack fii=fii.foo.com:load.load fay=fay.foo.com:load.l\$ \# load2.dummy\_field.draw AREA \# We want area instead the default LINE2. \# load2.dummy\_field.label dummy \# This is needed. Silly, really. \# \# \# The graph "load3". Now we want them summarized into one field \# load3.graph\_title Loads summarized \# load3.combined\_loads.sum fii.foo.com:load.load fay.foo.com:load.load \# load3.combined\_loads.label Combined loads \# Must be set, as this is \# \# not a dummy field! \# \#\# ...and on a side note, I want them listen in another order (default is \#\# alphabetically) \# \# \# Since [foo.com] would be interpreted as a host in the domain "com", we \# \# specify that this is a domain by adding a semicolon. \# [foo.com;] \# node\_order Totals fii.foo.com fay.foo.com \#
 
 ### Munin Node Configuration
 
@@ -128,11 +130,11 @@ More Information
 
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
-- [Munin Homepage](http://munin.projects.linpro.no/)
-- [Munin Exchange](http://muninexchange.projects.linpro.no/)
-- [Installing Munin on Other Linux Distributions](http://munin.projects.linpro.no/wiki/LinuxInstallation)
-- [Installing Munin on Mac OSX](http://munin.projects.linpro.no/wiki/DarwinInstallation)
-- [Installing Munin on Solaris](http://munin.projects.linpro.no/wiki/SolarisInstallation)
+- [Munin Homepage](http://munin-monitoring.org/)
+- [Munin Exchange](https://github.com/munin-monitoring/contrib//)
+- [Installing Munin on Other Linux Distributions](http://munin-monitoring.org/wiki/MuninInstallationLinux)
+- [Installing Munin on Mac OSX](http://munin-monitoring.org/wiki/MuninInstallationDarwin)
+- [Installing Munin on Solaris](http://munin-monitoring.org/wiki/MuninInstallationSolaris)
 
 
 

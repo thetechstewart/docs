@@ -1,4 +1,5 @@
 ---
+deprecated: true
 author:
   name: Linode
   email: docs@linode.com
@@ -8,7 +9,7 @@ license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['web-applications/project-management/redmine/debian-6-squeeze/']
 modified: Tuesday, June 7th, 2011
 modified_by:
-  name: Peter Sandin
+  name: Linode
 published: 'Monday, May 16th, 2011'
 title: 'Manage Projects with Redmine on Debian 6 (Squeeze)'
 ---
@@ -356,7 +357,7 @@ Start nginx:
 
     /etc/init.d/nginx start
 
-Your Redmine installation should be accessible at <http://redmine.example.com>; if you encounter issues, please refer to your log files for a listing of any errors that may have occurred. The default login is username "admin" and password "admin". You should change the admin password immediately. Congratulations, you've installed Redmine for project management on your Linode!
+Your Redmine installation should be accessible at `http://redmine.example.com`; if you encounter issues, please refer to your log files for a listing of any errors that may have occurred. The default login is username "admin" and password "admin". You should change the admin password immediately. Congratulations, you've installed Redmine for project management on your Linode!
 
 Monitor for Software Updates and Security Notices
 -------------------------------------------------

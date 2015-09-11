@@ -2,7 +2,7 @@
 deprecated: true
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Installing and configuring the Django web application development framework for Apache on Ubuntu 8.04 (Hardy).'
 keywords: 'django,python,apache,mod\_python,ubuntu,ubuntu 8.04,hardy'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -158,7 +158,7 @@ You may wish to consult the following resources for additional information on th
 - [The Django Project Introductory Tutorial](http://docs.djangoproject.com/en/dev/intro/tutorial01/#intro-tutorial01)
 - [The Django Book](http://www.djangobook.com/)
 - [Deploying Django Applications](http://www.djangobook.com/en/2.0/chapter12/)
-- [Hello World" Django Application](http://appgallery.appspot.com/about_app?app_id=agphcHBnYWxsZXJ5chMLEgxBcHBsaWNhdGlvbnMYvw8M)
+- [Hello World" Django Application](http://runnable.com/UWRVp6lLuONCAABD/hello-world-in-django-for-python)
 
 
 

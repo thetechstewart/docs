@@ -1,4 +1,5 @@
 ---
+deprecated: true
 author:
   name: Linode
   email: docs@linode.com
@@ -13,7 +14,7 @@ published: 'Wednesday, November 9th, 2011'
 title: 'Email with Citadel on Debian 6 (Squeeze)'
 ---
 
-Citadel is a groupware suite that provides system administrators with an easy method to set up and manage email, calendars, mailing lists and other collaboration tools. It is assumed that you have followed our [getting started guide](/docs/getting-started/). If you're new to Linux server administration, you may be interested in our [using Linux](/docs/using-linux/) document series including the [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
+Citadel is a groupware suite that provides system administrators with an easy method to set up and manage email, calendars, mailing lists and other collaboration tools. It is assumed that you have followed our [getting started guide](/docs/getting-started/). If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 Set the Hostname
 ----------------
@@ -37,7 +38,7 @@ Issue the following commands to install the `citadel-suite`, `spamassassin` and 
 
     apt-get install citadel-suite spamassassin amavisd-new 
 
-The installation process will prompt you for several configuration items. Recommened answers for these prompts are as follows.
+The installation process will prompt you for several configuration items. Recommended answers for these prompts are as follows.
 
 **Please note:** The HTTP and HTTPS port options are particularly important. If you have already installed a web server package such as Apache or nginx that will use ports 80 and 443, please do *not* specify these ports for your Citadel installation.
 
@@ -66,7 +67,7 @@ Finally, edit the `/etc/mailname` file to reflect your system's fully qualified 
 {: .file }
 /etc/mailname
 :   ~~~
-    plato.example.com
+    hostname.example.com
     ~~~
 
 Enable Spamassassin Filtering
@@ -110,7 +111,7 @@ As part of this process, you will be prompted to enter several values, as shown 
     Locality Name (eg, city) []:Galloway
     Organization Name (eg, company) [Internet Widgits Pty Ltd]:Example Org
     Organizational Unit Name (eg, section) []:Network Services
-    Common Name (eg, YOUR name) []:plato.example.com
+    Common Name (eg, YOUR name) []:hostname.example.com
     Email Address []:support@example.com
     Please enter the following 'extra' attributes
     to be sent with your certificate request
@@ -135,7 +136,7 @@ As part of this process, you will be prompted to enter several values, as shown 
     Locality Name (eg, city) []:Galloway
     Organization Name (eg, company) [Internet Widgits Pty Ltd]:Example Org
     Organizational Unit Name (eg, section) []:Network Services
-    Common Name (eg, YOUR name) []:plato.example.com
+    Common Name (eg, YOUR name) []:hostname.example.com
     Email Address []:support@example.com
     Please enter the following 'extra' attributes
     to be sent with your certificate request
@@ -167,7 +168,7 @@ Issue the following commands to initialize Citadel.
 
 Visit the web interface in your web browser. Using our preceding example, the Web address to visit would resemble the following URL (append ":4343" if necessary):
 
-    https://plato.example.com
+    https://hostname.example.com
 
 At this point, your email system should be fully functional and can be configured through the web interface. To finish enabling SpamAssassin support, select "Administration" in the control panel. Next, click "Domain names and Internet mail configuration". Enter "127.0.0.1" in the box for the SpamAssassin host.
 

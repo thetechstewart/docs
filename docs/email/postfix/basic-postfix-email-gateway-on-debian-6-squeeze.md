@@ -1,7 +1,7 @@
 ---
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: 'Configure the Postfix MTA as a basic email gateway.'
 keywords: 'email,postfix,mta,forwarding,'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -16,7 +16,7 @@ deprecated: true
 
 Postfix is an efficient, stable, and modern "Mail Transfer Agent" or MTA used for transmitting email messages between severs on the Internet. Most configurations involving Postfix combine the MTA with a server to allow users to download email using a protocol like IMAP or POP3. This document outlines a very simple configuration of Postfix that makes it possible to forward email, and deliver email to local mailboxes on your Linode instance. This guide *does not* provide any way to download this email or remotely access these mailboxes. In addition, this document provides instructions for sending email with this configuration. If you want to deploy a complete and fully featured email solution that includes the ability download locally delivered email, consider one of our other [postfix email guides](/docs/email/postfix/).
 
-Prior to beginning this document to install a basic Postfix email gateway, we assume that you have completed our [getting started guide](/docs/getting-started/). If you're new to Linux systems administration we recommend engaging the guides in our [using Linux guide](/docs/using-linux/) series, particularly the [administration basics guide](/docs/using-linux/administration-basics).
+Prior to beginning this document to install a basic Postfix email gateway, we assume that you have completed our [getting started guide](/docs/getting-started/). If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 Set the Hostname
 ----------------
@@ -90,8 +90,8 @@ Once Postfix is properly configured, edit the `/etc/postfix/virtual` file to con
 {: .file-excerpt }
 /etc/postfix/virtual
 :   ~~~
-    admin@example.org bucknell
-    foreman@example.org bucknell
+    admin@example.org example
+    foreman@example.org example
 
     squire@example.com squire
     squire@example.com squire
@@ -102,12 +102,12 @@ Once Postfix is properly configured, edit the `/etc/postfix/virtual` file to con
     jay@example.com jay@chartercast.net
 
     lollipop@example.com stacy@morris.net, squire
-    jockey@example.org squire, bucknell
+    jockey@example.org squire, example
 
     @oddington.com oddington
     ~~~
 
-In this example there are a number of addresses in the `example.org` domain forwarded to the `bucknell` system user account. In the next group, a collection of emails at different domains beginning with the `squire` name, are all forwarded to the `squire` system user group. Finally, a number of email addresses at the `example.com` domain are forwarded to external addresses at the fictitious `chartercast.net` domain. The next two email addresses are directed to multiple sources: `lollipop@example.com` mail is delivered to the local `squire` user as well as the external email address `stacy@morris.net`, while `jockey@example.org` is delivered to the local system users `squire` and `bucknell`. Finally all messages sent to addresses within the `oddington.com` domain are forwarded to the mailbox for the `oddington` user.
+In this example there are a number of addresses in the `example.org` domain forwarded to the `example` system user account. In the next group, a collection of emails at different domains beginning with the `squire` name, are all forwarded to the `squire` system user group. Finally, a number of email addresses at the `example.com` domain are forwarded to external addresses at the fictitious `chartercast.net` domain. The next two email addresses are directed to multiple sources: `lollipop@example.com` mail is delivered to the local `squire` user as well as the external email address `stacy@morris.net`, while `jockey@example.org` is delivered to the local system users `squire` and `example`. Finally all messages sent to addresses within the `oddington.com` domain are forwarded to the mailbox for the `oddington` user.
 
 When you've successfully edited your `/etc/postfix/virtual` file to ensure the proper delivery of your email, issue the following command to rebuild the virtual alias database:
 
@@ -141,7 +141,7 @@ Save the following script in the `/opt` directory on the system you wish to send
 :   ~~~ perl
     #!/usr/bin/perl
 
-    # A SMTP-over-SSH Port Forwarding Scrpt
+    # A SMTP-over-SSH Port Forwarding Script
     # Copyright (c) 2010 Linode, LLC
     # Author: Philip C. Paradis <pparadis@linode.com>
     # Modifications: Linode <sam@linode.com>

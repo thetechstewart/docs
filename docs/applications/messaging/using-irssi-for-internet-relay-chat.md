@@ -6,28 +6,35 @@ description: 'Use IRC and GNU Screen to maintain persistent connections to IRC n
 keywords: 'irssi,irc,oftc,freenode,real time,chat'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['communications/irc/irssi/']
-modified: Thursday, June 19th, 2014
+modified: Friday, January 9th, 2015
 modified_by:
-  name: Linode
+  name: Elle Krout
 published: 'Monday, March 29th, 2010'
 title: Using Irssi for Internet Relay Chat
+external_resources:
+ - '[Irssi Project Home Page](http://www.irssi.org/)'
+ - '[Irssi Themes Page](http://irssi.org/themes/)'
+ - '[Screen for Persistent Terminal Sessions](/docs/linux-tools/utilities/screen)'
+ - '[An Effective Guide for Using Screen and Irssi](http://quadpoint.org/articles/irssi)'
+ - '[The Open and Free Technology Community](http://www.oftc.net/oftc/)'
+ - '[The Freenode IRC Network](http://freenode.net/)'
+ - '[GNU Screen](http://www.gnu.org/software/screen/)'
+ - '[Advanced Irssi Usage](/docs/communications/irc/advanced-irssi)'
 ---
 
 **Irssi** is a terminal-based chat client for real-time conversations over Internet Relay Chat (**IRC**). IRC is the common meeting ground for Linode users to exchange knowledge and troubleshoot issues in our public channel, **#linode** on **OFTC**.
 
-Irssi can run on Linux or MAC OS X, either from your local workstation or your Linode. If you are unfamiliar with using a Linux terminal, you may want to review the Linode Library guides for [Using the Terminal](/docs/using-linux/using-the-terminal) and [Using Linux](/docs/using-linux/). Additionally, it is assumed that you have followed our [Getting Started Guide](/docs/getting-started/) if you intend to run Irssi on your Linode.
+Irssi can run on Linux or MAC OS X, either from your local workstation or your Linode. If you are unfamiliar with using a Linux terminal, you may want to review the Linode Library guides [Using the Terminal](/docs/using-linux/using-the-terminal) and [Introduction to Linux Concepts](/docs/tools-reference/introduction-to-linux-concepts). Additionally, it is assumed that you have followed our [Getting Started Guide](/docs/getting-started/) if you intend to run Irssi on your Linode.
 
-Prerequisites
--------------
+## Prerequisites
 
 Complete these tasks before you start:
 
 -   All the procedures listed in the [Getting Started](/docs/getting-started/) guide
 -   The **Adding a New User**, **Using SSH Key Pair Authentication**, and **Disabling SSH Password Authentication and Root Login** sections in the [Securing Your Server](/docs/securing-your-server/) guide
--   Make sure **GNU Screen** is installed. It should be by default. See our [Screen Guide](library.linode.com/linux-tools/utilities/screen) for information.
+-   Make sure **GNU Screen** is installed. It should be by default. See our [Screen Guide](/docs/networking/ssh/using-gnu-screen-to-manage-persistent-terminal-sessions) for information.
 
-Installing Irssi
-----------------
+## Installing Irssi
 
 To install Irssi, issue the command for the appropriate system:
 
@@ -52,8 +59,7 @@ Mac OS X with HomeBrew; check for new Brew formulas **before** you install Irssi
     brew update
     brew install irssi
 
-Starting Irssi
---------------
+## Starting Irssi
 
 To start Irssi, follow the steps below.
 
@@ -71,8 +77,7 @@ To start Irssi, follow the steps below.
 
 To rejoin Irssi later, just rejoin your Screen session.
 
-Configuring Irssi
------------------
+## Configuring Irssi
 
 Now you can start configuring Irssi to use your preferred networks, join channels, and set your nick (nickname). These examples will show you how to connect to the Linode IRC channel, **#linode**.
 
@@ -166,6 +171,9 @@ Use the `Alt` key and the window number to change to a different window. Window 
 
     /win number
 
+{: .note}
+>If the `Alt` + `num` command does not switch windows, use `esc` followed by the window number.
+
 Below are more commands for navigating between windows:
 
 -   `/win list` - generates a list in detail of all the windows. Sample output is below.
@@ -192,10 +200,9 @@ There are several options in this command. Let's go over them briefly:
 
 Note that you may add as many channels as you like.
 
-Irssi Commands and Usage
-------------------------
+## Irssi Commands and Usage
 
-All Irssi command are preceded by a slash (**/**). Each channel you join as well as any private messages you receive will appear in their own window. A prompt down on the left-hand side will display the name of the active window.
+All Irssi commands are preceded by a slash (**/**). Each channel you join as well as any private messages you receive will appear in their own window. A prompt down on the left-hand side will display the name of the active window.
 
 If you expect output from a command but don't see it, you may need to return to your **(status)** channel.
 
@@ -220,8 +227,7 @@ Irssi commands are provided in the table below:
 | /window close  | Forces closure of a window                                                |
 |---------------------------------
 
-Disconnecting and Exiting Irssi
--------------------------------
+## Disconnecting and Exiting Irssi
 
 Disconnect from an IRC network by using this command, replacing **freenode** with your network:
 
@@ -231,8 +237,7 @@ Exit the Irssi program using the command:
 
     /exit
 
-Configuring Hilights
---------------------
+## Configuring Hilights
 
 The `hilight` command will highlight certain words used in the channels you have joined. If there are particular words or topics that you want to keep track of, add them with this command :
 
@@ -242,24 +247,6 @@ To remove a hilight, use the command:
 
     /dehilight word
 
-User-friendly Plugins
----------------------
+## User-friendly Plugins
 
 Enhance your Irssi experience with user-friendly plugins! Add a full list of open windows to the bottom of the screen, colored nicks, and more. Check out the [Using Plugins](/docs/communications/irc/advanced-irssi#sph_using-plugins) section of the [Advanced Irssi Usage](/docs/communications/irc/advanced-irssi) guide.
-
-More Information
-----------------
-
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
-
-- [Irssi Project Home Page](http://www.irssi.org/)
-- [Irssi Themes Page](http://irssi.org/themes/)
-- [Screen for Persistent Terminal Sessions](/docs/linux-tools/utilities/screen)
-- [An Effective Guide for Using Screen and Irssi](http://quadpoint.org/articles/irssi)
-- [The Open and Free Technology Community](http://www.oftc.net/oftc/)
-- [The Freenode IRC Network](http://freenode.net/)
-- [GNU Screen](http://www.gnu.org/software/screen/)
-- [Advanced Irssi Usage](/docs/communications/irc/advanced-irssi)
-
-
-

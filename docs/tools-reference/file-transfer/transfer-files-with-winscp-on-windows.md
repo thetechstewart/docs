@@ -2,6 +2,7 @@
 author:
   name: Linode
   email: docs@linode.com
+deprecated: yes
 description: 'Securely copying files to and from your Linode with WinSCP, a free and open source file transfer client for Microsoft Windows systems.'
 keywords: 'winscp,ftp,windows scp,sftp,windows sftp program'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -47,7 +48,7 @@ Once launched, you'll be presented with a screen similar to the following:
 
 Enter your Linode's fully qualified hostname or IP address in the "Host name" field. Unless you've modified your system to run your SSH server on a non-standard port, leave "Port number" as the default (port 22). Enter your Linux username and password in the next two fields. Click "Login" to begin your session.
 
-You'll need to specify account credentials that have access to the filesystem location you'd like to transfer files to and/or from on your Linode; in this case, we've specified the "root" user, which has administrative access to the system. It's advisable to create separate user accounts on your system in lieu of using "root" for common tasks; you can learn more about Linux/UNIX users and groups in our [users and groups tutorial](/docs/using-linux/users-and-groups).
+You'll need to specify account credentials that have access to the filesystem location you'd like to transfer files to and/or from on your Linode; in this case, we've specified the "root" user, which has administrative access to the system. It's advisable to create separate user accounts on your system in lieu of using "root" for common tasks; you can learn more about Linux/UNIX users and groups in our [users and groups tutorial](/docs/tools-reference/linux-users-and-groups).
 
 If you haven't previously logged into your VPS from this workstation with WinSCP, you'll be presented with a warning dialog similar to the following:
 
@@ -71,7 +72,7 @@ More Information
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
 - [WinSCP Documentation](http://winscp.net/eng/docs/start)
-- [Using Linux](/docs/using-linux/)
+- [Tools & Resources](/docs/tools-reference/)
 
 
 

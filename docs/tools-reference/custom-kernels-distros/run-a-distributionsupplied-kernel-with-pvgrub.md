@@ -6,21 +6,20 @@ description: 'Instructions for configuring your Linode to run a native distribut
 keywords: 'pv-grub,pvgrub,custom linux kernel,custom linode'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 alias: ['platform/custom-kernels-distros/run-a-distributionsupplied-kernel-with-pvgrub/', 'custom-instances/pv-grub-howto/']
-modified: Friday, February 7th, 2014
+modified: Wednesday, August 20th, 2014
 modified_by:
-  name: Nick Atzert
+  name: James Stewart
 published: 'Wednesday, September 9th, 2009'
 title: 'Run a Distribution-Supplied Kernel with PV-GRUB'
 ---
 
 PV-GRUB makes it possible to run your own kernel on your Linode, instead of using a host-supplied kernel. This is useful in cases where you'd like to enable specific kernel features, or you'd prefer to handle kernel upgrades directly.
 
-If you'd like to run a custom distro on your Linode in combination with PV-GRUB, please follow our [Custom Distro](/docs/linode-platform/custom-instances/custom-distro-howto) guide before taking these steps.
+If you'd like to run a custom distro on your Linode in combination with PV-GRUB, please follow our [Custom Distro](/docs/tools-reference/custom-kernels-distros/running-a-custom-linux-distro-on-a-linode-vps) guide before taking these steps.
 
 Before you get started, make sure you follow the steps outlined in our [Getting Started](/docs/getting-started) guide. Your Linode needs to be in a functional state. These steps should be performed as `root` on your Linode, via an SSH session.
 
-Ubuntu 13.04 (Raring)
----------------------
+## Ubuntu 13.04 (Raring)
 
 1.  Update your package repositories and upgrade your installed packages by issuing the following commands:
 
@@ -108,7 +107,7 @@ Ubuntu 13.04 (Raring)
 
 11. In the Linode Manager, edit your Linode's configuration profile to use either **pv-grub-x86\_32** or **pv-grub-x86\_64** as the kernel, depending on the version of Ubuntu you have deployed (32-bit or 64-bit).
 12. Make sure the root device is specified as **xvda**.
-13. In the **Filesystem/Boot Helpers** section, disable the **Xenify distro** option.
+13. In the **Filesystem/Boot Helpers** section, disable the **Distro Helper** option.
 14. Save your changes by clicking **Save Profile** at the bottom of the page.
 15. Reboot your Linode from the **Dashboard** tab.
 16. Once your Linode has rebooted, log in via SSH and issue the following command:
@@ -119,8 +118,7 @@ Ubuntu 13.04 (Raring)
 
         Linux li63-119 3.8.0-29-generic #42-Ubuntu SMP Tue Aug 13 19:40:39 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
 
-Ubuntu 12.04 (Precise)
-----------------------
+## Ubuntu 12.04 (Precise)
 
 1.  Update your package repositories and upgrade your installed packages by issuing the following commands:
 
@@ -164,7 +162,7 @@ Ubuntu 12.04 (Precise)
 
     {: .file-excerpt }
 	/boot/grub/menu.lst
-	:~~~
+	: ~~~
     	 kopt=root=/dev/xvda console=hvc0 ro quiet
 	~~~
 
@@ -207,7 +205,7 @@ Ubuntu 12.04 (Precise)
 
 11. In the Linode Manager, edit your Linode's configuration profile to use either **pv-grub-x86\_32** or **pv-grub-x86\_64** as the kernel, depending on the version of Ubuntu you have deployed (32-bit or 64-bit).
 12. Make sure the root device is specified as **xvda**.
-13. In the **Filesystem/Boot Helpers** section, disable the **Xenify distro** option.
+13. In the **Filesystem/Boot Helpers** section, disable the **Distro Helper** option.
 14. Save your changes by clicking **Save Profile** at the bottom of the page.
 15. Reboot your Linode from the **Dashboard** tab.
 16. Once your Linode has rebooted, log in via SSH and issue the following command:
@@ -218,8 +216,8 @@ Ubuntu 12.04 (Precise)
 
         Linux localhost 3.2.0-52-virtual #78-Ubuntu SMP Fri Jul 26 16:45:00 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
 
-Ubuntu 10.04 LTS (Lucid)
-------------------------
+
+## Ubuntu 10.04 LTS (Lucid)
 
 1.  Update your package repositories and upgrade your installed packages by issuing the following commands:
 
@@ -307,7 +305,7 @@ Ubuntu 10.04 LTS (Lucid)
 
 11. In the Linode Manager, edit your Linode's configuration profile to use either **pv-grub-x86\_32** or **pv-grub-x86\_64** as the kernel, depending on the version of Ubuntu you have deployed (32-bit or 64-bit).
 12. Make sure the root device is specified as **xvda**.
-13. In the **Filesystem/Boot Helpers** section, disable the **Xenify distro** option.
+13. In the **Filesystem/Boot Helpers** section, disable the **Distro Helper** option.
 14. Save your changes by clicking **Save Profile** at the bottom of the page.
 15. Reboot your Linode from the **Dashboard** tab.
 16. Once your Linode has rebooted, log in via SSH and issue the following command:
@@ -318,8 +316,8 @@ Ubuntu 10.04 LTS (Lucid)
 
         Linux li263-140 2.6.32-31-generic-pae #61-Ubuntu SMP Fri Apr 8 20:00:13 UTC 2011 i686 GNU/Linux
 
-Debian 7 (Wheezy)
------------------
+
+## Debian 7 (Wheezy) / Debian 8 (Jessie)
 
 1.  Update your package repositories and upgrade your installed packages by issuing the following commands:
 
@@ -391,7 +389,7 @@ Debian 7 (Wheezy)
 
 10. In the Linode Manager, edit your Linode's configuration profile to use either **pv-grub-x86\_32** or **pv-grub-x86\_64** as the kernel, depending on the version of Debian you have deployed (32-bit or 64-bit).
 11. Make sure the root device is specified as **xvda**.
-12. In the **Filesystem/Boot Helpers** section, disable the **Xenify distro** option.
+12. In the **Filesystem/Boot Helpers** section, disable the **Distro Helper** option.
 13. Save your changes by clicking **Save Profile** at the bottom of the page.
 14. Reboot your Linode from the **Dashboard** tab.
 15. Once your Linode has rebooted, log in via SSH and issue the following command:
@@ -402,8 +400,8 @@ Debian 7 (Wheezy)
 
         Linux li263-140 2.6.32-5-xen-686 #1 SMP Wed May 18 09:43:15 UTC 2011 i686 GNU/Linux
 
-Debian 6 (Squeeze)
-------------------
+
+## Debian 6 (Squeeze)
 
 1.  Update your package repositories and upgrade your installed packages by issuing the following commands:
 
@@ -475,7 +473,7 @@ Debian 6 (Squeeze)
 
 10. In the Linode Manager, edit your Linode's configuration profile to use either **pv-grub-x86\_32** or **pv-grub-x86\_64** as the kernel, depending on the version of Debian you have deployed (32-bit or 64-bit).
 11. Make sure the root device is specified as **xvda**.
-12. In the **Filesystem/Boot Helpers** section, disable the **Xenify distro** option.
+12. In the **Filesystem/Boot Helpers** section, disable the **Distro Helper** option.
 13. Save your changes by clicking **Save Profile** at the bottom of the page.
 14. Reboot your Linode from the **Dashboard** tab.
 15. Once your Linode has rebooted, log in via SSH and issue the following command:
@@ -486,8 +484,7 @@ Debian 6 (Squeeze)
 
         Linux li263-140 2.6.32-5-xen-686 #1 SMP Wed May 18 09:43:15 UTC 2011 i686 GNU/Linux
 
-CentOS 6
---------
+## CentOS 6 and Newer
 
 1.  Make sure your package repositories and installed packages are up to date by issuing the following command:
 
@@ -502,21 +499,34 @@ CentOS 6
         Linux li63-119 2.6.32-358.14.1.el6.x86_64 #1 SMP Tue Jul 16 23:51:20 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
 
 4.  Make a note of the kernel you're currently using (`2.6.32-358.14.1.el6.x86_64` in our example). You will be replacing it with the kernel shown in the configuration below.
-5.  Create a file named `/boot/grub/menu.lst` with the following contents. Adjust the `title`, `kernel`, and `initrd` lines to reflect the actual file names found in the `/boot/` directory.
+
+5.  Issue the following command to install the default kernel for CentOS6:
+
+    **32-bit CentOS:** :
+
+        yum install kernel-PAE.i686
+
+    **64-bit CentOS:** :
+
+        yum install kernel.x86_64
+
+6.  Create a file named `/boot/grub/menu.lst` with the following contents. Adjust the `title`, `kernel`, and `initrd` lines to reflect the actual file names found in the `/boot/` directory.
 
     {: .file }
 	/boot/grub/menu.lst
 	: ~~~
-		timeout 10
-    	
-    	title CentOS 6, kernel-2.6.32-358.14.1.el6.x86\_64 root (hd0) kernel /boot/vmlinuz-2.6.32-358.14.1.el6.x86\_64 root=/dev/xvda ro quiet initrd /boot/initramfs-2.6.32-358.14.1.el6.x86\_64.img
+timeout 5
+title CentOS (2.6.32-431.23.3.el6.x86_64)
+	root (hd0)
+	kernel /boot/vmlinuz-2.6.32-431.23.3.el6.x86_64 root=/dev/xvda
+	initrd /boot/initramfs-2.6.32-431.23.3.el6.x86_64.img
 	~~~
 
-6.  In the Linode Manager, edit your Linode's configuration profile to use either **pv-grub-x86\_32** or **pv-grub-x86\_64** as the **Kernel**, depending on the version of CentOS you have deployed (32-bit or 64-bit).
-7.  Make sure the root device is specified as **xvda**.
-8.  Save your changes by clicking **Save Profile** at the bottom of the page.
-9.  Reboot your Linode from the **Dashboard** tab.
-10. Once your Linode has rebooted, log in via SSH and issue the following command:
+7.  In the Linode Manager, edit your Linode's configuration profile to use either **pv-grub-x86\_32** or **pv-grub-x86\_64** as the **Kernel**, depending on the version of CentOS you have deployed (32-bit or 64-bit).
+8.  Make sure the root device is specified as **xvda**.
+9.  Save your changes by clicking **Save Profile** at the bottom of the page.
+10.  Reboot your Linode from the **Dashboard** tab.
+11. Once your Linode has rebooted, log in via SSH and issue the following command:
 
         uname -a
 
@@ -524,8 +534,7 @@ CentOS 6
 
         Linux li63-119 2.6.32-358.14.1.el6.x86_64 #1 SMP Tue Jul 16 23:51:20 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
 
-CentOS 5
---------
+## CentOS 5
 
 [Warren Togami](http://togami.com/) was kind enough to provide a script to automate getting a native CentOS 5 kernel up and running, including with SELinux support. We will use this script in the following instructions.
 
@@ -536,7 +545,7 @@ CentOS 5
         ./selinux.sh
 
 2.  Once the script has finished, edit your Linode's configuration profile. Change the **Kernel** to **pv-grub-x86\_32** or **pv-grub-x86\_64**, depending on which version of CentOS (32-bit or 64-bit) you're running.
-3.  Set the **Xenify Distro** and **Automount devtmpfs** options to **No**.
+3.  Set the **Distro Helper** and **Automount devtmpfs** options to **No**.
 4.  Click the **Save Changes** button.
 5.  Reboot your Linode from the **Dashboard** tab.
 6.  Once your Linode has rebooted, log in via SSH and issue the following command:
@@ -551,8 +560,7 @@ CentOS 5
 
         Linux li181-194 2.6.18-194.26.1.el5xen #1 SMP Tue Nov 9 14:13:46 EST 2010 i686 i686 i386 GNU/Linux
 
-Fedora 17
----------
+## Fedora 17
 
 1.  Make sure your package repositories and installed packages are up to date by issuing the following command:
 
@@ -591,6 +599,3 @@ Fedora 17
         Linux li63-119 3.9.10-100.fc17.x86_64 #1 SMP Sun Jul 14 01:31:27 UTC 2013 x86_64 x86_64 x86_64 GNU/Linux
 
 Note that if you later install an updated kernel, you'll need to add an entry for it to your `menu.lst` file. By default, the first kernel in the list will be booted.
-
-
-

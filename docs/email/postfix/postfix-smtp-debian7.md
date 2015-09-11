@@ -6,6 +6,8 @@ description: 'Learn how to use Postfix to send mail through an external SMTP ser
 keywords: 'Postfix, Debian 7, SMTP, Email, Mail'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
 location: ['email/postfix/postfix-smtp-debian7/']
+contributor:
+    name: Santiago Ti
 modified: Friday, May 30th, 2014
 modified_by:
   name: Linode
@@ -13,14 +15,13 @@ published: 'Friday, May 30th, 2014'
 title: Configure Postfix to Send Mail Using an External SMTP Server
 ---
 
-This is a Linode Community guide by author **Santiago Ti**. [Write for us](/docs/contribute) and earn \$100 per published guide.
+*This is a Linode Community guide. [Write for us](/docs/contribute) and earn $250 per published guide.*
 
 There are many reasons why you would want to configure Postfix to send email using an external SMTP provider such as Google Apps (Gmail), Mandrill, SendGrid, Amazon SES, or any other SMTP server. One reason is to avoid getting your mail flagged as spam if your current server's IP has been added to a spam list.
 
 In this tutorial, you will learn how to install and configure a Postfix server to send email through Google Apps, Mandrill, or SendGrid.
 
-Prerequisites
--------------
+## Prerequisites
 
 Before starting this tutorial, you should have:
 
@@ -37,10 +38,9 @@ Before starting this tutorial, you should have:
 
  {: .note }
 >
-> This guide is written for a non-root user. Commands that require elevated privileges are prefixed with `sudo`. If you're not familiar with the `sudo` command, you can check our [Users and Groups](https://library.linode.com/using-linux/users-and-groups) guide.
+> This guide is written for a non-root user. Commands that require elevated privileges are prefixed with `sudo`. If you're not familiar with the `sudo` command, you can check our [Users and Groups](/docs/tools-reference/linux-users-and-groups) guide.
 
-Installing Postfix
-------------------
+## Installing Postfix
 
 In this section, you will install Postfix and set the domain and hostname.
 
@@ -70,8 +70,7 @@ In this section, you will install Postfix and set the domain and hostname.
         myhostname = fqdn.example.com
         ~~~
 
-Configuring SMTP Usernames and Passwords
-----------------------------------------
+## Configuring SMTP Usernames and Passwords
 
 Usernames and passwords are generally stored in a file called `sasl_passwd` in the `/etc/postfix/` directory. In this section, you'll add your external mail provider credentials to this file and to Postfix.
 
@@ -104,8 +103,7 @@ If you want to use [Google Apps](#settings-for-google-apps), [Mandrill](#setting
 
 If all went well, you should have a new file named `sasl_passwd.db` in the `/etc/postfix/` directory.
 
-Securing Your Password and Hash Database Files
-----------------------------------------------
+## Securing Your Password and Hash Database Files
 
 The `/etc/postfix/sasl_passwd` and the `/etc/postfix/sasl_passwd.db` files created in the previous steps contain your SMTP credentials in plain text.
 
@@ -114,8 +112,7 @@ For security reasons, you should change their permissions so that only the **roo
     sudo chown root:root /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
     sudo chmod 0600 /etc/postfix/sasl_passwd /etc/postfix/sasl_passwd.db
 
-Configuring the Relay Server
-----------------------------
+## Configuring the Relay Server
 
 In this section, you will configure the `/etc/postfix/main.cf` file to use the external SMTP server.
 
@@ -158,8 +155,7 @@ In this section, you will configure the `/etc/postfix/main.cf` file to use the e
 
         sudo service postfix restart
 
-Testing Postfix
----------------
+## Testing Postfix
 
 The fastest way to test your configuration is to send an email to any unrelated email address, using the `mail` command:
 
@@ -173,8 +169,7 @@ Alternatively, you can use Postfix's own sendmail implementation, by entering li
     This is a test email
     .
 
-Examples of Postfix Configurations with Different Providers
------------------------------------------------------------
+## Examples of Postfix Configurations with Different Providers
 
 This section shows you settings for some popular mail services you can use as external SMTP servers. You may have to do some fine-tuning on your own to avoid Postfix logins being flagged as suspicious.
 
@@ -269,6 +264,3 @@ Use these settings for SendGrid.
 4.  Restart Postfix:
 
         sudo service postfix restart
-
-
-

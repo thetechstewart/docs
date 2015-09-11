@@ -18,7 +18,7 @@ title: 'Manage a Debian 5 (Lenny) VPS with ISPConfig'
 
 ISPConfig is an open-source control panel similar to proprietary software like CPanel or Plesk. It features a wide variety of options to help you control your server and allow other users to maintain their websites.
 
-Before beginning to follow this guide we assume that you have completed the [getting started guide](/docs/getting-started/). If you are new to Linux systems administration you may wish to consider the guides in our [using Linux](/docs/using-linux/) series, particularly the [administration basics](/docs/using-linux/administration-basics) guide.
+Before beginning to follow this guide we assume that you have completed the [getting started guide](/docs/getting-started/).If you are new to Linux server administration, you may be interested in our [introduction to Linux concepts guide](/docs/tools-reference/introduction-to-linux-concepts/), [beginner's guide](/docs/beginners-guide/) and [administration basics guide](/docs/using-linux/administration-basics).
 
 This guide assumes you are installing this on a clean system. If you feel that you will not need certain features that are mentioned in this document, please feel free to exclude them from your setup.
 
@@ -115,8 +115,8 @@ More Information
 You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
 
 - [ISPConfig Home Page](http://www.ispconfig.org/)
-- [ISPConfig Support](http://www.ispconfig.org/support.htm)
-- [ISPConfig Community](http://www.ispconfig.org/community.htm)
+- [ISPConfig Support](http://www.ispconfig.org/page/en/support.html)
+- [ISPConfig Community](http://www.ispconfig.org/page/en/community.html)
 - [Limit User Access with SFTP Jails](/docs/security/sftp-jails)
 
 

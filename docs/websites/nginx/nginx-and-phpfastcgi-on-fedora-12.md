@@ -21,18 +21,18 @@ It is assumed that you've already followed the steps outlined in our [getting st
 Basic System Configuration
 --------------------------
 
-Issue the following commands to set your system hostname, substituting a unique value for "plato." :
+Issue the following commands to set your system hostname, substituting a unique value for "hostname." :
 
-    echo "HOSTNAME=plato" >> /etc/sysconfig/network
-    hostname "plato"
+    echo "HOSTNAME=hostname" >> /etc/sysconfig/network
+    hostname "hostname"
 
-Edit your `/etc/hosts` file to resemble the following, substituting your Linode's public IP address for 12.34.56.78, your hostname for "plato," and your primary domain name for "example.com." :
+Edit your `/etc/hosts` file to resemble the following, substituting your Linode's public IP address for 12.34.56.78, your hostname for "hostname," and your primary domain name for "example.com." :
 
 {: .file }
 /etc/hosts
 :   ~~~
     127.0.0.1 localhost.localdomain localhost 
-    12.34.56.78 plato.example.com plato
+    12.34.56.78 hostname.example.com hostname
     ~~~
 
 Install Required Packages
@@ -46,7 +46,7 @@ Issue the following commands to update your system and install the nginx web ser
     chkconfig --level 35 nginx on
     service nginx start
 
-Once the installation process finishes, you may wish to make sure nginx is running by browsing to your Linode's IP address (found on the "Remote Access" tab in the [Linode Manager](/docs/linode-platform/manager/)). You should get the default ngnix page.
+Once the installation process finishes, you may wish to make sure nginx is running by browsing to your Linode's IP address (found on the "Remote Access" tab in the [Linode Manager](http://manager.linode.com//)). You should get the default ngnix page.
 
 Configure Your Site
 -------------------
@@ -168,7 +168,7 @@ You may wish to consult the following resources for additional information on th
 - [FastCGI Project Homepage](http://www.fastcgi.com/)
 - [PHP Documentation](http://www.php.net/docs.php)
 - [Installing Nginx on Fedora 12](/docs/web-servers/nginx/installation/fedora-12)
-- [Basic Ngnix Configuration](/docs/websites/nginx/basic-nginx-configuration/basic)
+- [Basic Ngnix Configuration](/docs/websites/nginx/basic-nginx-configuration)
 
 
 

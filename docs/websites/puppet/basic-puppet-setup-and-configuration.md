@@ -1,7 +1,7 @@
 ---
 author:
   name: Linode
-  email: skleinman@linode.com
+  email: docs@linode.com
 description: Basic setup and configuration
 keywords: 'puppet installation,puppet,configuration change management,server automation'
 license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
@@ -11,6 +11,9 @@ modified_by:
   name: Linode
 published: 'Sunday, June 13th, 2010'
 title: Basic Puppet Setup and Configuration
+external_resources:
+ - '[Puppet Labs Home Page](http://www.puppetlabs.com/)'
+ - '[Managing and Automating Systems Configuration with Puppet](/docs/application-stacks/puppet/automation)'
 ---
 
 Puppet is an open-source tool that helps system administrators manage server configurations. Puppet makes it easy to automate and standardize configurations across multiple Linodes or other servers, for both the front end and the backend. You can update configurations on a per-domain basis, which is useful in both large and small deployments.
@@ -19,17 +22,15 @@ Puppet is also very useful if you're running a collection of servers with differ
 
 Puppet uses the client/server model. The master server runs `puppetmasterd`, which stores the configuration description and resource files for several server nodes, while the clients run `puppetd`. The client servers regularly connect to the master server to synchronize their configurations and report any local changes back to the central nodes. It's also possible to run just a single client, which checks in with the master node either at specified intervals, or with a manual *pull* operation.
 
-Getting Started
----------------
+## Getting Started
 
 Before you dive into Puppet, you should complete the [Getting Started Guide](/docs/getting-started/).
 
-If you're new to Linux systems administration, we also recommend reviewing the guides in our [Using Linux](/docs/using-linux/) series, particularly the [Administration Basics Guide](/docs/using-linux/administration-basics).
+If you're new to Linux systems administration, we also recommend reviewing the guides in our [Tools & Reference](/docs/tools-reference/) section, particularly the [Administration Basics Guide](/docs/using-linux/administration-basics).
 
 This document covers the installation and configuration of Puppet. Once you've finished the installation, head over to the [Manage and Automate Systems Configuration with Puppet](/docs/application-stacks/puppet/automation) article to learn how to use Puppet effectively.
 
-Installing Puppetmaster
------------------------
+## Installing Puppetmaster
 
 For most situations, we recommend that you install Puppet from the package for your operating system. If you need access to the latest features, you can install it from source instead.
 
@@ -82,8 +83,7 @@ When you install or upgrade Puppet, remember that the Puppetmaster component *mu
 
         touch /etc/puppet/manifests/site.pp     
 
-Installing the Puppet Client
-----------------------------
+## Installing the Puppet Client
 
 You can install the Puppet client on as many Linodes or other servers as you want to manage with Puppet. When you're ready to upgrade the Puppet client, make sure you upgrade Puppetmaster first.
 
@@ -122,8 +122,7 @@ You can install the Puppet client on as many Linodes or other servers as you wan
 
         yum install puppet     
 
-Configuring Puppet
-------------------
+## Configuring Puppet
 
 This section provides instructions for configuring your new Puppet installation.
 
@@ -131,8 +130,8 @@ This section provides instructions for configuring your new Puppet installation.
 
 By default, the Puppet client locates the Puppetmaster instance by contacting the host with the name `puppet`. There are a number of options for setting up hostname resolution, with various advantages and disadvantages. The easiest way is to create entries for the `puppet` host in the `/etc/hosts` file that point to the puppet server's IP address; however, this may be difficult to update across multiple hosts if you need to change the IP of your Puppetmaster server at any point. A better option is to create DNS records for the `puppet` record that point to the Puppetmaster server.
 
-1.  Create an A record or a CNAME for the hostname `puppet` (e.g., puppet.example.com) and point it to your master server's IP address. For more about adding DNS records, please read our [Adding DNS Records](/docs/adding-dns-records) article.
-2.  On your client machine, [configure static networking](/docs/using-linux/) to ensure that DHCP will not overwrite the contents of the `/etc/resolv.conf` file, which we'll be modifying in the next step.
+1.  Create an A record or a CNAME for the hostname `puppet` (e.g., puppet.example.com) and point it to your master server's IP address. For more about adding DNS records, please read our [Adding DNS Records](/docs/networking/dns/dns-manager#adding-1) article.
+2.  On your client machine, [configure static networking](/docs/networking/linux-static-ip-configuration) to ensure that DHCP will not overwrite the contents of the `/etc/resolv.conf` file, which we'll be modifying in the next step.
 3.  Edit your `/etc/resolv.conf` file to include a `search` statement for the domain where you've set up the Puppet master server:
 
         nano /etc/resolv.conf
@@ -185,14 +184,3 @@ Next, you'll need to set up the SSL certificate on the client machine. Puppet cl
 The new Puppet client node will now be able to connect to the Puppetmaster node. Congratulations! You have successfully installed and configured the Puppet configuration change management framework.
 
 To learn more about using Puppet, please review our [Managing and Automating Systems Configuration with Puppet](/docs/application-stacks/puppet/automation) guide.
-
-More Information
-----------------
-
-You may wish to consult the following resources for additional information on this topic. While these are provided in the hope that they will be useful, please note that we cannot vouch for the accuracy or timeliness of externally hosted materials.
-
-- [Puppet Labs Home Page](http://www.puppetlabs.com/)
-- [Managing and Automating Systems Configuration with Puppet](/docs/application-stacks/puppet/automation)
-
-
-

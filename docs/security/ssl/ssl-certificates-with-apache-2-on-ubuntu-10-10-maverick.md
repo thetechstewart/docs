@@ -29,7 +29,7 @@ At the shell prompt, issue the following commands to enable SSL for Apache and g
 
     a2enmod ssl
     mkdir /etc/apache2/ssl
-    openssl req -new -x509 -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key
+    openssl req -new -x509 -sha256 -days 365 -nodes -out /etc/apache2/ssl/apache.pem -keyout /etc/apache2/ssl/apache.key
 
 You will be asked for several configuration values. Enter values appropriate for your organization and server, as shown here. This example will create a certificate valid for 365 days; you may wish to increase this value. We've specified the FQDN (fully qualified domain name) of the VPS for the "Common Name" entry, as this certificate will be used for generic SSL service.
 
@@ -143,7 +143,7 @@ Now you'll need to get the root certificate for the CA that you paid to sign you
 
 -   [Verisign](https://knowledge.verisign.com/support/ssl-certificates-support/index.html)
 -   [Thawte](http://www.thawte.com/roots/index.html)
--   [Globalsign](http://secure.globalsign.net/cacert/)
+-   [Globalsign](http://www.globalsign.com/en//)
 -   [Comodo](https://support.comodo.com/index.php?_m=downloads&_a=view&parentcategoryid=1&pcid=0&nav=0)
 
 For example, if you download a root cert for Verisign, you would save it to `/etc/apache2/ssl/verisign.cer`.

@@ -6,13 +6,15 @@ modified_by:
   name: Alex Fornuto
 categories:
  - remote-desktop
- - viop
+ - chef
+ - voip
  - cloud-storage
  - containers
  - game-servers
  - media-servers
- - development
- - media-servers
+ - salt
  - messaging
+ - development
+ - configuration-management
  - project-management
 ---
