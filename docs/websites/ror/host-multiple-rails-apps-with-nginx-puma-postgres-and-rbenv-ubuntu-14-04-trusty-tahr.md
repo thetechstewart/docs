@@ -17,15 +17,16 @@ contributor:
 
 Like any skilled Rails developer, you probably have several play apps. But just because these aren't serious production apps doesn't mean that you should have to host them somewhere that forces you to shut them down for six hours a day. Instead, follow this guide to host several Rails apps on a single Linode and subsequently avert daily shutdowns.
 
-## Before you begin
-
 This guide provides step-by-step instructions for hosting multiple Rails apps on Ubuntu 14.04 (Trusty Tahr) with Linode.
 
-Before you begin, ensure that you have followed the [Getting Started](https://www.linode.com/docs/getting-started) and [Securing Your Server](https://www.linode.com/docs/security/securing-your-server/) guides.
+{: .note }
+>This guide is written for a non-root user. Commands that require elevated privileges are prefixed with `sudo`. If you’re not familiar with the sudo command, you can check our [Users and Groups](/docs/tools-reference/linux-users-and-groups) guide.
 
-This guide assumes that you have created and are logged in as a non-root user with sudo privileges. This guide uses the name rick, but you can use whatever name you choose and alter your commands accordingly.
+## Before You Begin
 
-##Configuring your first Rails app
+Ensure that you have followed the [Getting Started](https://www.linode.com/docs/getting-started) and [Securing Your Server](https://www.linode.com/docs/security/securing-your-server/) guides.
+
+##Configuring Your First Rails App
 
 ### Install Postgres
 
@@ -53,40 +54,40 @@ This guide assumes that you have created and are logged in as a non-root user wi
 
 ### Install rbenv
 
-1.  To install rbenv as user, type:
+1.  Install rbenv as user:
 
         git clone https://github.com/sstephenson/rbenv.git ~/.rbenv
         echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
         echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 
-2.  Now, restart the shell (log out and back in) and check that rbenv is installed by entering: 
+2.  Now, restart the shell (log out and back in) and check that rbenv is installed: 
 
         type rbenv
 
-3.  To install ruby-build as an rbenv plugin, enter: 
+3.  Install ruby-build as an rbenv plugin: 
 
         git clone https://github.com/sstephenson/ruby-build.git ~/.rbenv/plugins/ruby-build
 
-4.  To install rbenv-vars to manage environment variables, enter:
+4.  Install rbenv-vars to manage environment variables:
 
         git clone https://github.com/sstephenson/rbenv-vars.git ~/.rbenv/plugins/rbenv-vars
 
-5.  To install the latest version of Ruby, enter: 
+5.  Install the latest version of Ruby: 
         
         rbenv install 2.2.3
 
-6.  To set the global ruby version, enter: 
+6.  Set the global ruby version: 
         
         rbenv global 2.2.3
 
-7.  To confirm that it worked, enter:
+7.  Confirm that it worked by verifying the version of Ruby:
 
         ruby -v
         ruby 2.2.3p173 (2015-08-18 revision 51636) [x86_64-linux]
 
 ### Configure Rails
 
-1.  To install the rails gem, enter:
+1.  Install the rails gem:
 
         gem install rails
 
@@ -102,12 +103,12 @@ This guide assumes that you have created and are logged in as a non-root user wi
         cd ~/www
         rails new default_app -T --database=postgresql
 
-3.  Next, edit the database username in config/database.yml for the production environment by entering:
+3.  Edit the database username in `config/database.yml` for the production environment:
 
         cd ~/www/default_app
         vim config/database.yml
 
-4.  Once inside database.yml, you should see the following on your screen:
+4.  Once inside `database.yml`, you should see the following on your screen:
 
         ...
         production:
@@ -116,12 +117,12 @@ This guide assumes that you have created and are logged in as a non-root user wi
           username: rick
           password: <%= ENV['DEFAULT_APP_DATABASE_PASSWORD'] %>
 
-5.  To setup your database, enter the commands: 
+5.  Set up your database: 
 
         RAILS_ENV=production rake db:create
         RAILS_ENV=production rake db:migrate
 
-6.  To add puma to the Gemfile, enter: 
+6.  Add puma to the Gemfile: 
 
         vim Gemfile
 
@@ -129,21 +130,21 @@ This guide assumes that you have created and are logged in as a non-root user wi
 
         gem 'puma'
 
-7.  Save and exit your Gemfile and bundle it by entering:
+7.  Save and exit your Gemfile and bundle it:
 
         bundle
 
-8.  You can add a secret to the environment by running rake secret. Enter the command: 
+8.  Add a secret to the environment: 
 
         rake secret
 
-9.  Now, copy the secret and add it to the .rbenv-vars file by entering: 
+9.  Now, copy the secret and add it to the `.rbenv-vars` file: 
 
-        vim .rbenv-vars
-
-    and then, paste in your secret by entering:
-
+    {: .file-excerpt}
+    .rbenv-vars
+    :   ~~~
         SECRET_KEY_BASE=7ecb33b12412...
+        ~~~
 
     {:.note }
     >
@@ -155,16 +156,15 @@ This guide assumes that you have created and are logged in as a non-root user wi
 
 Optimal configuration of Puma depends upon your Linode choice. The following config is based on the Linode 1GB plan. When needed, you can scale up your workers as your CPU count increases.
 
-1.  Check the number of CPUs on your server. Type:
+1.  Check the number of CPUs on your server:
 
         grep -c processor /proc/cpuinfo
 
-2.  Then, create a Puma config file by entering:
+2.  Create a Puma config file at `config/puma.rb`:
 
-        vim config/puma.rb
-
-    and paste in the following:
-
+    {: .file}
+    config/puma.rb
+    :   ~~~
         # Change to match your CPU count
         workers 1
 
@@ -189,42 +189,43 @@ Optimal configuration of Puma depends upon your Linode choice. The following con
           ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
           ActiveRecord::Base.establish_connection(YAML.load_file("#{app_dir}/config/database.yml")[rails_env])
         end
+        ~~~
 
-3.  Now, create the directories listed in the Puma config by entering: 
+3.  Create the directories listed in the Puma config: 
 
         mkdir -p shared/pids shared/sockets shared/log
 
-4.  Next, install Jungle to manage your Puma upstart scripts by entering:
+4.  Install Jungle to manage your Puma upstart scripts:
 
         cd ~
         wget https://raw.githubusercontent.com/puma/puma/master/tools/jungle/upstart/puma-manager.conf
         wget https://raw.githubusercontent.com/puma/puma/master/tools/jungle/upstart/puma.conf
 
-5.  To edit the puma.conf you just grabbed and set the user equal to your user, enter:
+5.  Edit the `puma.conf` you just grabbed and set the user equal to your user. Your file should have setuid apps and setgid apps. Change them using the name you chose in place of `username`:
 
-        vim ~/puma.conf
+    {: .file-excerpt}
+    puma.conf
+    :   ~~~    
+        setuid username
+        setgid username
+        ~~~
 
-    Your file should have setuid apps and setgid apps. Change them using the name you chose in place of rick:
-    
-        setuid rick
-        setgid rick
-
-6.  Copy the scripts to the init directory by entering:
+6.  Copy the scripts to the init directory:
 
         cd ~
         sudo cp puma.conf puma-manager.conf /etc/init
 
-    The puma-manager.conf script references /etc/puma.conf for a list of applications that it should manage. You can create and edit that inventory file by entering:
+    The `puma-manager.conf` script references `/etc/puma.conf` for a list of applications that it should manage. You can create and edit that inventory file by entering:
 
         sudo vim /etc/puma.conf
 
-    and then, add the following. (Be sure to update the path with your username in place of rick.):
+    and then, add the following. (Be sure to update the path with your username in place of `username`):
 
-        /home/rick/www/default_app
+        /home/username/www/default_app
 
-You have just configured your application to start at boot.
+    You have just configured your application to start at boot.
 
-7.  To start your Puma managed Rails app, run this command:
+7.  Start your Puma managed Rails app:
     
         sudo start puma-manager
 
@@ -237,28 +238,29 @@ You have just configured your application to start at boot.
         sudo stop puma-manager
         sudo restart puma-manager
 
-Your application is not yet accessible to the outside world. To allow that access, you next have to configure nginx.
+Your application is not yet accessible to the outside world. To allow that access, you next have to configure Nginx.
 
-### Configure nginx
+### Configure Nginx
 
 We already installed nginx when we setup our server. Let's configure it now.
 
-1.  Open the default nginx virtual host, enter:
+1.  Open the default Nginx virtual host, located at `/etc/nginx/sites-available/default`.
 
-        sudo vim /etc/nginx/sites-available/default
+2.  Replace the contents of the file with the following. Be sure to update the app path with your user (two locations):
 
-2.  Replace the contents of the file with the following command. Be sure to update the app path with your user (two locations):
-
+    {: .file}
+    /etc/nginx/sites-available/default
+    :   ~~~
         upstream app {
             # Path to Puma SOCK file, as defined previously
-            server unix:/home/rick/www/default_app/shared/sockets/puma.sock fail_timeout=0;
+            server unix:/home/username/www/default_app/shared/sockets/puma.sock fail_timeout=0;
         }
 
         server {
             listen 80;
             server_name localhost;
 
-            root /home/rick/www/default_app/public;
+            root /home/username/www/default_app/public;
 
             try_files $uri/index.html $uri @app;
 
@@ -273,72 +275,58 @@ We already installed nginx when we setup our server. Let's configure it now.
             client_max_body_size 4G;
             keepalive_timeout 10;
         }
+        ~~~
 
-3.  Finally, restart nginx to put the changes into effect, enter:
+3.  Restart Nginx to put the changes into effect:
 
         sudo service nginx restart
 
 Congratulations! The production environment of your Rails app should now be available via your server's public IP address or domain name. Unless you went off script, you are likely staring at a Rails error message; this is because we did not install a default route. But your Rails app is running!
 
-To fix that error message situation quickly, enter:
+{: .note}
+>
+>To fix the error message situation quickly, open `~/www/default_app/config/routes.rb` and uncomment `root 'welcome#index'`. Then, open `~/www/default_app/app/controllers/welcome_controller.rb` and generate a welcome message:
+>
+>     class WelcomeController < ApplicationController
+>       def index
+>         render inline: "Welcome to the default app!"
+>       end
+>     end
+>
+>Then restart puma using `sudo restart puma-manager`.
 
-    vim ~/www/default_app/config/routes.rb
+## Adding a Second Rails App
 
-You can uncomment by entering:
+The first Rails app you set up was configured as your default route in Nginx, so it is accessible via your IP address as well as it's domain name. For this second app you will want to point an FQDN (Fully Qualified Domain Name) at your Linode.
 
-    root 'welcome#index'
-
-You can then make a controller by entering:
-
-    vim ~/www/default_app/app/controllers/welcome_controller.rb
-
-And then, generate a welcome message by entering:
-
-    class WelcomeController < ApplicationController
-      def index
-        render inline: "Welcome to the default app!"
-      end
-    end
-
-Last, you need to restart Puma; so enter the command:
-
-    sudo restart puma-manager
-
-Bam! You did it. You have installed a default route.
-
-## Adding a second Rails App
-
-The first Rails app you setup was configured as your default route in nginx, so it is accessible via your IP address as well as it's domain name. For this second app you will want to point an FQDN (Fully Qualified Domain Name) at your Linode.
-
-For the purposes of this example, let's name this second app, stocks_app.
+For the purposes of this example, let's name this second app *stocks_app*.
 
 The following command sequence by which you will add a second (and subsequent) rails app gets repetitive for a bit.
 
-1.  First, create the app by entering the command:
+1.  Create the app:
 
         cd ~/www
         rails new stocks_app -T --database=postgresql
 
-2.  Next, edit the database username in config/database.yml for the production environment:
+2.  Edit the database username in `config/database.yml` for the production environment:
 
-        cd ~/www/stocks_app
-        vim config/database.yml
-
-    Once inside database.yml, you should see the following on your screen:
-
+    {: .file-excerpt}
+    ~/www/stocks_app/config/database.yml
+    :   ~~~
         ...
         production:
           <<: *default
           database: stocks_app_production
           username: rick
           password: <%= ENV['STOCKS_APP_DATABASE_PASSWORD'] %>
+        ~~~
 
-3.  To setup your database, enter:
+3.  Set up your database:
 
         RAILS_ENV=production rake db:create
         RAILS_ENV=production rake db:migrate
 
-4.  And then, add puma to the Gemfile:
+4.  Add puma to the Gemfile:
 
         vim Gemfile
 
@@ -346,27 +334,27 @@ The following command sequence by which you will add a second (and subsequent) r
 
         gem 'puma'
 
-5.  To save and exit your Gemfile and bundle it, enter:
+5.  Save and exit your Gemfile and bundle it:
 
         bundle
 
-6.  To add a secret to the environment, run rake secret:
+6.  Add a secret to the environment:
 
         rake secret
 
-7.  Copy the secret and add it to the .rbenv-vars file by entering:
+7.  Copy the secret and add it to the `.rbenv-vars` file:
 
-        vim .rbenv-vars
-
-    and then, paste in your secret:
-
+    {: .file-excerpt}
+    .rbenv-vars
+    :   ~~~
         SECRET_KEY_BASE=7ecb33b12412...
+        ~~~
 
-8.  Create a puma config file inside the second Rails app by entering:
+8.  Create a puma config file inside the second Rails app:
 
-        vim config/puma.rb
-
-    and then, paste in the following:
+    {: .file}
+    :   ~~~
+        config/puma.rb
 
         # Change to match your CPU count
         workers 1
@@ -392,29 +380,33 @@ The following command sequence by which you will add a second (and subsequent) r
           ActiveRecord::Base.connection.disconnect! rescue ActiveRecord::ConnectionNotEstablished
           ActiveRecord::Base.establish_connection(YAML.load_file("#{app_dir}/config/database.yml")[rails_env])
         end
+        ~~~
 
-9.  Create the directories listed in the Puma config with the command:
+9.  Create the directories listed in the Puma config:
 
         mkdir -p shared/pids shared/sockets shared/log
 
-10. Update the /etc/puma.conf script, adding the following at the end:
+10. Update the `/etc/puma.conf` script, adding the following at the end:
 
-        /home/rick/www/stocks_app
+    {: .file-excerpt}
+    /etc/puma.conf
+    :   ~~~    
+        /home/username/www/stocks_app
+        ~~~
 
-11. Restart Puma. Enter:
+11. Restart Puma:
 
         sudo restart puma-manager
 
 Your application is not yet accessible to the outside world. To allow that access, you have to add another virtual host to nginx.
 
-### Nginx configuration for the second app
+### Nginx Configuration for the Second App
 
-1.  Add the second virtual host by entering: 
+1.  Add the second virtual host opening the `/etc/nginx/sites-available/stocks_app` file and adding, updating your variables as needed:
 
-        sudo vim /etc/nginx/sites-available/stocks_app
-
-    and then, paste in the following (updated to suit your variables, stocks_app occurs in 4 places):
-
+    {: .file}
+    /etc/nginx/sites-available/stocks_app
+    :   ~~~
         upstream stocks_app {
             # Path to Puma SOCK file, as defined previously
             server unix:/home/rick/www/stocks_app/shared/sockets/puma.sock fail_timeout=0;
@@ -439,39 +431,34 @@ Your application is not yet accessible to the outside world. To allow that acces
             client_max_body_size 4G;
             keepalive_timeout 10;
         }
+        ~~~
 
-2.  Symlink the stocks_app host file into the sites-enabled folder by entering:
+2.  Symlink the stocks_app host file into the sites-enabled folder:
 
         sudo ln -s /etc/nginx/sites-available/stocks_app /etc/nginx/sites-enabled/stocks_app
 
-3.  Now, restart nginx by entering: 
+3.  Now, restart Nginx: 
 
         sudo service nginx restart
 
-(Congratulations! You should be up and running.)
+    (Congratulations! You should be up and running.)
 
-4.  Configure the routes for the second site, enter: 
+4.  Configure the routes for the second site by opening `config/routes.rb` and uncommenting the line `root 'welcome#index'`.
 
-        vim config/routes.rb
+5.  Make a controller by opening `app/controller/welcome_controller.rb` and generating a welcome message:
 
-    And then, uncomment:
-
-        root 'welcome#index'
-
-5.  To make a controller, enter:
-
-        vim app/controller/welcome_controller.rb
-
-    Then, generate a welcome message by entering:
-
+    {: .file}
+    app/controller/welcome_controller.rb
+    :   ~~~
         class WelcomeController < ApplicationController
           def index
             render inline: "Welcome to the stocks app!"
           end
         end
+        ~~~
 
-    Last, restart Puma. Enter:
+    Last, restart Puma:
 
         sudo restart puma-manager
 
-You can repeat these steps to add each additional app you want.  
+You can repeat these steps to add each additional app you want.
