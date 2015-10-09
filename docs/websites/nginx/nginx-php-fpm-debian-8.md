@@ -1,72 +1,90 @@
- performance Nginx and PHP over Debian 8
-19th May 2015 by Javier Briz
+---
+author:
+    name: Linode Community
+    email: docs@linode.com
+description: 'Nginx description'
+keywords: 'nginx,php,debian 8,debian'
+license: '[CC BY-ND 3.0](http://creativecommons.org/licenses/by-nd/3.0/us/)'
+published: 'Wednesday, October 7th, 2015'
+modified: Wednesday, October 7th, 2015
+modified_by:
+    name: Linode
+title: 'High Performance Nginx and PHP with Debian 8'
+contributor:
+    name: Javier Briz
+---
 
+This document describes how to install and setup an nginx server with PHP-FPM. This stack, together with a MySQL server, is what is called a **LEMP** server. After following this article, your PHP code will be able to connect to a MySQL server, but the MySQL server installation itself will not be explained; there are already [lots of guides](https://www.linode.com/docs/databases/mysql/) on this topic. 
 
-This document describes how to install and setup an nginx server with PHP-FPM.
-This stack, together with a MySQL server, is what is called a **LEMP** server. After following this article, your PHP code will be
-able to connect to a MySQL server, but the MySQL server installation itself will not be explained;
-there are already [lots of guides](https://www.linode.com/docs/databases/mysql/) on this topic. 
+## Before You Begin
 
-#Installation Prerequisites
-First of all, follow the [Getting Started Guide](https://www.linode.com/docs/getting-started/).
-It is also usefull to have a Fully Qualified Domain Name to have a handy pointer to the server.
+First of all, follow the [Getting Started Guide](https://www.linode.com/docs/getting-started/). It is also usefull to have a Fully Qualified Domain Name to have a handy pointer to the server.
 
-#Packages installation
-In this step, we are installing all the necessary packages.
-Run the following as root to install nginx, PHP and MySQL connector:
+## Package Installation
 
-        apt-get update
-        apt-get install nginx php5-fpm php5-mysql
+In this step, we are installing all the necessary packages. Run the following as root to install nginx, PHP and MySQL connector:
+
+    apt-get update
+    apt-get install nginx php5-fpm php5-mysql
 
 Make sure nginx and PHP-FPM are running
 
-        systemctl status nginx
-        systemctl status php5-fpm
+    systemctl status nginx
+    systemctl status php5-fpm
         
-#Nginx setup
+## Nginx Setup
+
 Now we have to setup nginx server to relay on PHP-FPM for PHP requests. 
 By default, PHP-FPM on debian listens on a socket. We are putting everything in one single server so this is ok.
 To find the path for the socket run:
 
-        grep 'listen =' /etc/php5/fpm/pool.d/www.conf
+    grep 'listen =' /etc/php5/fpm/pool.d/www.conf
 
 Probably, it is located in `/var/run/php5-fpm.sock`
 
 We will tell nginx where is this socket in a *server* context in the nginx setup.
 It is done by modifying your default host file content. Edit `/etc/nginx/sites-enabled/default` and replace the default content with this:
 
-        server {
-                server_name _;
-                listen 80 default_server;
-                listen [::]:80 default_server;
-                
-                root /var/www/html;
-                index index.php index.html index.htm;
+{: .file}
+/etc/nginx/sites-enabled/default
+:   ~~~
+    server {
+            server_name _;
+            listen 80 default_server;
+            listen [::]:80 default_server;
+            
+            root /var/www/html;
+            index index.php index.html index.htm;
 
-                location / {
-                        try_files $uri $uri/ =404;
-                }
+            location / {
+                    try_files $uri $uri/ =404;
+            }
 
-                location ~ \.php$ {
-                        try_files $uri =404;
-                        fastcgi_pass unix:/var/run/php5-fpm.sock;
-                        fastcgi_index index.php;
-                        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-                        include fastcgi_params;
-                }
-        }
+            location ~ \.php$ {
+                    try_files $uri =404;
+                    fastcgi_pass unix:/var/run/php5-fpm.sock;
+                    fastcgi_index index.php;
+                    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                    include fastcgi_params;
+            }
+    }
+    ~~~
 
 Restart nginx by running:
 
-        systemctl restart nginx
+    systemctl restart nginx
         
-#Test
-Done! Let's test the web server. Just write the following content in /var/www/html/index.php:
+### Test
+Done! Let's test the web server. Just write the following content in `/var/www/html/index.php`:
 
-        <?php
-        phpinfo();
+{: .file}
+/var/www/html/index.php
+:   ~~~
+    <?php
+    phpinfo();
+    ~~~
 
-And now go to http://[your_linode_node_ip]/index.php and, if everything is ok, you will see the phpinfo for the installed version.
+And now go to `http://123.45.67.89/index.php` (replacing `123.45.67.89` with your Linode's IP or FQDN) and, if everything is ok, you will see the phpinfo for the installed version.
       
 {: .note}
 >
@@ -74,43 +92,40 @@ And now go to http://[your_linode_node_ip]/index.php and, if everything is ok, y
 >
 > Anyway, it can be even better, so continue reading  :)
 
-#Performance tuning
+## Performance Tuning
 Performance is highly application and hardware dependent. This document will try to make some general advices on performance, and then will help you measure your application needs and size your linode to fine-tune the performance.
 
-##Nginx performance
+### Nginx Performance
 
-### Workers
+#### Workers
 
 First thing to check, is the number of processes running and the number of connections the server can handle.
 
-The worker_processes directive in `/etc/nginx/nginx.conf` is the number of system processes handling requests. If this number is too big, there will be lots of context switches and therefore, a lot of time lost.
-On the other hand, a small number of processes will make some cores to be idle, and we want them working.
+The `worker_processes` directive in `/etc/nginx/nginx.conf` is the number of system processes handling requests. If this number is too big, there will be lots of context switches and therefore, a lot of time lost. On the other hand, a small number of processes will make some cores to be idle, and we want them working.
 
-A good approach is to match the workers number to the cores available in your system. Fin the "worker processes" directive in /etc/nginx/nginx.conf and set it to your number of cores:
+A good approach is to match the workers number to the cores available in your system. Fin the "worker processes" directive in `/etc/nginx/nginx.conf` and set it to your number of cores:
         
-        worker_processes 4;
+    worker_processes 4;
 
-The worker_connections directive is a bit harder to set. If you foresee few visitors, don't worry much and set it to 512, but if you are reading this you are likely expecting high traffic. You should set this directive to the number of requests divided by the number of cores your server can handle.
+The `worker_connections` directive is a bit harder to set. If you foresee few visitors, don't worry much and set it to `512`, but if you are reading this you are likely expecting high traffic. You should set this directive to the number of requests divided by the number of cores your server can handle.
 
-If your web app has an homogeneous behavior,  
-i.e., it uses about the same memory and about the same cpu time each time it is called, it is easier to set a good value for *worker_connections*.
+If your web app has an homogeneous behavior, i.e., it uses about the same memory and about the same cpu time each time it is called, it is easier to set a good value for *worker_connections*.
 
 If not the case, the best way to find an appropriate value is by monitoring the production system. 512 is a good starting point, and your target is to set this value as high as you can without "going over", without filling the memory, and keeping reasonable response times.
-To set this, just edit the "worker_connections" limit in "/etc/nginx/nginx.conf":
+To set this, just edit the `worker_connections` limit in `/etc/nginx/nginx.conf`:
 
-        worker_connections 512;
+    worker_connections 512;
 
 We can lower latency on our nginx server by allowing processes to accept several new connections at a time. Do this by uncommenting the following line in your `/etc/nginx/nginx.conf` file.
 
-        multi_accept on;
+    multi_accept on;
 
-### Logging
+#### Logging
 
-Another way to improve performance is to reduce I/O. This can be done in several ways. One of them is reduce or even disable logging: if you don't need access log, disable them.
-It is done by adding the following directives to "/etc/nginx/nginx.conf":
+Another way to improve performance is to reduce I/O. This can be done in several ways. One of them is reduce or even disable logging: if you don't need access log, disable them. It is done by adding the following directives to `/etc/nginx/nginx.conf`:
 
-          access_log off;
-          log_not_found off; 
+    access_log off;
+    log_not_found off; 
 
 Another less dramatic solution, is to keep logs in memory until a certain buffer is filled, and then flush them to disk. They can also be compressed, which will cause an small cpu overhead but will result in less disk writing.
 You can add "flush=#m" to the "access_log" directive in the following way:
