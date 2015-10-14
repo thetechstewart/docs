@@ -14,11 +14,19 @@ contributor:
     name: Javier Briz
 ---
 
-This document describes how to install and setup an nginx server with PHP-FPM. This stack, together with a MySQL server, is what is called a **LEMP** server. After following this article, your PHP code will be able to connect to a MySQL server, but the MySQL server installation itself will not be explained; there are already [lots of guides](https://www.linode.com/docs/databases/mysql/) on this topic. 
+This document describes how to install and setup an Nginx server with PHP-FPM. This stack, together with a MySQL server, is what is called a *LEMP* server. After following this article, your PHP code will be able to connect to a MySQL server, but the MySQL server installation itself will not be explained; there are already [lots of guides](https://www.linode.com/docs/databases/mysql/) on this topic. 
 
 ## Before You Begin
 
-First of all, follow the [Getting Started Guide](https://www.linode.com/docs/getting-started/). It is also usefull to have a Fully Qualified Domain Name to have a handy pointer to the server.
+First of all, follow the [Getting Started Guide](https://www.linode.com/docs/getting-started/). It is also usefull to have a *Fully Qualified Domain Name* (FQDN) to have a handy pointer to the server.
+
+To check your hostname, run:
+
+    hostname
+    hostname -f
+
+The first command will output your hostname, the second your FQDN.
+
 
 ## Package Installation
 
@@ -27,23 +35,21 @@ In this step, we are installing all the necessary packages. Run the following as
     apt-get update
     apt-get install nginx php5-fpm php5-mysql
 
-Make sure nginx and PHP-FPM are running
+Make sure nginx and PHP-FPM are running:
 
     systemctl status nginx
     systemctl status php5-fpm
-        
+
+
 ## Nginx Setup
 
-Now we have to setup nginx server to relay on PHP-FPM for PHP requests. 
-By default, PHP-FPM on debian listens on a socket. We are putting everything in one single server so this is ok.
-To find the path for the socket run:
+Now we have to setup nginx server to relay on PHP-FPM for PHP requests. By default, PHP-FPM on Debian listens on a socket. We are putting everything in one single server so this is ok. To find the path for the socket run:
 
     grep 'listen =' /etc/php5/fpm/pool.d/www.conf
 
 Probably, it is located in `/var/run/php5-fpm.sock`
 
-We will tell nginx where is this socket in a *server* context in the nginx setup.
-It is done by modifying your default host file content. Edit `/etc/nginx/sites-enabled/default` and replace the default content with this:
+We will tell nginx where is this socket in a *server* context in the nginx setup. It is done by modifying your default host file content. Edit `/etc/nginx/sites-enabled/default` and replace the default content with this:
 
 {: .file}
 /etc/nginx/sites-enabled/default
@@ -73,8 +79,10 @@ It is done by modifying your default host file content. Edit `/etc/nginx/sites-e
 Restart nginx by running:
 
     systemctl restart nginx
-        
+
+
 ### Test
+
 Done! Let's test the web server. Just write the following content in `/var/www/html/index.php`:
 
 {: .file}
@@ -92,7 +100,9 @@ And now go to `http://123.45.67.89/index.php` (replacing `123.45.67.89` with you
 >
 > Anyway, it can be even better, so continue reading  :)
 
+
 ## Performance Tuning
+
 Performance is highly application and hardware dependent. This document will try to make some general advices on performance, and then will help you measure your application needs and size your linode to fine-tune the performance.
 
 ### Nginx Performance
@@ -120,37 +130,24 @@ We can lower latency on our nginx server by allowing processes to accept several
 
     multi_accept on;
 
-#### Logging
-
-Another way to improve performance is to reduce I/O. This can be done in several ways. One of them is reduce or even disable logging: if you don't need access log, disable them. It is done by adding the following directives to `/etc/nginx/nginx.conf`:
-
-    access_log off;
-    log_not_found off; 
-
-Another less dramatic solution, is to keep logs in memory until a certain buffer is filled, and then flush them to disk. They can also be compressed, which will cause an small cpu overhead but will result in less disk writing.
-You can add "flush=#m" to the "access_log" directive in the following way:
-
-        access_log /var/log/nginx/access.log combined gzip flush=5m;
-
-It is also helpfull to keep logs in a ram-disk, the problem is that if the server reboots, the logs will be lost, so use this with caution.
 
 ### Caching
 
 To avoid reading files from disk every time a client makes a request, we should enable caching. Only do this on production servers, not on development servers.
 
-You can enable nginx cache adding the following lines to your `/etc/nginx/nginx.conf` file, inside the *http* section.
+You can enable Nginx cache adding the following lines to your `/etc/nginx/nginx.conf` file, inside the `http` section.
 
-        open_file_cache max=2000 inactive=20s; 
-        open_file_cache_valid 60s; 
-        open_file_cache_min_uses 5; 
-        open_file_cache_errors off;
+    open_file_cache max=2000 inactive=20s; 
+    open_file_cache_valid 60s; 
+    open_file_cache_min_uses 5; 
+    open_file_cache_errors off;
         
-
 {: .caution}
 >
 > Remember that performance highly depends on your application, so if you really need top performance, [consider caching at application level](https://www.linode.com/docs/databases/redis/).
 
-##PHP-FPM performance
+
+##PHP-FPM Performance
 
 PHP-FPM launches some daemons, which wait for incoming requests to process PHP. The same as above, one obvious tune is to disable logging, but in this case the proper action would be solve errors/warning on the PHP application.
 
@@ -158,23 +155,23 @@ What we should adjust is the number of daemons waiting to run PHP.
 
 By default, the number is dynamic, what means daemons are launched on demand. This causes higher latency.
 
-Depending on the needs of the application, while running, some of them could go to iowait, so the number highly depends on the number of cores available and the % of time the application is waiting for the disk or a database. A good starting point may be 4*number_of_cores, and reduce it if you find there is not enough memory.
-Edit the "pm.max_children =" and the "pm=" directives in "/etc/php5/fpm/pool.d/www.conf":
+Depending on the needs of the application, while running, some of them could go to iowait, so the number highly depends on the number of cores available and the % of time the application is waiting for the disk or a database. A good starting point may be 4*number_of_cores, and reduce it if you find there is not enough memory. Edit the `pm.max_children =` and the `pm=` directives in `/etc/php5/fpm/pool.d/www.conf`:
 
-        pm = static
-        pm.max_children = 20
+    pm = static
+    pm.max_children = 20
 
 Depending on your site complexity, you will need to increase the `memory_limit` variable on `/etc/php5/fpm/php.ini`. The ideal scenario is where:
 
-        memory_limit * pm.max_children < average free memory
+    memory_limit * pm.max_children < average free memory
 
 This is not always possible since some pages may allocate higher amounts of memory.
 
 After modifying PHP-FPM setup, just restart it.
 
-        systemctl restart php5-fpm
+    systemctl restart php5-fpm
 
-#Next steps
+
+##Next steps
 
 Put your application online, monitor it and check its memory and cpu needs. According to that, tweak previous parameters as explained, and if necessary, use a bigger machine.
 
@@ -186,10 +183,8 @@ A few good tools to do this are iotop, htop, zabbix (for the long term), ps, fre
 
 - `htop` nicely shows the process list, memory and swap allocation, load, uptime... almost everyting you need to know if your server is running healthy. If load is over the number of cores, memory is almost full, swap is starting to fill, or other weird things are happening, that may mean your setup is not the appropiate for your hardware.
 
-        apt-get install htop
+	apt-get install htop
 
-- `zabbix` is (imho) the best open source monitoring tool, altough it is a bit complex to install. You can get more information [on zabbix.com](http://www.zabbix.com/).
+- `zabbix` is an open source monitoring tool, altough it is a bit complex to install. You can get more information [on zabbix.com](http://www.zabbix.com/).
 
 Other tools, like `ps`, `free` and much others, are usefull when you need a particular data, because its performance is higher than that of the previous tools, but will not offer you a more complete overview of your system.
-
-
